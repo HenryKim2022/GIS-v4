@@ -44,10 +44,27 @@ class PanelController extends Controller
         }
     }
 
+    public function manage_institutions(){
+        $process = $this->setPageSession("Manage Institutions Page", "m-inst");
+        if ($process){
+            return $this->setReturnView('userpanels/pages/v_m_institutions');
+        }
+    }
+
+    public function manage_markings(){
+        $process = $this->setPageSession("Manage Markings Page", "m-mark");
+        if ($process){
+            return $this->setReturnView('userpanels/pages/v_m_marks');
+        }
+    }
 
 
 
-    ///////////////////////////// PAGE SETTER ////////////////////////////
+
+
+
+
+    ///////////////////////////// PAGE TITLE & URL SETTER ////////////////////////////
     public function setPageSession($pageTitle, $pageUrl){
         $pageData = Session::get('page');
         $pageData['page_title'] = $pageTitle;

@@ -26,7 +26,7 @@ class LandingPageController extends Controller
     public function index(){
         $process = $this->setPageSession("Landing Page", "landing-page");
         if ($process){
-            return view('landings/v_landing_customizer');
+            return view('landings/pages/v_landing_customizer');
         }
     }
 

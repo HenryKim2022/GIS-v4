@@ -52,6 +52,8 @@
 <script src="{{ asset('public/materialize/assets/js/front-page-landing.js') }}"></script>
 {{-- <script src="{{ asset('public/materialize/assets/js/forms-file-upload.js') }}"></script> --}}
 
+@yield('footer_page_js')
+
 {{-- Template Leaflet JS --}}
 {{-- <script src="{{ asset('public/materialize/assets/js/maps-leaflet.js') }}"></script> --}}
 

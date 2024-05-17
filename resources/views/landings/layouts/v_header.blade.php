@@ -15,4 +15,5 @@
     @include('css.v_cssheader_collections')
 
     @yield('head_page_cssjs')
+    @yield('head_page_helper_js')
 </head>

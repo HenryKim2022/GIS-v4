@@ -14,7 +14,7 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        
+
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item navbar-search-wrapper mb-0">
@@ -23,7 +23,7 @@
                     <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
             </div>
-        </div> 
+        </div>
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -147,7 +147,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="{{ base_url('myprofile') }}">
+                        <a class="dropdown-item" href="{{ route('myprofilepage') }}">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
@@ -166,7 +166,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ base_url('myprofile') }}">
+                        <a class="dropdown-item" href="{{ route('myprofilepage') }}">
                             <i class="mdi mdi-account-outline me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
@@ -175,7 +175,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ base_url('logout') }}" target="_self">
+                        <a class="dropdown-item" href="{{ route('logoutredirect') }}" target="_self">
                             <i class="mdi mdi-logout me-2"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
@@ -186,7 +186,7 @@
         </ul>
     </div>
 
-    <!-- Search Small Screens -->                    
+    <!-- Search Small Screens -->
     <div class="navbar-search-wrapper search-input-wrapper d-none">
         <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
         aria-label="Search..." />

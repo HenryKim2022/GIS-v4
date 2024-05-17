@@ -78,7 +78,12 @@ if (env('APP_INSTALL', false)) {    // Not False
     //////////// USERPANEL: DASHBOARD DKK
     Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboardpage');
     Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofilepage');
-    Route::get('/logout', [PanelController::class, 'logout'])->name('logoutrediret');
+    Route::get('/logout', [PanelController::class, 'logout'])->name('logoutredirect');
+    Route::get('/m-inst', [PanelController::class, 'manage_institutions'])->name('m-institutions');
+    Route::get('/m-mark', [PanelController::class, 'manage_markings'])->name('m-markings');
+    Route::get('/m-userlevel', [PanelController::class, 'manage_user_levels'])->name('m-userlevels');
+    Route::get('/m-userlist', [PanelController::class, 'manage_user_list'])->name('m-userlist');
+
 
 }
 

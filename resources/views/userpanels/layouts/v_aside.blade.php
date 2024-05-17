@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="{{ base_url('dashboard') }}" class="app-brand-link">
+        <a href="{{ route('dashboardpage') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <span style="color: var(--bs-primary)">
                     <svg width="268" height="150" viewBox="0 0 38 20" fill="none"
@@ -59,13 +59,13 @@
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
         <li class="menu-item active">
-            <a href="{{ base_url('dashboard') }}" class="menu-link">
+            <a href="{{ route('dashboardpage') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{ base_url('landing-page') }}" class="menu-link">
+            <a href="{{ route('landingpage') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-airplane-landing"></i>
                 <div data-i18n="Landing Page">Landing Page</div>
             </a>
@@ -84,12 +84,12 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link">
+                    <a href="{{ route('m-institutions') }}" class="menu-link">
                         <div data-i18n="Institution List">Institution List</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link">
+                    <a href="{{ route('m-markings') }}" class="menu-link">
                         <div data-i18n="Marking List">Marking List</div>
                     </a>
                 </li>
@@ -109,12 +109,12 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link">
+                    <a href="{{ route('m-userlevels') }}" class="menu-link">
                         <div data-i18n="User Levels">User Levels</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link">
+                    <a href="{{ route('m-userlist') }}" class="menu-link">
                         <div data-i18n="User List">User List</div>
                     </a>
                 </li>
