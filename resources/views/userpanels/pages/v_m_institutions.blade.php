@@ -19,9 +19,7 @@
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}" />
 @endsection
 
-@section('footer_page_js')
-    <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script>
-@endsection
+
 
 
 <!-- CONTENT: M-INSTITUTIONS -->
@@ -34,42 +32,91 @@
     {{-- HTML BELOW --}}
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">DataTables /</span> Extensions</h4>
-        <!-- Fixed Header -->
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light">UserPanels /</span> <a href="{{ route('m-institutions') }}">{{ $page_title }}</a></h4>
         <div class="card">
-            <h5 class="card-header">Fixed Header</h5>
+            <h5 class="card-header">{{ $page_title }} Data</h5>
             <div class="card-datatable table-responsive">
-                <table class="dt-fixedheader table table-bordered">
-                    <thead>
+                <!--/ TABLE -->
+                <table id="DataTables_Table_1" class="dt-fixedheader table table-bordered">
+                    <thead class="">
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th>id</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Date</th>
-                            <th>Salary</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 18px;"
+                                aria-label="Actions">ACT</th>
+                            <th>NAME</th>
+                            <th>CAT</th>
+                            <th>NPSN</th>
+                            <th>LOGO</th>
+                            <th>ADDR</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>id</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Date</th>
-                            <th>Salary</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
+                    <tbody>
+                        @php
+                            $count = 25;
+                        @endphp
+                        @for ($i = 0; $i < $count; $i++)
+                            <tr>
+                                <td class="dtr-hidden" tabindex="0" style="">
+                                    <div class="d-inline-block">
+                                        <a href="javascript:;"
+                                            class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end m-0">
+                                            <a href="javascript:;" class="dropdown-item btn-sm mdi mdi-image-text"> Details</a>
+                                            <a href="javascript:;" class="dropdown-item btn-sm mdi mdi-pencil-outline"> Edit</a>
+                                            <div class="dropdown-divider"></div>
+                                                <a href="javascript:;" class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline"> Delete</a>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td>John Doe</td>
+                                <td>Category 1</td>
+                                <td>1234567890</td>
+                                <td><img src="{{ asset(env(key: 'APP_NOIMAGE')) }}" alt="Logo 1" style="height: 24px; width: 24px;"></td>
+                                <td>Address 1</td>
+                            </tr>
+                        @endfor
+
+
+                    </tbody>
                 </table>
             </div>
         </div>
-        <!--/ Fixed Header -->
+        <!--/ TABLE -->
 
     </div>
+@endsection
+<!-- CONTENT: M-INSTITUTIONS -->
+
+
+
+@section('footer_page_js')
+    {{-- <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script> --}}
+    <script>
+        $(document).ready(function() {
+            var dt_fixedheader = $('.dt-fixedheader');
+            $('#DataTables_Table_1').DataTable({
+                "paging": true,
+                "searching": true,
+                "pageLength": 10,
+                "lengthMenu": [10, 25, 50, 75, 100, 150, 200, 250, 300, 350, 400],
+                "info": true,
+                "ordering": true,
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 0, // Disable sorting on Actions column
+                    "className": "control",
+                    // "width": "auto"
+                }]
+            });
+
+            // Fixed header
+            if (window.Helpers.isNavbarFixed()) {
+                var navHeight = $('#layout-navbar').outerHeight();
+                new $.fn.dataTable.FixedHeader(dt_fixedheader).headerOffset(navHeight);
+            } else {
+                new $.fn.dataTable.FixedHeader(dt_fixedheader);
+            }
+        });
+    </script>
 @endsection

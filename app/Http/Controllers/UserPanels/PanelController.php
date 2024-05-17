@@ -45,14 +45,14 @@ class PanelController extends Controller
     }
 
     public function manage_institutions(){
-        $process = $this->setPageSession("Manage Institutions Page", "m-inst");
+        $process = $this->setPageSession("Manage Institutions", "m-inst");
         if ($process){
             return $this->setReturnView('userpanels/pages/v_m_institutions');
         }
     }
 
     public function manage_markings(){
-        $process = $this->setPageSession("Manage Markings Page", "m-mark");
+        $process = $this->setPageSession("Manage Markings", "m-mark");
         if ($process){
             return $this->setReturnView('userpanels/pages/v_m_marks');
         }

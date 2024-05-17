@@ -34,6 +34,9 @@
 <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/tagify/tagify.css') }}" />
 <link rel="stylesheet"
     href="{{ asset('public/materialize/assets/vendor/libs/@form-validation/form-validation.css') }}" />
+<link rel="stylesheet"
+    href="{{ asset('public/materialize/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
+
 
 <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/animate-css/animate.css') }}" />
 <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
@@ -57,6 +60,8 @@
 <script src="{{ asset('public/materialize/assets/vendor/js/dropdown-hover.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/js/mega-dropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('public/css/custom.css') }}">
+
+<script src="{{ asset('public/materialize/assets/vendor/libs/jquery/jquery.js') }}"></script>
 
 
 
