@@ -1,0 +1,79 @@
+{
+  "pages": [
+    {
+    "name": "Dashboards",
+    "icon": "mdi-home-outline",
+    "url": "dashboard"
+    },
+    {
+    "name": "Landing Page",
+    "icon": "mdi-airplane-landing",
+    "url": "landing-page"
+    },
+    {
+    "name": "Institution List",
+    "icon": "mdi-leaf-maple",
+    "url": "institution-lists"
+    },
+    {
+    "name": "Marking List",
+    "icon": "mdi-leaf-maple",
+    "url": "marking-lists"
+    },
+    {
+    "name": "User Levels",
+    "icon": "mdi-account-group-outline",
+    "url": "user-levels"
+    },
+    {
+    "name": "User List",
+    "icon": "mdi-account-group-outline",
+    "url": "user-lists"
+    },
+    {
+    "name": "My Profile",
+    "icon": "mdi-account-outline",
+    "url": "myprofile"
+    },
+    {
+    "name": "Log Out",
+    "icon": "mdi-logout",
+    "url": "logout"
+    }
+  ],
+  "files": [
+    {
+      "name": "",
+      "subtitle": "",
+      "src": "",
+      "meta": "",
+      "url": ""
+    }
+  ],
+  "members": [
+    {
+      "name": "Hendri",
+      "subtitle": "Programmer",
+      "src": "img/avatars/1.png",
+      "url": "app-user-view-account.html"
+    },
+    {
+      "name": "M. Ramdan Pujianto",
+      "subtitle": "Analize",
+      "src": "img/avatars/2.png",
+      "url": "app-user-view-account.html"
+    },
+    {
+      "name": "Yopi Okta",
+      "subtitle": "Designer",
+      "src": "img/avatars/5.png",
+      "url": "app-user-view-account.html"
+    },
+    {
+      "name": "M. Haffizh",
+      "subtitle": "Project Manager",
+      "src": "img/avatars/7.png",
+      "url": "app-user-view-account.html"
+    }
+  ]
+}

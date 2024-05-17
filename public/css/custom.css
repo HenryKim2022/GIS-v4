@@ -1,0 +1,243 @@
+/*  */
+/* CUST CSS: FOR MODIFY HTML */
+/*  */
+html {
+    /* Set a fixed height and width for the container */
+    height: 100%;
+    width: 100%;
+}
+
+/*  */
+/* CUST CSS: FOR MODIFY SCROLLBAR */
+/*  */
+.scroll-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+/*  */
+/* CUST CSS: MAXIMIZE, MINIMIZE, AND FULLSCREEN CARD */
+/*  */
+.full_screen {
+    width: 100%;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* z-index: 9999; */
+}
+#leaflet_card {
+    transform: scale(1, 1);
+    object-fit: cover;
+}
+
+/*  */
+/* CUST CSS: LEAFLET MAP */
+/*  */
+.leaflet-map-container-static {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1101;
+}
+.no-scroll {
+    overflow: hidden;
+}
+.leaflet_card_body {
+    max-height: 90vh;
+}
+#userLocation{
+    border-radius: 10px;
+    overflow: scroll;
+}
+/* .minmax-map-btn{
+    position: absolute;
+    bottom: 0.5vh;
+    left: 0.5vw;
+    z-index: 2;
+    transform: translateY(-4%);
+    transform: translateX(-4%);
+} */
+#map {
+    height: 90vh;
+    z-index: 1102;
+}
+
+/*  */
+/* CUST CSS: MODALS */
+/*  */
+.modal {
+    z-index: 1104 !important;
+    cursor: default;
+}
+
+
+/*  */
+/* CUST CSS: ADD DARKEN BACKGROUND WHILE ABOUT-US MODAL SHOW */
+/*  */
+.modal-backdrop.custom-backdrop {
+    background-color: rgb(40, 42, 66); /* Adjust the opacity as needed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1103;
+}
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------- VIEW PORTS ------------------------------------------ */
+/* -------------------------------------------------------------------------------------------------- */
+
+/*  ------------------------------------  */
+/* VIEWPORT: HK MOBILE */
+/* CUST CSS: LEAFLET MOBILE */
+/*  ------------------------------------  */
+@media (max-width: 1000.98px) {
+    .leaflet-map {
+        height: 25vh;
+    }
+    #map { height: 57vh; }
+}
+
+/*  ------------------------------------  */
+/* VIEWPORT: HK TABLET */
+/* CUST CSS: LEAFLET MOBILE */
+/*  ------------------------------------  */
+@media (max-width: 1199.98px) {
+    /* ABOUT US MODAL */
+    .modal {
+        z-index: 1104 !important;
+    }
+    /* ABOUT US MODAL BACKDROP PART */
+    .modal-backdrop.custom-backdrop {
+        z-index: 1103;
+    }
+}
+
+/*  */
+/* CUST DIVIDER CSS */
+/*  */
+.custom-divider {
+    display: flex;
+    align-items: center;
+}
+.divider-icon::before {
+    box-sizing: border-box;
+}
+.divider-icon::after {
+    box-sizing: border-box;
+}
+
+.custom-divider .divider-icon {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 10px;
+}
+
+.custom-divider .divider-icon i {
+    display: inline-block;
+}
+
+
+
+
+/*  */
+/* CUST CSS: GROUP MEMBER */
+/*  */
+.li-mem {
+    font-size: small;
+}
+
+
+
+
+/*  */
+/* CUST CSS: GENEREAL IMAGE */
+/*  */
+.non-draggable {
+    pointer-events: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+/*  */
+
+
+
+/*  */
+/* CUST CSS: SWIPER SLIDER */
+/*  */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-family: 'Material Design Icons';
+    font-size: 16px;
+    font-weight: normal;
+    content: '\e5cc';
+}
+
+.swiper-button-prev::after {
+    content: '\e5cb';
+}
+
+
+
+
+
+/*  */
+/* CUST RANDOM CSS */
+/*  */
+.custom-justify-between {
+    justify-content: space-between;
+}
+
+.custom-mb-0-52 {
+    margin-bottom: 0.52rem;
+}
+
+.custom-mt-6 {
+    margin-top: 1.5rem;
+}
+
+.custom-h-full {
+    height: 100%;
+}
+
+/*  */
+/*  */
+/*  */
+
+.fullscreen-map{
+    z-index: 1100 !important;
+}
+
+/* :not(:root):fullscreen::backdrop {
+    position: fixed;
+    inset: 0px;
+    background: black;
+    z-index: -1;
+} */
+
+.leaflet-routing-button-container {
+    position: absolute;
+    top: 19px;
+    right: 6px;
+}
+
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0px !important;
+}

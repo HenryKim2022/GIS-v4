@@ -1,0 +1,17 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Location A",
+          "category": "Point of Interest"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [12, 13]
+        }
+      }
+      // Tambahkan fitur GeoJSON lainnya di sini
+    ]
+}
