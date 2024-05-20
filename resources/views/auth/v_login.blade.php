@@ -145,16 +145,16 @@
             <h4 class="mb-2">Welcome to {{ env("APP_NAME") }}! 👋</h4>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-            <form id="formAuthentication" class="mb-3" action="index.html" method="GET">
+            <form id="formAuthentication" class="mb-3" action="{{ route('login.show') }}" method="POST">
               <div class="form-floating form-floating-outline mb-3">
                 <input
                   type="text"
                   class="form-control"
-                  id="email"
-                  name="email-username"
-                  placeholder="Enter your email or username"
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username"
                   autofocus />
-                <label for="email">Email or Username</label>
+                <label for="username">Username</label>
               </div>
               <div class="mb-3">
                 <div class="form-password-toggle">

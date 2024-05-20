@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -22,17 +24,31 @@ class LoginController extends Controller
     }
 
 
-    //
-    public function index(){
+    public function index()
+    {
         $process = $this->setPageSession("Login Page", "login");
-        if ($process){
+        if ($process) {
             return view('auth/v_login');
         }
     }
 
-    public function forgotPassword(){
+
+    public function doLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+    }
+
+
+
+    public function forgotPassword()
+    {
         $process = $this->setPageSession("Forgot Password Page", "forgot");
-        if ($process){
+        if ($process) {
             return view('auth/v_forgot_pass');
         }
     }
@@ -44,7 +60,8 @@ class LoginController extends Controller
 
 
     ///////////////////////////// PAGE SETTER ////////////////////////////
-    public function setPageSession($pageTitle, $pageUrl){
+    public function setPageSession($pageTitle, $pageUrl)
+    {
         $pageData = Session::get('page');
         $pageData['page_title'] = $pageTitle;
         $pageData['page_url'] = $pageUrl;
@@ -53,7 +70,8 @@ class LoginController extends Controller
         Session::put('page', $pageData);
         return true;
     }
-    public function setReturnView($viewurl){
+    public function setReturnView($viewurl)
+    {
         $pageData = Session::get('page');
         return view($viewurl, ['pageData' => $pageData]);
     }

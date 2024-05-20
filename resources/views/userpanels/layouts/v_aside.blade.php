@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="{{ route('dashboardpage') }}" class="app-brand-link">
+        <a href="{{ route('dashboard.page') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <span style="color: var(--bs-primary)">
                     <svg width="268" height="150" viewBox="0 0 38 20" fill="none"
@@ -59,13 +59,13 @@
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
         <li class="menu-item active">
-            <a href="{{ route('dashboardpage') }}" class="menu-link">
+            <a href="{{ route('dashboard.page') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{ route('landingpage') }}" class="menu-link">
+            <a href="{{ route('landing.page') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-airplane-landing"></i>
                 <div data-i18n="Landing Page">Landing Page</div>
             </a>

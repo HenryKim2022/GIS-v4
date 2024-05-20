@@ -147,7 +147,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="{{ route('myprofilepage') }}">
+                        <a class="dropdown-item" href="{{ route('myprofile.page') }}">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
@@ -166,7 +166,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('myprofilepage') }}">
+                        <a class="dropdown-item" href="{{ route('myprofile.page') }}">
                             <i class="mdi mdi-account-outline me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
@@ -175,7 +175,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('logoutredirect') }}" target="_self">
+                        <a class="dropdown-item" href="{{ route('logout.redirect') }}" target="_self">
                             <i class="mdi mdi-logout me-2"></i>
                             <span class="align-middle">Log Out</span>
                         </a>

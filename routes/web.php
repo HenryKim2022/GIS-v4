@@ -1,6 +1,7 @@
 <?php
 
 /* DONOT CHANGE ORDER */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Samples\SampleController;
 use App\Http\Controllers\Landings\LandingPageController;
@@ -44,7 +45,7 @@ if (env('APP_INSTALL', false)) {    // Not False
     });
 
 
-    Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');                          // CHANGE IT LATER (IF NEDDED)
+    Route::get('/', [LandingPageController::class, 'index'])->name('landing.page');                          // CHANGE IT LATER (IF NEDDED)
 
 
 
@@ -62,30 +63,26 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     //////////// LANDING-PAGE
-    Route::get('/landing-page', [LandingPageController::class, 'index'])->name('landingpage');
+    Route::get('/landing-page', [LandingPageController::class, 'index'])->name('landing.page');
 
 
 
 
     //////////// AUTH: LOGIN & RESET-PASS & REGISTER
     Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::get('/login', [LoginController::class, 'index'])->name('login.show');
+    Route::post('/login', [LoginController::class, 'doLogin'])->name('login.submit');
     Route::get('/forgot', [LoginController::class, 'forgotPassword'])->name('forgotpasspage');
     Route::get('/register', [RegisterController::class, 'index'])->name('registerpage');
 
 
 
-
     //////////// USERPANEL: DASHBOARD DKK
-    Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboardpage');
-    Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofilepage');
-    Route::get('/logout', [PanelController::class, 'logout'])->name('logoutredirect');
+    Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard.page');
+    Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
+    Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
     Route::get('/m-inst', [PanelController::class, 'manage_institutions'])->name('m-institutions');
     Route::get('/m-mark', [PanelController::class, 'manage_markings'])->name('m-markings');
     Route::get('/m-userlevel', [PanelController::class, 'manage_user_levels'])->name('m-userlevels');
     Route::get('/m-userlist', [PanelController::class, 'manage_user_list'])->name('m-userlist');
-
-
 }
-
-
-
