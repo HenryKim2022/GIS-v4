@@ -346,8 +346,7 @@
     <div class="modal-dialog modal-sm modal-simple modal-edit-user modal-dialog-centered">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body py-3 py-md-0 d-flex align-content-around justify-content-around">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    onclick="close_modalEditLogoPopUp()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <img id="modalEditZoomImageContent" class="align-self-center col-12 col-lg-6 col-md-12"
                     alt="Modal Image">
             </div>
