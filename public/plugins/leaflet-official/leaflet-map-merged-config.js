@@ -500,6 +500,8 @@ function addMarkerOnContextMenu(map, markersLayer) {
             const tooltipData = {
                 tobesearch: institu_name
             };
+
+
             const marker = L.marker(new L.latLng([LAT, LNG]), tooltipData);
 
             var markModalID = "editMarkModal";

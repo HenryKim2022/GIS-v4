@@ -307,7 +307,7 @@
             <div class="modal-body py-3 py-md-0 d-flex align-content-around justify-content-around">
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"
                     id="close_modalViewLogoPopUp"></button>
-                <img id="modalViewZoomImageContent" class="align-self-center col-12 col-lg-6 col-md-12"
+                <img id="modalViewZoomImageContent" class="align-self-center col-12 col-lg-7 col-md-12"
                     alt="Modal Image">
             </div>
         </div>

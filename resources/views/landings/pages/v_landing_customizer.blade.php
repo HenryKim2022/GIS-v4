@@ -15,7 +15,6 @@
 @endsection
 
 
-
 <!-- CONTENT: LANDINGS -->
 @section('content')
     @php

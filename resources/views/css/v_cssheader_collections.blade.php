@@ -130,4 +130,6 @@ href="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.v1.0.1/dist/l
 </script>
 
 
-{{-- LeafletControlWindow (addons) --}}
+{{-- LeafletExtraMarkers (addons) --}}
+
+
