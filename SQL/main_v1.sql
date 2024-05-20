@@ -6,9 +6,8 @@
 
 DROP TABLE IF EXISTS tb_institution;
 DROP TABLE IF EXISTS tb_mark;
-DROP TABLE IF EXISTS tb_logins;
+DROP TABLE IF EXISTS tb_category;
 DROP TABLE IF EXISTS tb_users;
--- DROP TABLE IF EXISTS tb_levels;
 CREATE DATABASE IF NOT EXISTS itir9421_gis;
 
 
@@ -22,45 +21,42 @@ CREATE TABLE IF NOT EXISTS tb_mark (
 
 CREATE TABLE IF NOT EXISTS tb_institution (
     institu_id INT(9) PRIMARY KEY AUTO_INCREMENT,
-    institu_name TEXT(45),
-    institu_category TEXT(45),
+    institu_name VARCHAR(45),
     institu_npsn VARCHAR(20),
-    institu_logo TEXT(254),
-    institu_address TEXT(254),
-    institu_descb TEXT(254),
-    institu_image TEXT(254),
+    institu_logo VARCHAR(254),
+    institu_address VARCHAR(254),
+    institu_image VARCHAR(254),
     mark_id INT(9),
+    cat_id INT(9),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
     FOREIGN KEY (mark_id) REFERENCES tb_mark(mark_id)
+    FOREIGN KEY (cat_id) REFERENCES tb_category(cat_id)
 );
 
 
--- CREATE TABLE IF NOT EXISTS tb_levels (
---     level_id INT(9) PRIMARY KEY AUTO_INCREMENT,
---     level_name TEXT(45),
---     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
---     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
--- );
+CREATE TABLE IF NOT EXISTS tb_category (
+    cat_id INT(9) PRIMARY KEY AUTO_INCREMENT,
+    cat_name VARCHAR(45),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
+);
 
 CREATE TABLE IF NOT EXISTS tb_users (
     user_id INT(9) PRIMARY KEY AUTO_INCREMENT,
-    user_name TEXT(45),
-    user_image TEXT(254),
-    -- level_id INT(9),
+    user_name VARCHAR(45),
+    user_password VARCHAR(45),
+    user_image VARCHAR(254),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-    FOREIGN KEY (level_id) REFERENCES tb_levels(level_id)
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
 );
 
-CREATE TABLE IF NOT EXISTS tb_logins (
-    login_id INT(9) PRIMARY KEY AUTO_INCREMENT,
-    user_id TEXT(45),
-    user_password TEXT(254),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-    FOREIGN KEY (user_id) REFERENCES tb_users(user_id)
-);
+
+
+
+
+
+
 
 
 
