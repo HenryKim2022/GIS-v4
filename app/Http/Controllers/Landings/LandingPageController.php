@@ -14,6 +14,11 @@ class LandingPageController extends Controller
     protected $pageData;
     public function __construct()
     {
+
+        // if ($this->middleware('auth')){
+        //     echo ('console.log("LOGIN FIRST :)")');
+        // }
+
         $this->pageData = [
             'page_title' => 'What Public See',
             'page_url' => base_url('public-url'),

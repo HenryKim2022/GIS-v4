@@ -68,7 +68,7 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     //////////// AUTH: LOGIN & RESET-PASS & REGISTER
-    Route::get('/login', [LoginController::class, 'index'])->name('loginpage');
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::get('/forgot', [LoginController::class, 'forgotPassword'])->name('forgotpasspage');
     Route::get('/register', [RegisterController::class, 'index'])->name('registerpage');
 
