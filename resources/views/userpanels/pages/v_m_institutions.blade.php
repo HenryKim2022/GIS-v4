@@ -33,8 +33,23 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light">UserPanels /</span> <a href="{{ route('m-institutions') }}">{{ $page_title }}</a></h4>
+
+
         <div class="card">
-            <h5 class="card-header">{{ $page_title }} Data</h5>
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="mb-0 align-middle">{{ $page_title }} Data</h5>
+                <div class="d-inline-block">
+                    <a href="javascript:;"
+                        class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown"><i class="mdi mdi-table-cog"></i></a>
+                    <div class="dropdown-menu dropdown-menu-end m-0">
+                        <a href="javascript:;" class="dropdown-item text-success add-record btn-sm mdi mdi-image-text"> Add New Data</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:;" class="dropdown-item text-danger delete-record btn-sm mdi mdi-database-settings"> ResetTable</a>
+                    </div>
+                </div>
+
+            </div>
             <div class="card-datatable table-responsive">
                 <!--/ TABLE -->
                 <table id="DataTables_Table_1" class="dt-fixedheader table table-bordered">
@@ -58,11 +73,11 @@
                                 <td class="dtr-hidden" tabindex="0" style="">
                                     <div class="d-inline-block">
                                         <a href="javascript:;"
-                                            class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                                            class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
                                             data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                                         <div class="dropdown-menu dropdown-menu-end m-0">
-                                            <a href="javascript:;" class="dropdown-item btn-sm mdi mdi-image-text"> Details</a>
-                                            <a href="javascript:;" class="dropdown-item btn-sm mdi mdi-pencil-outline"> Edit</a>
+                                            <a href="javascript:;" class="dropdown-item btn-text-success btn-sm mdi mdi-image-text"> Details</a>
+                                            <a href="javascript:;" class="dropdown-item btn-text-warning btn-sm mdi mdi-pencil-outline"> Edit</a>
                                             <div class="dropdown-divider"></div>
                                                 <a href="javascript:;" class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline"> Delete</a>
                                         </div>

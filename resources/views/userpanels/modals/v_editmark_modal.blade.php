@@ -175,7 +175,7 @@
                                                 <span class="fw-medium">not</span> actually uploaded.)</span>
                                         </div>
                                         <div class="fallback">
-                                            <input name="file" type="file" />
+                                            <input id="modalEditImagesPreview" name="modalEditImagesPreview" type="file" />
                                         </div>
                                     </div>
                                 </div>
