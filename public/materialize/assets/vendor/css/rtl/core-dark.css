@@ -21001,8 +21001,11 @@ html:not([dir=rtl]) .menu-toggle::after {
   right: 1.35rem;
   left: inherit;
 }
-.layout-wrapper:not(.layout-horizontal) .menu-vertical .menu-sub .menu-icon {
+/* .layout-wrapper:not(.layout-horizontal) .menu-vertical .menu-sub .menu-icon {
   margin-right: 0;
+} */
+.layout-wrapper:not(.layout-horizontal) .menu-vertical .menu-sub .menu-icon {
+  margin-right: 0.5rem;
 }
 @media (max-width: 1199.98px) {
   .layout-wrapper:not(.layout-horizontal) .menu-vertical .menu-sub .menu-icon {

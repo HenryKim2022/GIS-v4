@@ -51,10 +51,24 @@ class PanelController extends Controller
         }
     }
 
+    public function manage_institutions_cat(){
+        $process = $this->setPageSession("Manage Institution Categories", "m-categories");
+        if ($process){
+            return $this->setReturnView('userpanels/pages/v_m_categories');
+        }
+    }
+
     public function manage_markings(){
         $process = $this->setPageSession("Manage Markings", "m-mark");
         if ($process){
             return $this->setReturnView('userpanels/pages/v_m_marks');
+        }
+    }
+
+    public function manage_users(){
+        $process = $this->setPageSession("Manage Users", "m-users");
+        if ($process){
+            return $this->setReturnView('userpanels/pages/v_m_users');
         }
     }
 

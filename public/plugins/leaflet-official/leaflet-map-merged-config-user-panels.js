@@ -37,6 +37,7 @@ function initializeMap() {
     //     document.getElementById('map').classList.remove('fullscreen-map');
     // });
 
+
     fullscreenControl = map.fullscreenControl;
     fullscreenElement = fullscreenControl.getContainer();
     // Override scroll behavior for the fullscreen element when modal is active
@@ -45,6 +46,7 @@ function initializeMap() {
             event.stopPropagation();
         }
     });
+
 
     // Override scroll behavior for the map container when modal is active
     map.addEventListener('wheel', function (event) {
@@ -421,6 +423,593 @@ if ('ontouchstart' in window || navigator.maxTouchPoints) {
 
 
 
+// // // VER 2
+function addMarkerOnContextMenu(map, markersLayer) {
+    map.on('contextmenu taphold', function (e) {
+        if (isModalActive) {
+            // e.preventDefault();
+        }
+
+        var LAT = e.latlng.lat.toFixed(7);
+        var LNG = e.latlng.lng.toFixed(7);
+        var coordinates = {
+            lat: LAT,
+            lng: LNG
+        };
+
+        getAddressFromCoordinates(coordinates)
+            .then(address => {
+                // Define the addr components
+                var componentKeys = [
+                    { key: 'road', label: 'Jl.' },
+                    { key: 'neighbourhood', label: 'Ling.' },
+                    { key: 'hamlet', label: 'Dusun' },
+                    { key: 'village', label: 'Desa' },
+                    { key: 'suburb', label: 'Suburb' },
+                    { key: 'city_district', label: 'Kec.' },
+                    { key: 'town', label: 'Kota' },
+                    { key: 'county', label: 'Kab.' },
+                    { key: 'state_district', label: 'Wilayah' },
+                    { key: 'city', label: 'Kota' },
+                    { key: 'state', label: 'Prov.' },
+                    { key: 'postcode', label: 'Kode Pos' },
+                    { key: 'country', label: 'Negara' }
+                ];
+
+                var province = address['state'];
+                var postcode = address['postcode'];
+                var addressComponents = [];
+
+                componentKeys.forEach(component => {
+                    var key = component.key;
+                    var label = component.label;
+
+                    if (key === 'state') {
+                        if (province && postcode) {
+                            addressComponents.push(label + ' ' + province + ' (' + postcode + ')');
+                        } else if (province) {
+                            addressComponents.push(label + ' ' + province);
+                        }
+                    } else if (key !== 'postcode' && address[key]) {
+                        if (label && address[key].toLowerCase().includes(label.toLowerCase())) {
+                            addressComponents.push(address[key]);
+                        } else {
+                            addressComponents.push(label + ' ' + address[key]);
+                        }
+                    }
+                });
+
+                var fulladdr = addressComponents.join(', ');
+                processIt(fulladdr);
+                console.log(fulladdr);
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
+            });
+
+        function processIt(institu_addr) {
+            const institu_name = "Untitled Marker";
+            const institu_npsn = "fill data!";
+            const imgLogo = imgu; // Corrected variable name
+            const institu_images = [
+                imgu,
+                imgu,
+                imgu
+            ];
+            const last_update = "never";
+
+            const tooltipData = {
+                tobesearch: institu_name
+            };
+
+
+            const marker = L.marker(new L.latLng([LAT, LNG]), tooltipData);
+
+            var markModalID = "editMarkModal";
+            marker.bindTooltip(institu_name + "  ➟  " + institu_addr);
+            marker.on('click', function () {
+                var markModal = document.getElementById(markModalID);
+                $(markModal).modal("show");
+                openModal();
+
+                var modalViewLatitude = document.getElementById('modalEditLatitude');
+                modalViewLatitude.value = coordinates['lat'];
+                var modalViewLongitude = document.getElementById('modalEditLongitude');
+                modalViewLongitude.value = coordinates['lng'];
+                var modalViewInstitutionName = document.getElementById('modalEditInstitutionName');
+                modalViewInstitutionName.value = institu_name;
+                var modalViewNPSN = document.getElementById('modalEditNPSN');
+                modalViewNPSN.value = institu_npsn;
+                var modalViewAddress = document.getElementById('modalEditAddress');
+                modalViewAddress.value = institu_addr;
+                var modalViewLastUpdate = document.getElementById('modalEditLastUpdate');
+                modalViewLastUpdate.value = last_update;
+
+                addLogo2Modal(LogoPreviewId = "modalEditLogoPreview");
+                addImages2Modal();
+
+
+                var modalSaveButton = document.querySelector('.modal-mark-save-btn');
+                if (modalSaveButton) {
+                    modalSaveButton.addEventListener('click', function () {
+                        // $('#editMarkModal').modal('hide');
+                        // newMarker.setPopupContent(updatedPopupContent);
+                        // $(markModal).modal("hide");
+                        closeModal();
+                    });
+                }
+                var modalRemoveButton = document.querySelector('.modal-mark-remove-btn');
+                if (modalRemoveButton) {
+                    modalRemoveButton.addEventListener('click', function () {
+                        markersLayer.removeLayer(marker);
+                        $(markModal).modal("hide");
+                        closeModal();
+                    });
+                }
+                var modalCancelButton = document.querySelector('.modal-mark-cancel-btn');
+                if (modalCancelButton) {
+                    modalCancelButton.addEventListener('click', function () {
+                        // $('#editMarkModal').modal('hide');
+                        $(markModal).modal("hide");
+                        closeModal();
+                    });
+                }
+
+                function addLogo2Modal(LogoPreviewId = "") {
+                    setLogo();
+                    function setLogo() {
+                        var modalLogoPreview = document.getElementById(LogoPreviewId);
+                        // Check if logo already exists
+                        if (modalLogoPreview.childElementCount === 0) {
+                            updateLogoPreview(imgLogo);
+                        }
+                        function updateLogoPreview(imageSrc) {
+                            var logoImage = document.createElement('img');
+                            logoImage.src = imageSrc;
+                            logoImage.classList.add('logo-preview');
+                            logoImage.style.width = '96px';
+                            logoImage.style.height = '96px';
+
+                            modalLogoPreview.appendChild(logoImage);
+                        }
+                    }
+                }
+
+                function addImages2Modal() {
+                    setImages()
+                    function setImages() {
+                        // // setBS5Slider();
+                        // function setBS5Slider(BS5SliderID) {
+                        //     const carouselIndicators = document.getElementById('caro_indicators');
+                        //     const carouselInner = document.getElementById('caro_items');
+
+                        //     institu_images.forEach((image, imageIndex) => {
+                        //         // Create indicator button
+                        //         const slideIndiBtn = document.createElement('button');
+                        //         slideIndiBtn.setAttribute('data-bs-target', '#' + BS5SliderID);
+                        //         slideIndiBtn.setAttribute('data-bs-slide-to', imageIndex);
+
+                        //         if (imageIndex === 0) {
+                        //             slideIndiBtn.classList.add('active');
+                        //         }
+                        //         carouselIndicators.appendChild(slideIndiBtn);
+
+
+                        //         // Create carousel item
+                        //         const carouselItem = document.createElement('div');
+                        //         carouselItem.classList.add('carousel-item');
+                        //         carouselItem.classList.add('d-flex');
+                        //         carouselItem.classList.add('justify-content-center');
+                        //         carouselItem.classList.add('align-items-center');
+
+                        //         if (imageIndex === 0) {
+                        //             carouselItem.classList.add('active');
+                        //         }
+
+                        //         const img = document.createElement('img');
+                        //         img.classList.add('d-block', 'w-100');
+                        //         img.src = image;
+                        //         carouselItem.appendChild(img);
+
+                        //         carouselInner.appendChild(carouselItem);
+                        //     });
+                        // }
+
+
+
+                        // // setSwiperSlider();
+                        // function setSwiperSlider() {
+                        //     // Initialize Swiper
+                        //     const swiperInstance = new Swiper('.swiper-container', {
+                        //         // Configuration options
+                        //         slidesPerView: 1,
+                        //         spaceBetween: 1,
+                        //         loop: true,
+                        //         navigation: {
+                        //             nextEl: '.swiper-images-btn-next',
+                        //             prevEl: '.swiper-images-btn-prev',
+                        //         },
+                        //         breakpoints: {
+                        //             // When the viewport width is less than or equal to 640px
+                        //             640: {
+                        //                 slidesPerView: 1,
+                        //                 spaceBetween: 1,
+                        //             },
+                        //             // When the viewport width is greater than 640px and less than or equal to 1024px
+                        //             1024: {
+                        //                 slidesPerView: 1,
+                        //                 spaceBetween: 2,
+                        //             },
+                        //             // When the viewport width is greater than 1024px
+                        //             1024: {
+                        //                 slidesPerView: 1,
+                        //                 spaceBetween: 3,
+                        //             },
+                        //         },
+                        //         observer: true,
+                        //         observeParents: true,
+                        //         observeSlideChildren: true,
+                        //     });
+
+                        //     // Clear existing slider items
+                        //     const swiperWrapper = document.querySelector('.swiper-wrapper');
+                        //     swiperWrapper.innerHTML = '';
+
+                        //     genSliderItem();
+                        //     function genSliderItem() {
+                        //         // Generate the slider items
+                        //         institu_images.forEach((image, imageIndex) => {
+                        //             const slide = document.createElement('div');
+                        //             slide.classList.add('swiper-slide');
+                        //             slide.classList.add('d-flex');
+                        //             slide.classList.add('justify-content-center');
+                        //             slide.classList.add('align-items-center');
+
+                        //             const imgElement = document.createElement('img');
+                        //             imgElement.src = image;
+                        //             imgElement.alt = `Image ${imageIndex + 1}`;
+                        //             imgElement.style.height = '48px'; // Set the height directly
+                        //             imgElement.id = `image${imageIndex + 1}`; // Assign an ID to the image element
+
+                        //             slide.appendChild(imgElement);
+
+                        //             swiperWrapper.appendChild(slide);
+                        //         });
+                        //     }
+                        // }
+
+
+
+
+                    }
+                }
+
+
+
+            });
+
+            markersLayer.addLayer(marker);
+        }
+    });
+}
+
+
+
+
+
+
+
+// // // VER 1
+// function addMarkerOnContextMenu(map, markersLayer) {
+//     map.on('contextmenu taphold', function (e) {
+//         // if (isModalActive && !modal.contains(e.target)) {
+//         if (isModalActive) {
+//             // e.preventDefault();
+//         }
+
+
+//         var LAT = e.latlng.lat.toFixed(7);
+//         var LNG = e.latlng.lng.toFixed(7);
+//         var coordinates = {
+//             lat: LAT,
+//             lng: LNG
+//         };
+
+//         getAddressFromCoordinates(coordinates)
+//             .then(address => {
+//                 // Define the addr components
+//                 var componentKeys = [
+//                     { key: 'road', label: 'Jl.' },
+//                     { key: 'neighbourhood', label: 'Ling.' },
+//                     { key: 'hamlet', label: 'Dusun' },
+//                     { key: 'village', label: 'Desa' },
+//                     { key: 'suburb', label: 'Suburb' },
+//                     { key: 'city_district', label: 'Kec.' },
+//                     { key: 'town', label: 'Kota' },
+//                     { key: 'county', label: 'Kab.' },
+//                     { key: 'state_district', label: 'Wilayah' },
+//                     { key: 'city', label: 'Kota' },
+//                     { key: 'state', label: 'Prov.' },
+//                     { key: 'postcode', label: 'Kode Pos' },
+//                     { key: 'country', label: 'Negara' }
+//                 ];
+
+//                 var province = address['state'];
+//                 var postcode = address['postcode'];
+//                 var addressComponents = [];
+
+//                 componentKeys.forEach(component => {
+//                     var key = component.key;
+//                     var label = component.label;
+
+//                     if (key === 'state') {
+//                         if (province && postcode) {
+//                             addressComponents.push(label + ' ' + province + ' (' + postcode + ')');
+//                         } else if (province) {
+//                             addressComponents.push(label + ' ' + province);
+//                         }
+//                     } else if (key !== 'postcode' && address[key]) {
+//                         if (label && address[key].toLowerCase().includes(label.toLowerCase())) {
+//                             addressComponents.push(address[key]);
+//                         } else {
+//                             addressComponents.push(label + ' ' + address[key]);
+//                         }
+//                     }
+//                 });
+
+//                 var fulladdr = addressComponents.join(', ');
+//                 processIt(fulladdr);
+//                 console.log(fulladdr);
+//             })
+//             .catch(error => {
+//                 console.error('Error:', error.message);
+//                 processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
+
+//             });
+
+//         function processIt(institu_addr) {
+//             const institu_name = "Untitled Marker";
+//             const institu_npsn = "fill data!";
+//             const imgLogo = imgu; // Corrected variable name
+//             const institu_images = imgu;
+//             const last_update = "never";
+
+//             const tooltipData = {
+//                 tobesearch: institu_name
+//             };
+//             const marker = L.marker(new L.latLng([LAT, LNG]), tooltipData);
+
+//             const fromRightClick_PopupContent = `
+//                         <div class='d-flex flex-column p-0'>
+//                             <span style='padding-bottom:2px;'><strong>Coordinates: </strong>${LAT}, ${LNG}<br></span>
+//                             <span style='padding-bottom:2px;'><strong>Name: </strong>${institu_name}<br></span>
+//                             <span style='padding-bottom:2px;'><strong>NPSN: </strong>${institu_npsn}<br></span>
+//                             <span style='padding-bottom:2px;'><strong>Logo: </strong>
+//                                 <img src='${imgLogo}' alt='${institu_name} Logo' width='30'><br>
+//                             </span>
+//                             <span style='padding-bottom:2px;'><strong>Address: </strong>${institu_addr}<br></span>
+//                             <span class='d-flex flex-column align-top text-start' style='padding-bottom:2px;'><strong>Images:</strong>
+//                                 <img src='${institu_images}' alt='${institu_name} Logo' width='80'><br>
+//                             </span>
+//                             <span style='padding-bottom:2px;'><strong>Last Update: </strong>${last_update}<br></span>
+//                             <div class='d-flex flex-col justify-content-between'>
+//                                 <button class="mark-cancel-remove-btn mdi mdi-delete p-2 rounded-2"> Cancel & Remove</button>
+//                                 <button class="mark-edit-btn mdi mdi-content-save-all p-2 rounded-2" onclick="openModal()"> Edit & Save</button>
+//                             </div>
+//                         </div>
+//                     `;
+
+//             marker.bindTooltip(institu_name + "  ➟  " + institu_addr);
+//             marker.bindPopup(fromRightClick_PopupContent);
+//             marker.options.popupText = marker._popup._content;
+//             markersLayer.addLayer(marker);
+
+
+//             // Handle the "Edit" button click event within the marker's popup
+//             marker.on('popupopen', function () {
+//                 var editButton = document.querySelector('.mark-edit-btn');
+
+//                 editButton.addEventListener('click', function () {
+//                     marker.closePopup();
+//                     $('#editMarkModal').modal('show');
+//                     isModalActive = true;
+//                     var modalSaveButton = document.querySelector('.modal-mark-save-btn');
+//                     if (modalSaveButton) {
+//                         modalSaveButton.addEventListener('click', function () {
+//                             // $('#editMarkModal').modal('hide');
+//                             // marker.setPopupContent(updatedPopupContent);
+//                         });
+//                     }
+//                     var modalRemoveButton = document.querySelector('.modal-mark-remove-btn');
+//                     if (modalRemoveButton) {
+//                         modalRemoveButton.addEventListener('click', function () {
+//                             markersLayer.removeLayer(marker);
+//                             marker.closePopup();
+//                             $('#editMarkModal').modal('hide');
+//                             isModalActive = false;
+//                         });
+//                     }
+//                     var modalCancelButton = document.querySelector('.modal-mark-cancel-btn');
+//                     if (modalCancelButton) {
+//                         modalCancelButton.addEventListener('click', function () {
+//                             $('#editMarkModal').modal('hide');
+//                             isModalActive = false;
+//                         });
+//                     }
+//                 });
+//                 var cancelandRemoveButton = document.querySelector('.mark-cancel-remove-btn');
+//                 cancelandRemoveButton.addEventListener('click', function () {
+//                     if (cancelandRemoveButton) {
+//                         marker.closePopup();
+//                         markersLayer.removeLayer(marker); // Remove the marker from the layer
+//                     }
+//                 });
+
+//             });
+//         }
+
+
+//     });
+
+//     // }
+
+
+// }
+
+
+
+
+
+
+// VER 0
+// function addMarkerOnContextMenu(map, markersLayer) {
+//     map.on('contextmenu taphold', function (e) {
+//         var LAT = e.latlng.lat.toFixed(7);
+//         var LNG = e.latlng.lng.toFixed(7);
+//         var coordinates = {
+//             lat: LAT,
+//             lng: LNG
+//         };
+
+//         getAddressFromCoordinates(coordinates)
+//             .then(address => {
+//                 // Define the addr components
+//                 var componentKeys = [
+//                     { key: 'road', label: 'Jl.' },
+//                     { key: 'neighbourhood', label: 'Ling.' },
+//                     { key: 'hamlet', label: 'Dusun' },
+//                     { key: 'village', label: 'Desa' },
+//                     { key: 'suburb', label: 'Suburb' },
+//                     { key: 'city_district', label: 'Kec.' },
+//                     { key: 'town', label: 'Kota' },
+//                     { key: 'county', label: 'Kab.' },
+//                     { key: 'state_district', label: 'Wilayah' },
+//                     { key: 'city', label: 'Kota' },
+//                     { key: 'state', label: 'Prov.' },
+//                     { key: 'postcode', label: 'Kode Pos' },
+//                     { key: 'country', label: 'Negara' }
+//                 ];
+
+//                 var province = address['state'];
+//                 var postcode = address['postcode'];
+//                 var addressComponents = [];
+
+//                 componentKeys.forEach(component => {
+//                     var key = component.key;
+//                     var label = component.label;
+
+//                     if (key === 'state') {
+//                         if (province && postcode) {
+//                             addressComponents.push(label + ' ' + province + ' (' + postcode + ')');
+//                         } else if (province) {
+//                             addressComponents.push(label + ' ' + province);
+//                         }
+//                     } else if (key !== 'postcode' && address[key]) {
+//                         if (label && address[key].toLowerCase().includes(label.toLowerCase())) {
+//                             addressComponents.push(address[key]);
+//                         } else {
+//                             addressComponents.push(label + ' ' + address[key]);
+//                         }
+//                     }
+//                 });
+
+//                 var fulladdr = addressComponents.join(', ');
+//                 processIt(fulladdr);
+//                 console.log(fulladdr);
+//             })
+//             .catch(error => {
+//                 console.error('Error:', error.message);
+//             });
+
+//         function processIt(institu_addr) {
+//             const institu_name = "Untitled Marker";
+//             const institu_npsn = "fill data!";
+//             const imgLogo = imgu; // Corrected variable name
+//             const institu_images = imgu;
+//             const last_update = "never";
+
+//             const tooltipData = {
+//                 tobesearch: institu_name
+//             };
+//             const marker = L.marker(new L.latLng([LAT, LNG]), tooltipData);
+
+//             const fromRightClick_PopupContent = `
+//                 <div class='d-flex flex-column p-0'>
+//                     <span style='padding-bottom:2px;'><strong>Coordinates: </strong>${LAT}, ${LNG}<br></span>
+//                     <span style='padding-bottom:2px;'><strong>Name: </strong>${institu_name}<br></span>
+//                     <span style='padding-bottom:2px;'><strong>NPSN: </strong>${institu_npsn}<br></span>
+//                     <span style='padding-bottom:2px;'><strong>Logo: </strong>
+//                         <img src='${imgLogo}' alt='${institu_name} Logo' width='30'><br>
+//                     </span>
+//                     <span style='padding-bottom:2px;'><strong>Address:</strong>${institu_addr}<br></span>
+//                     <span class='d-flex flex-column align-top text-start' style='padding-bottom:2px;'><strong>Images:</strong>
+//                         <img src='${institu_images}' alt='${institu_name} Logo' width='80'><br>
+//                     </span>
+//                     <span style='padding-bottom:2px;'><strong>Last Update: </strong>${last_update}<br></span>
+//                     <div class='d-flex flex-col justify-content-between'>
+//                         <button class="mark-cancel-btn mdi mdi-cancel p-2 rounded-2"> Cancel</button>
+//                         <button class="mark-remove-btn mdi mdi-delete p-2 rounded-2"> Remove</button>
+//                         <button class="mark-edit-btn mdi mdi-content-save-all p-2 rounded-2"> Edit & Save</button>
+//                     </div>
+//                 </div>
+//             `;
+
+//             marker.bindTooltip(institu_name + "  ➟  " + institu_addr);
+//             marker.bindPopup(fromRightClick_PopupContent);
+//             marker.options.popupText = marker._popup._content;
+//             markersLayer.addLayer(marker);
+
+
+//             marker.on('click', function () {
+//                 var editButton = document.querySelector('.mark-edit-btn');
+//                 editButton.addEventListener('click', function () {
+//                     $('#editMarkModal').modal('show');
+//                     var saveButton = document.querySelector('.modal-save-btn');
+//                     if (saveButton) {
+//                         saveButton.addEventListener('click', function () {
+//                             $('#editMarkModal').modal('hide');
+//                             marker.setPopupContent(updatedPopupContent);
+//                         });
+//                     }
+//                     var cancelButton = document.querySelector('.mark-cancel-btn');
+//                     if (cancelButton) {
+//                         cancelButton.addEventListener('click', function () {
+//                             $('#editMarkModal').modal('hide');
+//                             marker.closePopup();
+//                         });
+//                     }
+//                 });
+//                 var cancelButton = document.querySelector('.mark-cancel-btn');
+//                 cancelButton.addEventListener('click', function () {
+//                     if (cancelButton) {
+//                         marker.closePopup();
+//                     }
+//                 });
+//                 var deleteButton = document.querySelector('.mark-remove-btn');
+//                 deleteButton.addEventListener('click', function () {
+//                     if (deleteButton) {
+//                         markersLayer.removeLayer(marker); // Remove the marker from the layer
+//                         marker.closePopup();
+//                     }
+//                 });
+//             });
+
+
+
+
+
+
+
+
+//         }
+//     });
+
+// }
+
+
+
+
 function getAddressFromCoordinates(coordinates) {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.lat}&lon=${coordinates.lng}`;
 
@@ -654,7 +1243,7 @@ function initializeMapApp() {
     addLocateMeControl(map);
     addMarkerOnContextMenu(map, markersLayer);
     // printAddrToConsole(map);
-    testdialog(map);
+    // testdialog(map);
 }
 
 

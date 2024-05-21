@@ -13,22 +13,22 @@
     {
     "name": "Institution List",
     "icon": "mdi-leaf-maple",
-    "url": "institution-lists"
+    "url": "m-inst"
+    },
+    {
+    "name": "Categories",
+    "icon": "mdi-factory",
+    "url": "m-categories"
     },
     {
     "name": "Marking List",
     "icon": "mdi-leaf-maple",
-    "url": "marking-lists"
-    },
-    {
-    "name": "User Levels",
-    "icon": "mdi-account-group-outline",
-    "url": "user-levels"
+    "url": "m-mark"
     },
     {
     "name": "User List",
     "icon": "mdi-account-group-outline",
-    "url": "user-lists"
+    "url": "m-userlist"
     },
     {
     "name": "My Profile",

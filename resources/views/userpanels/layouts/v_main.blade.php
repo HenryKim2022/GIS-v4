@@ -1,7 +1,8 @@
 <!doctype html>
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    class="dark-style layout-navbar-fixed layout-menu-fixed layout-compact customizer-hide" dir="ltr"
+    {{-- class="dark-style layout-navbar-fixed layout-menu-fixed layout-compact customizer-hide" dir="ltr" --}}
+    class="dark-style layout-navbar layout-menu-fixed layout-compact customizer-hide" dir="ltr"
     data-theme="theme-default" data-assets-path="public/materialize/assets/" data-template="vertical-menu-template">
 
 {{-- MERGED HEADER: v_header --}}
@@ -28,6 +29,7 @@
                 <div class="content-wrapper">
                     <!-- Content -->
                     @yield('content')
+
 
                     <!-- Footer -->
                     {{-- MERGED FOOTER: v_footer --}}

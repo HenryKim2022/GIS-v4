@@ -71,7 +71,8 @@ html {
 } */
 #map {
     height: 90vh;
-    z-index: 1102;
+    /* z-index: 1102; */
+    z-index: 1084;
 }
 
 /*  */

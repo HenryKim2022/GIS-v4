@@ -82,7 +82,7 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
     Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
     Route::get('/m-inst', [PanelController::class, 'manage_institutions'])->name('m-institutions');
+    Route::get('/m-categories', [PanelController::class, 'manage_institutions_cat'])->name('m-categories');
     Route::get('/m-mark', [PanelController::class, 'manage_markings'])->name('m-markings');
-    Route::get('/m-userlevel', [PanelController::class, 'manage_user_levels'])->name('m-userlevels');
-    Route::get('/m-userlist', [PanelController::class, 'manage_user_list'])->name('m-userlist');
+    Route::get('/m-userlist', [PanelController::class, 'manage_users'])->name('m-userlist');
 }

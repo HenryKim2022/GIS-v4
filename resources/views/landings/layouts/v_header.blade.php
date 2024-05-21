@@ -14,6 +14,8 @@
 
     @include('css.v_cssheader_collections')
 
+    @stack('scripts')
+
     @yield('head_page_cssjs')
     @yield('head_page_helper_js')
 </head>
