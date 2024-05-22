@@ -75,16 +75,30 @@ function addTileLayer(map) {
     }).addTo(map);
 }
 
-function addSchoolnameSearchControl(map, markersLayer, propertyNamed) {
-    L.control.search({
+
+function addSchoolnameSearchControlbyMark(map, markersLayer, propertyNamed, txtPHolder) {
+    var searchControl = L.control.search({
         layer: markersLayer,
         position: 'topleft',
         initial: false,
         zoom: 48,
         propertyName: propertyNamed,
-        textPlaceholder: 'Search by school name'
+        textPlaceholder: 'Search by ' + txtPHolder,
+        firstTipSubmit: true,
+        textErr: txtPHolder + " wasn't found :(",
+        hideMarkerOnCollapse: true
     }).addTo(map);
+
+    searchControl.on('search:locationfound', function (e) {
+        // Show tooltip code
+        var marker = e.layer;
+        var tooltipText = marker.getTooltip().getContent();
+        marker.bindTooltip(tooltipText, {
+            permanent: true
+        }).openTooltip();
+    });
 }
+
 
 
 function addAddressSearchControl(map, markersLayer) {
@@ -154,7 +168,8 @@ function populateMapWithMarkers(map, markersLayer) {
         .forEach(f => {
             const coordinates = f.geometry.coordinates.slice().reverse();
             const tooltipData = {
-                tobesearch: f.properties.institu_name,
+                tobesearch1: f.properties.institu_name,
+                tobesearch2: f.properties.institu_address,
             }
             const populateMarker = L.marker(coordinates, tooltipData);
 
@@ -410,7 +425,8 @@ function populateMapWithMarkers(map, markersLayer) {
 
         });
 
-    addSchoolnameSearchControl(map, markersLayer, 'tobesearch');
+    addSchoolnameSearchControlbyMark(map, markersLayer, 'tobesearch1', 'school name');
+    addSchoolnameSearchControlbyMark(map, markersLayer, 'tobesearch2', 'school address');
 }
 
 
@@ -1233,12 +1249,10 @@ function testdialog(map) {
 function initializeMapApp() {
     var map = initializeMap();
     var markersLayer = L.layerGroup();
-
-    // addSchoolnameSearchControl(map, markersLayer);
     addTileLayer(map);
 
     populateMapWithMarkers(map, markersLayer);
-    addAddressSearchControl(map);
+    // addAddressSearchControl(map);
     // addGeocodeTracksControl(map, markersLayer);
     addResetViewControl(map);
     addLocateMeControl(map);

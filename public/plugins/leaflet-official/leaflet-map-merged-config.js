@@ -73,16 +73,40 @@ function addTileLayer(map) {
     }).addTo(map);
 }
 
-function addSchoolnameSearchControl(map, markersLayer, propertyNamed) {
-    L.control.search({
+
+function addSchoolnameSearchControlbyMark(map, markersLayer, propertyNamed, txtPHolder) {
+    var searchControl = L.control.search({
         layer: markersLayer,
         position: 'topleft',
         initial: false,
         zoom: 48,
         propertyName: propertyNamed,
-        textPlaceholder: 'Search by school name'
+        textPlaceholder: 'Search by ' + txtPHolder,
+        firstTipSubmit: true,
+        textErr: txtPHolder + " wasn't found :(",
+        hideMarkerOnCollapse: true,
+        filterData: function(text, records) {
+            // console.log("KEYWORDS: " + text);
+            // console.log(records);
+            records = this._defaultFilterData(text, records);
+            return(records);
+        },
+        moveToLocation: function(latlng, title, map) {
+            console.log("SELECTED RESULT:\n  title: " + title + " > coordinates: " + latlng.lat + ", " + latlng.lng);
+            this._defaultMoveToLocation(latlng, title, map);
+        }
     }).addTo(map);
+
+    searchControl.on('search:locationfound', function (e) {
+        // Show tooltip code
+        var marker = e.layer;
+        var tooltipText = marker.getTooltip().getContent();
+        marker.bindTooltip(tooltipText, {
+            permanent: true
+        }).openTooltip();
+    });
 }
+
 
 
 function addAddressSearchControl(map, markersLayer) {
@@ -152,7 +176,12 @@ function populateMapWithMarkers(map, markersLayer) {
         .forEach(f => {
             const coordinates = f.geometry.coordinates.slice().reverse();
             const tooltipData = {
-                tobesearch: f.properties.institu_name,
+                tobeSearched1: f.properties.institu_name,
+                tobeSearched2: f.properties.institu_npsn,
+                tobeSearched3: f.properties.institu_logo,
+                tobeSearched4: f.properties.institu_address,
+                tobeSearched5: f.properties.institu_image,
+                tobeSearched6: f.properties.updated_at,
             }
             const populateMarker = L.marker(coordinates, tooltipData);
 
@@ -225,50 +254,6 @@ function populateMapWithMarkers(map, markersLayer) {
                 function addImages2Modal() {
                     setImages()
                     function setImages() {
-                        // setBS5Slider("carouselExampleDark");
-                        // function setBS5Slider(BS5SliderID) {
-                        //     const carouselIndicators = document.getElementById('caro_indicators');
-                        //     const carouselInner = document.getElementById('caro_items');
-
-                        //     institu_images.forEach((image, imageIndex) => {
-                        //         // Create indicator button
-                        //         const slideIndiBtn = document.createElement('button');
-                        //         slideIndiBtn.type = 'button';
-                        //         slideIndiBtn.setAttribute('data-bs-target', '#' + BS5SliderID);
-                        //         slideIndiBtn.setAttribute('data-bs-slide-to', imageIndex);
-
-                        //         if (imageIndex === 0) {
-                        //             slideIndiBtn.classList.add('active');
-                        //         }
-                        //         carouselIndicators.appendChild(slideIndiBtn);
-
-
-                        //         // Create carousel item
-                        //         const carouselItem = document.createElement('div');
-                        //         carouselItem.classList.add('carousel-item');
-                        //         carouselItem.classList.add('d-flex');
-                        //         carouselItem.classList.add('justify-content-center');
-                        //         carouselItem.classList.add('align-items-center');
-
-                        //         if (imageIndex === 0) {
-                        //             carouselItem.classList.add('active');
-                        //         }
-
-                        //         const img = document.createElement('img');
-                        //         img.classList.add('d-block', 'w-8');
-                        //         img.id = "caro_img_" + imageIndex;
-                        //         img.type = 'button';
-                        //         img.style.width = '101px';
-                        //         img.style.height = '101px';
-                        //         img.src = image;
-                        //         carouselItem.appendChild(img);
-
-                        //         carouselInner.appendChild(carouselItem);
-                        //     });
-                        // }
-
-
-
                         setSwiperSlider();
                         function setSwiperSlider() {
                             // Initialize Swiper
@@ -335,72 +320,7 @@ function populateMapWithMarkers(map, markersLayer) {
 
                     }
 
-                    // function setImages() {
-                    //     setSwiperSlider();
-                    //     function setSwiperSlider() {
-                    //         // Initialize Swiper
-                    //         const swiperInstance = new Swiper('.swiper-container', {
-                    //             // Configuration options
-                    //             slidesPerView: 1,
-                    //             spaceBetween: 1,
-                    //             loop: true,
-                    //             navigation: {
-                    //                 nextEl: '.swiper-images-btn-next',
-                    //                 prevEl: '.swiper-images-btn-prev',
-                    //             },
-                    //             breakpoints: {
-                    //                 // When the viewport width is less than or equal to 640px
-                    //                 640: {
-                    //                     slidesPerView: 1,
-                    //                     spaceBetween: 1,
-                    //                 },
-                    //                 // When the viewport width is greater than 640px and less than or equal to 1024px
-                    //                 1024: {
-                    //                     slidesPerView: 1,
-                    //                     spaceBetween: 2,
-                    //                 },
-                    //                 // When the viewport width is greater than 1024px
-                    //                 1024: {
-                    //                     slidesPerView: 1,
-                    //                     spaceBetween: 3,
-                    //                 },
-                    //             },
-                    //             observer: true,
-                    //             observeParents: true,
-                    //             observeSlideChildren: true,
-                    //         });
 
-                    //         // Clear existing slider items
-                    //         const swiperWrapper = document.querySelector('.swiper-wrapper');
-                    //         swiperWrapper.innerHTML = '';
-
-                    //         genSliderItem();
-                    //         function genSliderItem() {
-                    //             // Generate the slider items
-                    //             institu_images.forEach((image, imageIndex) => {
-                    //                 const slide = document.createElement('div');
-                    //                 slide.classList.add('swiper-slide');
-                    //                 slide.classList.add('d-flex');
-                    //                 slide.classList.add('justify-content-center');
-                    //                 slide.classList.add('align-items-center');
-
-                    //                 const imgElement = document.createElement('img');
-                    //                 imgElement.src = image;
-                    //                 imgElement.alt = `Image ${imageIndex + 1}`;
-                    //                 imgElement.style.height = '48px'; // Set the height directly
-                    //                 imgElement.id = `image${imageIndex + 1}`; // Assign an ID to the image element
-
-                    //                 slide.appendChild(imgElement);
-
-                    //                 swiperWrapper.appendChild(slide);
-                    //             });
-                    //         }
-
-
-
-
-                    //     }
-                    // }
                 }
 
 
@@ -408,7 +328,8 @@ function populateMapWithMarkers(map, markersLayer) {
 
         });
 
-    addSchoolnameSearchControl(map, markersLayer, 'tobesearch');
+    addSchoolnameSearchControlbyMark(map, markersLayer, 'tobeSearched1', 'school name');
+    addSchoolnameSearchControlbyMark(map, markersLayer, 'tobeSearched4', 'school address');
 }
 
 
@@ -644,11 +565,10 @@ function testdialog(map) {
 function initializeMapApp() {
     var map = initializeMap();
     var markersLayer = L.layerGroup();
-
-    // addSchoolnameSearchControl(map, markersLayer);
     addTileLayer(map);
+
     populateMapWithMarkers(map, markersLayer);
-    addAddressSearchControl(map);
+    // addAddressSearchControl(map);
     // addGeocodeTracksControl(map, markersLayer);
     addResetViewControl(map);
     addLocateMeControl(map);
