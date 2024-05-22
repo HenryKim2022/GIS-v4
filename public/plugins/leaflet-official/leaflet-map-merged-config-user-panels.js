@@ -1236,6 +1236,7 @@ function initializeMapApp() {
 
     // addSchoolnameSearchControl(map, markersLayer);
     addTileLayer(map);
+
     populateMapWithMarkers(map, markersLayer);
     addAddressSearchControl(map);
     // addGeocodeTracksControl(map, markersLayer);
@@ -1250,8 +1251,8 @@ function initializeMapApp() {
 
 
 // Call the main function to initialize the map
-initializeMapApp();
 
+initializeMapApp();
 const mapfirstload = document.getElementById('#map');
 const clickEvent = new Event('click');
 if (mapfirstload) {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tb_users', function (Blueprint $table) {
             $table->id('user_id');
             $table->string('user_name', 45);
-            $table->string('user_password', 255);
+            $table->string('user_pwd', 255);
             $table->string('user_image', 255);
             $table->timestamps();
             $table->softDeletes();

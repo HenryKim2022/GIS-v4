@@ -16,7 +16,7 @@ class Setup_Default_Users_Seeder extends Seeder
     {
         Setup_Default_Users::create([
             'user_name' => 'admingis',
-            'user_password' => bcrypt(str_pad('123456', 255)),
+            'user_pwd' => bcrypt(str_pad('123456', 255)),
             'user_image' => '',
         ]);
     }

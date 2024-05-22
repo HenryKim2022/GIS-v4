@@ -321,11 +321,11 @@
                     <div class="modal-footer p-0 pl-4 pt-4 pb-4">
                         <div class="col-12 text-center">
                             <div class="d-flex flex-col justify-content-end">
-                                <button class="modal-mark-cancel-btn btn btn-primary me-2" data-bs-dismiss="modal"
+                                <button class="modal-btn modal-mark-cancel-btn btn btn-primary me-2" data-bs-dismiss="modal"
                                     onclick="closeModal()">Cancel</button>
-                                <button class="modal-mark-remove-btn btn btn-secondary me-2"
+                                <button class="modal-btn modal-mark-remove-btn btn btn-secondary me-2"
                                     onclick="closeModal()">Remove</button>
-                                <button class="modal-mark-save-btn btn btn-success" type="submit"
+                                <button class="modal-btn modal-mark-save-btn btn btn-success" type="submit"
                                     onclick="closeModal()">Save</button>
                             </div>
                         </div>
@@ -392,7 +392,7 @@
     });
 
     // Get the modal buttons
-    var modalButtons = document.querySelectorAll('button');
+    var modalButtons = document.querySelectorAll('.modal-btn');
     modalButtons.forEach(function(button) {
         button.addEventListener('click', function(event) {
             event.stopPropagation(); // Stop the event from bubbling up

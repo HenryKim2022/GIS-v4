@@ -24,13 +24,13 @@
                             d="M7.82901 2.22569C8.87231 0.444187 11.1726 -0.172113 12.9668 0.849138C14.7611 1.87039 15.3698 4.14247 14.3265 5.92397L7.38656 17.7743C6.34325 19.5558 4.04298 20.1721 2.24875 19.1509C0.454514 18.1296 -0.154233 15.8575 0.88907 14.076L7.82901 2.22569Z"
                             fill="currentColor" />
                         <defs>
-                            <linearGradient id="paint0_linear_2989_100980" x1="5.36642" y1="0.849138"
-                                x2="10.532" y2="24.104" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="paint0_linear_2989_100980" x1="5.36642" y1="0.849138" x2="10.532"
+                                y2="24.104" gradientUnits="userSpaceOnUse">
                                 <stop offset="0" stop-opacity="1" />
                                 <stop offset="1" stop-opacity="0" />
                             </linearGradient>
-                            <linearGradient id="paint1_linear_2989_100980" x1="5.19475" y1="0.849139"
-                                x2="10.3357" y2="24.1155" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="paint1_linear_2989_100980" x1="5.19475" y1="0.849139" x2="10.3357"
+                                y2="24.1155" gradientUnits="userSpaceOnUse">
                                 <stop offset="0" stop-opacity="1" />
                                 <stop offset="1" stop-opacity="0" />
                             </linearGradient>
@@ -42,8 +42,7 @@
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M11.4854 4.88844C11.0081 4.41121 10.2344 4.41121 9.75715 4.88844L4.51028 10.1353C4.03297 10.6126 4.03297 11.3865 4.51028 11.8638L9.75715 17.1107C10.2344 17.5879 11.0081 17.5879 11.4854 17.1107C11.9626 16.6334 11.9626 15.8597 11.4854 15.3824L7.96672 11.8638C7.48942 11.3865 7.48942 10.6126 7.96672 10.1353L11.4854 6.61667C11.9626 6.13943 11.9626 5.36568 11.4854 4.88844Z"
                     fill="currentColor" fill-opacity="0.6" />
@@ -58,7 +57,7 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="{{ route('dashboard.page') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
@@ -91,13 +90,13 @@
                         <li class="menu-item">
                             <a href="{{ route('m-categories') }}" class="menu-link">
                                 <i class="menu-icon tf-icons mdi mdi-factory"></i>
-                                <div data-i18n=" Categories"> Categories</div>
+                                <div data-i18n="Categories"> Categories</div>
                             </a>
                         </li>
                         <li class="menu-item">
                             <a href="{{ route('m-institutions') }}" class="menu-link">
                                 <i class="menu-icon tf-icons mdi mdi-clipboard-list-outline"></i>
-                                <div data-i18n=" List"> List</div>
+                                <div data-i18n="List"> List</div>
                             </a>
                         </li>
                     </ul>
@@ -143,16 +142,88 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link" id="supportSideMenu" onclick='showAlert(this.id, "System", "info", "Sorry, support not available :(")'>
+            <a href="javascript:void(0);" class="menu-link" id="supportSideMenu"
+                onclick='showAlert(this.id, "System", "info", "Sorry, support not available :(")'>
                 <i class="menu-icon tf-icons mdi mdi-lifebuoy"></i>
                 <div data-i18n="Support">Support</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link" id="docSideMenu" onclick='showAlert(this.id, "System", "info", "Sorry, documentations not available :(")'>
+            <a href="javascript:void(0);" class="menu-link" id="docSideMenu"
+                onclick='showAlert(this.id, "System", "info", "Sorry, documentations not available :(")'>
                 <i class="menu-icon tf-icons mdi mdi-file-document-multiple-outline"></i>
                 <div data-i18n="Documentation">Documentation</div>
             </a>
         </li>
     </ul>
+
+
+
+
+    <script>
+        // GIVING CLASS ACTIVE TO CURRENT ACTIVE PAGE --> ASIDE MENU
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the current URL
+            var currentUrl = window.location.href;
+            // Get all menu items
+            var menuItems = document.querySelectorAll('.menu-item');
+
+            // Loop through each menu item and check if the href matches
+            for (var i = 0; i < menuItems.length; i++) {
+                var menuItem = menuItems[i];
+                var menuLink = menuItem.querySelector('.menu-link');
+
+                // If the href matches the current URL, add the 'active' class
+                if (menuLink && menuLink.getAttribute('href') === currentUrl) {
+                    menuItem.classList.add('active');
+
+                    // If there is a submenu, also add the 'active' class to the submenu's parent menu item
+                    var submenu = menuItem.querySelector('.menu-sub');
+                    if (submenu) {
+                        submenu.parentNode.classList.add('active');
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        // GIVING CLASS OPEN TO CURRENT ACTIVE MENU --> ASIDE MENU
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all parent menu items that have a submenu
+            var parentMenuItems = document.querySelectorAll('.menu-item > .menu-link.menu-toggle');
+
+            // Loop through each parent menu item
+            for (var i = 0; i < parentMenuItems.length; i++) {
+                var parentMenuItem = parentMenuItems[i].closest('.menu-item');
+
+                // Check if any of the parent menu item's children have the 'active' class
+                var hasActiveChild = parentMenuItem.querySelector('.menu-item.active');
+
+                // Add the 'open' class to the parent menu item if it has an active child or the submenu item itself is open
+                if (hasActiveChild || parentMenuItem.classList.contains('open')) {
+                    parentMenuItem.classList.add('open');
+                }
+            }
+        });
+    </script>
+
+    <script>
+        // GIVING CLASS ACTIVE TO CURRENT PARENTMENUITEMS AFTER GIVEN CLASS OPEN by LAST JS --> ASIDE MENU
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all parent menu items that have a submenu
+            var parentMenuItems = document.querySelectorAll('.menu-item > .menu-link.menu-toggle');
+
+            // Loop through each parent menu item
+            for (var i = 0; i < parentMenuItems.length; i++) {
+                var parentMenuItem = parentMenuItems[i].closest('.menu-item');
+
+                // Check if the parent menu item has the 'open' class
+                if (parentMenuItem.classList.contains('open')) {
+                    parentMenuItem.classList.add('active');
+                }
+            }
+        });
+    </script>
+
 </aside>

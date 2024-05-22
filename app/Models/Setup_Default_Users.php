@@ -15,7 +15,7 @@ class Setup_Default_Users extends Model
 
     protected $table = 'tb_users';
     protected $primaryKey = 'user_id';
-    protected $fillable = ['user_name', 'user_password', 'user_image'];
+    protected $fillable = ['user_name', 'user_pwd', 'user_image'];
     protected $dates = ['deleted_at'];
 
 }
