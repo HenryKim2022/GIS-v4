@@ -1250,19 +1250,19 @@ function initializeMapApp() {
 
 
 // Call the main function to initialize the map
-document.addEventListener('DOMContentLoaded', function (event) {
-    initializeMapApp();
+initializeMapApp();
 
-    const mapfirstload = document.getElementById('#map');
-    const clickEvent = new Event('click');
-    if (mapfirstload) {
-        mapfirstload.dispatchEvent(clickEvent);
-        event.stopPropagation();
-    }
+const mapfirstload = document.getElementById('#map');
+const clickEvent = new Event('click');
+if (mapfirstload) {
+    // mapfirstload.dispatchEvent(clickEvent);
+    clickEvent.stopPropagation();
 
-    mapfirstload.addEventListener('change', function(event) {
+    mapfirstload.addEventListener('change', function (event) {
         event.stopPropagation(); // Stop the event from bubbling up
     });
-})
+}
+
+
 
 

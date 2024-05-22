@@ -17,64 +17,12 @@
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}" />
+@endsection
 
-
-
-    {{-- Leaflet from NPM Leaflet: --}}
-    <link rel="stylesheet" href="{{ asset('public/plugins/leaflet-official/leaflet.base.vlastest/dist/leaflet.css') }}" />
-    {{-- LeafletFullscreen: For Modern Browser --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.vlastest/Control.FullScreen.css') }}" />
-    {{-- LeafletFullscreen: For Old Browser: NOT USED! --}}
-    {{-- <link rel="stylesheet"
-      href="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.v1.0.1/dist/leaflet.fullscreen.css') }}" />
-      <script src="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.v1.0.1/dist/Leaflet.fullscreen.min.js') }}">
-      </script> --}}
-    {{-- LeafletGestureHandling --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.gesturehandling.vlastest/dist/leaflet-gesture-handling.min.css') }}" />
-    {{-- LeafletToolbar (base) --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.draw.toolbar/leaflet.toolbar.base.vlastest/dist/leaflet.toolbar.min.css') }}" />
-    {{-- LeafletLocateControl (addons) --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.locatecontrol.vlastest/dist/L.Control.Locate.min.css') }}" />
-    {{-- LeafletSearch (addons) --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.search.vlastest/src/leaflet-search.css') }}" />
-    {{-- LeafletViewReset (addons) --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.resetview/dist/L.Control.ResetView.min.css') }}" />
-    {{-- LeafletControlGeocoder (addons) --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.control.geocoder/dist/Control.Geocoder.css') }}" />
-    {{-- LeafletRoutingMachine (addons) --}}
-    <link rel="stylesheet"
-        href="{{ asset('public/plugins/leaflet-official/leaflet.routing.machine/dist/leaflet-routing-machine.css') }}" />
+@section('scripts')
 @endsection
 
 @push('scripts')
-    {{-- LeafletExtraMarkers (addons) --}}
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.base.vlastest/dist/leaflet.js') }}"></script>
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.base.vlastest/dist/leaflet-src.js') }}"></script>
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.vlastest/Control.FullScreen.js') }}">
-    </script>
-    <script
-        src="{{ asset('public/plugins/leaflet-official/leaflet.gesturehandling.vlastest/dist/leaflet-gesture-handling.min.js') }}">
-    </script>
-    <script
-        src="{{ asset('public/plugins/leaflet-official/leaflet.draw.toolbar/leaflet.toolbar.base.vlastest/dist/leaflet.toolbar.min.js') }}">
-    </script>
-    <script
-        src="{{ asset('public/plugins/leaflet-official/leaflet.locatecontrol.vlastest/dist/L.Control.Locate.min.js') }}">
-    </script>
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.search.vlastest/src/leaflet-search.js') }}"></script>
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.resetview/dist/L.Control.ResetView.min.js') }}">
-    </script>
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.control.geocoder/dist/Control.Geocoder.js') }}">
-    </script>
-    <script src="{{ asset('public/plugins/leaflet-official/leaflet.routing.machine/dist/leaflet-routing-machine.js') }}">
-    </script>
 @endpush
 
 
@@ -196,7 +144,8 @@
                                             <thead class="">
                                                 <tr>
                                                     <th class="control sorting_disabled dtr-hidden" rowspan="1"
-                                                        colspan="1" style="width: 12px !important;" aria-label="Actions">ACT</th>
+                                                        colspan="1" style="width: 12px !important;" aria-label="Actions">
+                                                        ACT</th>
                                                     <th>NAME</th>
                                                     <th>CAT</th>
                                                     <th>NPSN</th>
@@ -234,8 +183,8 @@
                                                         <td>John Doe</td>
                                                         <td>Category 1</td>
                                                         <td>1234567890</td>
-                                                        <td><img src="{{ asset(env(key: 'APP_NOIMAGE')) }}" alt="Logo 1"
-                                                                style="height: 24px; width: 24px;"></td>
+                                                        <td><img src="{{ asset(env(key: 'APP_NOIMAGE')) }}"
+                                                                alt="Logo 1" style="height: 24px; width: 24px;"></td>
                                                         <td>Address 1</td>
                                                     </tr>
                                                 @endfor
@@ -344,5 +293,73 @@
                 new $.fn.dataTable.FixedHeader(dt_fixedheader);
             }
         });
+    </script>
+
+    <script>
+        $(document).ready(() => {
+            Dropzone.autoDiscover = false;
+            const dropzones = []
+            $('.dropzone').each(function(i, el) {
+                const name = 'g_' + $(el).data('field')
+
+                const previewTemplate = `<div class="dz-preview dz-file-preview">
+        <div class="dz-details">
+        <div class="dz-thumbnail">
+            <img data-dz-thumbnail>
+            <span class="dz-nopreview">No preview</span>
+            <div class="dz-success-mark"></div>
+            <div class="dz-error-mark"></div>
+            <div class="dz-error-message"><span data-dz-errormessage></span></div>
+            <div class="dz-complete">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="dz-filename" data-dz-name></div>
+        <div class="dz-size" data-dz-size></div>
+        </div>
+        </div>`;
+
+
+                var myDropzone = new Dropzone(el, {
+                    previewTemplate: previewTemplate,
+                    url: window.location.pathname,
+                    autoProcessQueue: false,
+                    uploadMultiple: true,
+                    parallelUploads: 100,
+                    maxFiles: 100,
+                    paramName: name,
+                    addRemoveLinks: true,
+                })
+                dropzones.push(myDropzone)
+            })
+
+            // document.querySelector("button[type=submit]").addEventListener("click", function(e) {
+            //     // Make sure that the form isn't actually being sent.
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     let form = new FormData($('form')[0])
+
+            //     dropzones.forEach(dropzone => {
+            //         let {
+            //             paramName
+            //         } = dropzone.options
+            //         dropzone.files.forEach((file, i) => {
+            //             form.append(paramName + '[' + i + ']', file)
+            //         })
+            //     })
+            //     $.ajax({
+            //         method: 'POST',
+            //         data: form,
+            //         processData: false,
+            //         contentType: false,
+            //         success: function(response) {
+            //             window.location.replace(response)
+            //         }
+            //     });
+            // });
+        })
     </script>
 @endsection

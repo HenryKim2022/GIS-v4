@@ -660,20 +660,5 @@ function initializeMapApp() {
 
 
 
-// Call the main function to initialize the map
-document.addEventListener('DOMContentLoaded', function (event) {
-    initializeMapApp();
-
-    const mapfirstload = document.getElementById('#map');
-    const clickEvent = new Event('click');
-    if (mapfirstload) {
-        mapfirstload.dispatchEvent(clickEvent);
-        event.stopPropagation();
-    }
-
-    mapfirstload.addEventListener('change', function(event) {
-        event.stopPropagation(); // Stop the event from bubbling up
-    });
-})
-
+initializeMapApp();
 

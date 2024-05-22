@@ -67,5 +67,65 @@
 
 
 
+ {{-- Leaflet from NPM Leaflet: --}}
+ <link rel="stylesheet" href="{{ asset('public/plugins/leaflet-official/leaflet.base.vlastest/dist/leaflet.css') }}" />
 
+ {{-- LeafletFullscreen: For Old Browser: NOT USED! --}}
+ {{-- <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.v1.0.1/dist/leaflet.fullscreen.css') }}" />
+     <script src="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.v1.0.1/dist/Leaflet.fullscreen.min.js') }}">
+     </script> --}}
+
+ {{-- LeafletFullscreen: For Modern Browser --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.vlastest/Control.FullScreen.css') }}" />
+
+ {{-- LeafletGestureHandling --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.gesturehandling.vlastest/dist/leaflet-gesture-handling.min.css') }}" />
+
+ {{-- LeafletToolbar (base) --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.draw.toolbar/leaflet.toolbar.base.vlastest/dist/leaflet.toolbar.min.css') }}" />
+
+ {{-- LeafletLocateControl (addons) --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.locatecontrol.vlastest/dist/L.Control.Locate.min.css') }}" />
+
+ {{-- LeafletSearch (addons) --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.search.vlastest/src/leaflet-search.css') }}" />
+
+ {{-- LeafletViewReset (addons) --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.resetview/dist/L.Control.ResetView.min.css') }}" />
+
+ {{-- LeafletControlGeocoder (addons) --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.control.geocoder/dist/Control.Geocoder.css') }}" />
+
+ {{-- LeafletRoutingMachine (addons) --}}
+ <link rel="stylesheet"
+     href="{{ asset('public/plugins/leaflet-official/leaflet.routing.machine/dist/leaflet-routing-machine.css') }}" />
+{{-- LeafletExtraMarkers (addons) --}}
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.base.vlastest/dist/leaflet.js') }}"></script>
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.base.vlastest/dist/leaflet-src.js') }}"></script>
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.fullscreen.vlastest/Control.FullScreen.js') }}">
+ </script>
+ <script
+     src="{{ asset('public/plugins/leaflet-official/leaflet.gesturehandling.vlastest/dist/leaflet-gesture-handling.min.js') }}">
+ </script>
+ <script
+     src="{{ asset('public/plugins/leaflet-official/leaflet.draw.toolbar/leaflet.toolbar.base.vlastest/dist/leaflet.toolbar.min.js') }}">
+ </script>
+ <script
+     src="{{ asset('public/plugins/leaflet-official/leaflet.locatecontrol.vlastest/dist/L.Control.Locate.min.js') }}">
+ </script>
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.search.vlastest/src/leaflet-search.js') }}"></script>
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.resetview/dist/L.Control.ResetView.min.js') }}">
+ </script>
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.control.geocoder/dist/Control.Geocoder.js') }}">
+ </script>
+ <script src="{{ asset('public/plugins/leaflet-official/leaflet.routing.machine/dist/leaflet-routing-machine.js') }}">
+ </script>
 
