@@ -162,68 +162,62 @@
 
     <script>
         // GIVING CLASS ACTIVE TO CURRENT ACTIVE PAGE --> ASIDE MENU
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the current URL
-            var currentUrl = window.location.href;
-            // Get all menu items
-            var menuItems = document.querySelectorAll('.menu-item');
+        // Get the current URL
+        var currentUrl = window.location.href;
+        // Get all menu items
+        var menuItems = document.querySelectorAll('.menu-item');
 
-            // Loop through each menu item and check if the href matches
-            for (var i = 0; i < menuItems.length; i++) {
-                var menuItem = menuItems[i];
-                var menuLink = menuItem.querySelector('.menu-link');
+        // Loop through each menu item and check if the href matches
+        for (var i = 0; i < menuItems.length; i++) {
+            var menuItem = menuItems[i];
+            var menuLink = menuItem.querySelector('.menu-link');
 
-                // If the href matches the current URL, add the 'active' class
-                if (menuLink && menuLink.getAttribute('href') === currentUrl) {
-                    menuItem.classList.add('active');
+            // If the href matches the current URL, add the 'active' class
+            if (menuLink && menuLink.getAttribute('href') === currentUrl) {
+                menuItem.classList.add('active');
 
-                    // If there is a submenu, also add the 'active' class to the submenu's parent menu item
-                    var submenu = menuItem.querySelector('.menu-sub');
-                    if (submenu) {
-                        submenu.parentNode.classList.add('active');
-                    }
+                // If there is a submenu, also add the 'active' class to the submenu's parent menu item
+                var submenu = menuItem.querySelector('.menu-sub');
+                if (submenu) {
+                    submenu.parentNode.classList.add('active');
                 }
             }
-        });
+        }
     </script>
 
     <script>
         // GIVING CLASS OPEN TO CURRENT ACTIVE MENU --> ASIDE MENU
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all parent menu items that have a submenu
-            var parentMenuItems = document.querySelectorAll('.menu-item > .menu-link.menu-toggle');
+        // Get all parent menu items that have a submenu
+        var parentMenuItems = document.querySelectorAll('.menu-item > .menu-link.menu-toggle');
 
-            // Loop through each parent menu item
-            for (var i = 0; i < parentMenuItems.length; i++) {
-                var parentMenuItem = parentMenuItems[i].closest('.menu-item');
+        // Loop through each parent menu item
+        for (var i = 0; i < parentMenuItems.length; i++) {
+            var parentMenuItem = parentMenuItems[i].closest('.menu-item');
 
-                // Check if any of the parent menu item's children have the 'active' class
-                var hasActiveChild = parentMenuItem.querySelector('.menu-item.active');
+            // Check if any of the parent menu item's children have the 'active' class
+            var hasActiveChild = parentMenuItem.querySelector('.menu-item.active');
 
-                // Add the 'open' class to the parent menu item if it has an active child or the submenu item itself is open
-                if (hasActiveChild || parentMenuItem.classList.contains('open')) {
-                    parentMenuItem.classList.add('open');
-                }
+            // Add the 'open' class to the parent menu item if it has an active child or the submenu item itself is open
+            if (hasActiveChild || parentMenuItem.classList.contains('open')) {
+                parentMenuItem.classList.add('open');
             }
-        });
+        }
     </script>
 
     <script>
         // GIVING CLASS ACTIVE TO CURRENT PARENTMENUITEMS AFTER GIVEN CLASS OPEN by LAST JS --> ASIDE MENU
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all parent menu items that have a submenu
-            var parentMenuItems = document.querySelectorAll('.menu-item > .menu-link.menu-toggle');
+        // Get all parent menu items that have a submenu
+        var parentMenuItems = document.querySelectorAll('.menu-item > .menu-link.menu-toggle');
 
-            // Loop through each parent menu item
-            for (var i = 0; i < parentMenuItems.length; i++) {
-                var parentMenuItem = parentMenuItems[i].closest('.menu-item');
+        // Loop through each parent menu item
+        for (var i = 0; i < parentMenuItems.length; i++) {
+            var parentMenuItem = parentMenuItems[i].closest('.menu-item');
 
-                // Check if the parent menu item has the 'open' class
-                if (parentMenuItem.classList.contains('open')) {
-                    parentMenuItem.classList.add('active');
-                }
+            // Check if the parent menu item has the 'open' class
+            if (parentMenuItem.classList.contains('open')) {
+                parentMenuItem.classList.add('active');
             }
-        });
+        }
     </script>
 
 </aside>

@@ -652,7 +652,6 @@ function initializeMapApp() {
     // addGeocodeTracksControl(map, markersLayer);
     addResetViewControl(map);
     addLocateMeControl(map);
-    addMarkerOnContextMenu(map, markersLayer);
     // printAddrToConsole(map);
     testdialog(map);
 }

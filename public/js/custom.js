@@ -126,8 +126,7 @@ function showAlert(
             allowOutsideClick: false,
             allowEscapeKey: false,
             didOpen: function () { },
-            didClose: function () { },
-            zIndex: 1150
+            didClose: function () { }
         });
     }
 }
