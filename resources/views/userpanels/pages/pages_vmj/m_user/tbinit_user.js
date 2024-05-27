@@ -31,26 +31,21 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         },
         {
             targets: 3, // Target the second column (index 1)
-            responsivePriority: 8
+            responsivePriority: 4,
+            width: '0.5rem'
         },
         {
             targets: 4, // Target the second column (index 1)
             responsivePriority: 5
         },
         {
-            orderable: false,
-            targets: 5, // Target the second column (index 1)
-            responsivePriority: 6
-        },
-        {
-            orderable: false,
             targets: 6, // Target the second column (index 1)
             responsivePriority: 7
         },
         {
             targets: 7, // Target the second column (index 1)
-            responsivePriority: 3
-        },
+            responsivePriority: 8
+        }
     ],
     "buttons": [{
         "extend": 'collection',
@@ -76,25 +71,26 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "no"
     }, // Column '1': NO.
     {
-        "data": "name"
-    }, // Column '2': NAME
+        "data": "fullname"
+    }, // Column '2': USERNAME
     {
-        "data": "mark_id"
-    }, // Column '3': MARK-ID
+        "data": "user_name"
+    }, // Column '3': USERNAME
     {
-        "data": "mark_lat"
-    }, // Column '4': LAT
+        "data": "user_pwd"
+    }, // Column '4': PASSWORD
     {
-        "data": "mark_lon"
-    }, // Column '5': LON
+        "data": "user_image"
+    }, // Column '5': USERNAME
     {
         "data": "created_at"
     }, // Column '6': CREATED
     {
         "data": "updated_at"
-    } // Column '7': UPDATE
+    } // Column '7': UPDATED
     ]
 });
+
 
 // Fixed header
 if (window.Helpers.isNavbarFixed()) {
@@ -105,24 +101,51 @@ if (window.Helpers.isNavbarFixed()) {
 }
 
 
-// Delete Record
-$('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
-    var confirmed = confirm("Are you sure you want to this records?");
-    if (confirmed) {
-        dt_basic.row($(this).parents('tr')).remove().draw();
-    }
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Find all elements with the 'toggle-password' class
+    var togglePasswordButtons = document.querySelectorAll('.toggle-password');
+
+    // Iterate over each toggle button and attach a click event listener
+    togglePasswordButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var targetId = button.getAttribute('data-target');
+            var passwordInput = document.querySelector(targetId);
+
+            // Toggle the password input type between 'password' and 'text'
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                button.innerHTML = '<i class="mdi mdi-eye-outline"></i>';
+            } else {
+                passwordInput.type = 'password';
+                button.innerHTML = '<i class="mdi mdi-eye-off-outline"></i>';
+            }
+        });
+    });
 });
 
-// ResetRecord
-$('.reset-record').on('click', function () {
-    var confirmed = confirm("Are you sure you want to delete all records?");
-    if (confirmed) {
-        var tbody = $('#DataTables_Table_1 tbody');
-        tbody.empty();
-        tbody.append('<tr><td colspan="8" class="text-center">No data</td></tr>');
-    }
-});
+
+
+
+// // Delete Record
+// $('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
+//     var confirmed = confirm("Are you sure you want to delete this records?");
+//     if (confirmed) {
+//         dt_basic.row($(this).parents('tr')).remove().draw();
+//     }
+
+// });
+
+// // ResetRecord
+// $('#DataTables_Table_1 tbody .reset-record').on('click', function () {
+//     var confirmed = confirm("Are you sure you want to delete all records?");
+//     if (confirmed) {
+//         var tbody = $('#DataTables_Table_1 tbody');
+//         tbody.empty();
+//         tbody.append('<tr><td colspan="5" class="text-center">No data</td></tr>');
+//     }
+// });
 
 
 // Function to convert an image file to Base64 format

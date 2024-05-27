@@ -41,16 +41,7 @@ dt_basic = $('#DataTables_Table_1').DataTable({
             orderable: false,
             targets: 5, // Target the second column (index 1)
             responsivePriority: 6
-        },
-        {
-            orderable: false,
-            targets: 6, // Target the second column (index 1)
-            responsivePriority: 7
-        },
-        {
-            targets: 7, // Target the second column (index 1)
-            responsivePriority: 3
-        },
+        }
     ],
     "buttons": [{
         "extend": 'collection',
@@ -76,23 +67,17 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "no"
     }, // Column '1': NO.
     {
-        "data": "name"
-    }, // Column '2': NAME
+        "data": "latitude"
+    }, // Column '2': LAT
     {
-        "data": "mark_id"
-    }, // Column '3': MARK-ID
-    {
-        "data": "mark_lat"
-    }, // Column '4': LAT
-    {
-        "data": "mark_lon"
-    }, // Column '5': LON
+        "data": "longitude"
+    }, // Column '3': LON
     {
         "data": "created_at"
-    }, // Column '6': CREATED
+    }, // Column '4': CREATED
     {
         "data": "updated_at"
-    } // Column '7': UPDATE
+    } // Column '5': UPDATED
     ]
 });
 
@@ -105,24 +90,24 @@ if (window.Helpers.isNavbarFixed()) {
 }
 
 
-// Delete Record
-$('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
-    var confirmed = confirm("Are you sure you want to this records?");
-    if (confirmed) {
-        dt_basic.row($(this).parents('tr')).remove().draw();
-    }
+// // Delete Record
+// $('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
+//     var confirmed = confirm("Are you sure you want to delete this records?");
+//     if (confirmed) {
+//         dt_basic.row($(this).parents('tr')).remove().draw();
+//     }
 
-});
+// });
 
-// ResetRecord
-$('.reset-record').on('click', function () {
-    var confirmed = confirm("Are you sure you want to delete all records?");
-    if (confirmed) {
-        var tbody = $('#DataTables_Table_1 tbody');
-        tbody.empty();
-        tbody.append('<tr><td colspan="8" class="text-center">No data</td></tr>');
-    }
-});
+// // ResetRecord
+// $('#DataTables_Table_1 tbody .reset-record').on('click', function () {
+//     var confirmed = confirm("Are you sure you want to delete all records?");
+//     if (confirmed) {
+//         var tbody = $('#DataTables_Table_1 tbody');
+//         tbody.empty();
+//         tbody.append('<tr><td colspan="5" class="text-center">No data</td></tr>');
+//     }
+// });
 
 
 // Function to convert an image file to Base64 format

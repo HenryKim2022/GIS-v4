@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('tb_users', function (Blueprint $table) {
             $table->id('user_id');
+            $table->string('firstname', 45);
+            $table->string('lastname', 45);
             $table->string('user_name', 45);
             $table->string('user_pwd', 255);
             $table->string('user_image', 255);

@@ -1,4 +1,3 @@
-
 @php
     $page = Session::get('page');
     $page_title = $page['page_title'];
@@ -11,9 +10,9 @@
 
     <title>{{ env('APP_NAME') }} | {{ $page_title }}</title>
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @include('css.v_cssheader_collections')
-
 
     @yield('head_page_cssjs')
     @yield('scripts')

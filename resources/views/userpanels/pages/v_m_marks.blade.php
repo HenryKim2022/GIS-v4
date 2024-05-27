@@ -36,10 +36,11 @@
     @endphp
     {{-- HTML BELOW --}}
 
+
+
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light">UserPanels /</span> <a
                 href="{{ $page_url }}">{{ $page_title }}</a></h4>
-
 
         <div class="card">
             <div class="card-header p-0">
@@ -74,18 +75,18 @@
                     <div id="leaflet_card">
                         <div class="card mb-0">
                             <div class="card-header d-flex justify-content-end">
-                                <div class="d-inline-block">
+                                <div class="d-inline-block d-none">
                                     <a href="javascript:;"
                                         class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
                                         data-bs-toggle="dropdown"><i class="mdi mdi-table-cog"></i></a>
                                     <div class="dropdown-menu dropdown-menu-end m-0" style="z-index: 1086;">
-                                        <a href="javascript:;"
+                                        <a href="javascript:;" target="modal" data-bs-target="#addMarkModalTB"
                                             class="dropdown-item text-success add-record btn-sm mdi mdi-image-text">
                                             Add
                                             New Data</a>
                                         <div class="dropdown-divider"></div>
                                         <a href="javascript:;"
-                                            class="dropdown-item text-danger delete-record btn-sm mdi mdi-database-settings">
+                                            class="dropdown-item text-danger reset-all-marks-record btn-sm mdi mdi-database-settings">
                                             ResetTable</a>
                                     </div>
                                 </div>
@@ -127,11 +128,11 @@
                                     <div class="dropdown-menu dropdown-menu-end m-0">
                                         <a href="javascript:;"
                                             class="dropdown-item text-success add-record btn-sm mdi mdi-image-text"
-                                            data-bs-toggle="modal" data-bs-target="#addMarkModal"> Add
+                                            data-bs-toggle="modal" data-bs-target="#addMarkModalTB"> Add
                                             New Data</a>
                                         <div class="dropdown-divider"></div>
                                         <a href="javascript:;"
-                                            class="dropdown-item text-danger delete-record btn-sm mdi mdi-database-settings">
+                                            class="dropdown-item text-danger reset-all-marks-record btn-sm mdi mdi-database-settings">
                                             ResetTable</a>
                                     </div>
                                 </div>
@@ -141,67 +142,146 @@
                             <div class="card-body pt-0">
                                 <div class="card-datatable table-responsive">
                                     <!--/ TABLE -->
+
                                     <table id="DataTables_Table_1" class="dt-fixedheader table table-bordered">
-                                        <thead class="">
+                                        <thead>
                                             <tr>
-                                                <th class="control sorting_disabled dtr-hidden" rowspan="1"
-                                                    colspan="1" style="width: 12px !important;" aria-label="Actions">
-                                                    ACT</th>
-                                                <th>NAME</th>
-                                                <th>CAT</th>
-                                                <th>NPSN</th>
-                                                <th>LOGO</th>
-                                                <th>ADDR</th>
+                                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 18px;" aria-label="Actions">ACT</th>
+                                                <th>NO.</th>
+                                                <th>Latitude</th>
+                                                <th>Longitude</th>
+                                                <th>Created At</th>
+                                                <th>Updated At</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php
-                                                $count = 25;
-                                            @endphp
-                                            @for ($i = 0; $i < $count; $i++)
-                                                <tr>
-                                                    <td class="dtr-hidden" tabindex="0" style="">
-                                                        <div class="d-inline-block">
-                                                            <a href="javascript:;"
-                                                                class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown"><i
-                                                                    class="mdi mdi-dots-vertical"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-end m-0">
-                                                                <a href="javascript:;"
-                                                                    class="dropdown-item btn-text-success btn-sm mdi mdi-image-text">
-                                                                    Details</a>
-                                                                <a href="javascript:;"
-                                                                    class="dropdown-item btn-text-warning btn-sm mdi mdi-pencil-outline">
-                                                                    Edit</a>
-                                                                <div class="dropdown-divider"></div>
-                                                                <a href="javascript:;"
-                                                                    class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline">
-                                                                    Delete</a>
-                                                            </div>
+                                            @foreach ($loadMarksFromDB as $index => $mark)
+                                            <tr>
+                                                <td class="dtr-hidden" tabindex="0" style="">
+                                                    <!-- Action buttons -->
+                                                    <div class="d-inline-block">
+                                                        <a href="javascript:;"
+                                                            class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i
+                                                                class="mdi mdi-dots-vertical"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-end m-0">
+                                                            <a class="d-none" href="javascript:;"
+                                                                class="dropdown-item btn-text-success detail-record btn-sm mdi mdi-image-text">Details</a>
+
+                                                            <a href="javascript:;" mark_id_value="{{ $mark->mark_id }}"
+                                                                class="dropdown-item btn-text-warning edit-record-{{ $index+1 }} btn-sm mdi mdi-pencil-outline">Edit</a>
+
+                                                            <div class="dropdown-divider"></div>
+                                                            <a href="javascript:;" mark_id_value="{{ $mark->mark_id }}"
+                                                                class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline">Delete</a>
                                                         </div>
-
-                                                    </td>
-                                                    <td>John Doe</td>
-                                                    <td>Category 1</td>
-                                                    <td>1234567890</td>
-                                                    <td><img src="{{ asset(env(key: 'APP_NOIMAGE')) }}" alt="Logo 1"
-                                                            style="height: 24px; width: 24px;"></td>
-                                                    <td>Address 1</td>
-                                                </tr>
-                                            @endfor
-
-
+                                                    </div>
+                                                </td>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $mark->mark_lat }}</td>
+                                                <td>{{ $mark->mark_lon }}</td>
+                                                <td>{{ $mark->created_at }}</td>
+                                                <td>{{ $mark->updated_at }}</td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
+
+
+                                    <style>
+                                        .hover-image {
+                                            cursor: pointer;
+                                        }
+
+                                        #image-popup {
+                                            display: none;
+                                            position: fixed;
+                                            background-color: inherit;
+                                            padding: 10px;
+                                            box-shadow: inherit;
+                                            z-index: 9999;
+                                        }
+
+                                        #image-popup img {
+                                            width: 100%;
+                                        }
+
+                                        #image-popup .close-btn {
+                                            position: absolute;
+                                            top: 1rem;
+                                            right: 1.6rem;
+                                            cursor: pointer;
+                                            color: #fff;
+                                            background-color: rgba(248, 23, 23, 0.267);
+                                        }
+
+                                        #image-popup .close-btn:hover {
+                                            background-color: rgba(248, 23, 23, 0.945);
+                                        }
+                                    </style>
+                                    <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
+                                        {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
+                                        <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i
+                                                class="mdi mdi-close"></i></span>
+                                        <img src="" alt="Large Image" />
+                                    </div>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            const hoverImages = document.querySelectorAll('.hover-image');
+                                            const imagePopup = document.getElementById('image-popup');
+                                            const popupImage = imagePopup.querySelector('img');
+                                            const closeBtn = imagePopup.querySelector('.close-btn');
+
+                                            hoverImages.forEach(function(image) {
+                                                image.addEventListener('click', function() {
+                                                    const largeImageSrc = this.getAttribute('src');
+                                                    popupImage.src = largeImageSrc;
+                                                    imagePopup.style.display = 'block';
+                                                    centerPopup();
+                                                });
+                                            });
+
+                                            closeBtn.addEventListener('click', function() {
+                                                imagePopup.style.display = 'none';
+                                            });
+
+                                            // Center the popup when the window is resized
+                                            window.addEventListener('resize', function() {
+                                                if (imagePopup.style.display === 'block') {
+                                                    centerPopup();
+                                                }
+                                            });
+
+                                            // Function to center the popup
+                                            function centerPopup() {
+                                                const windowWidth = window.innerWidth;
+                                                const windowHeight = window.innerHeight;
+                                                const popupWidth = imagePopup.offsetWidth;
+                                                const popupHeight = imagePopup.offsetHeight;
+
+                                                const topPosition = (windowHeight - popupHeight) / 2;
+                                                const leftPosition = (windowWidth - popupWidth) / 2;
+
+                                                imagePopup.style.top = topPosition + 'px';
+                                                imagePopup.style.left = leftPosition + 'px';
+                                            }
+                                        });
+                                    </script>
+                                    <!--/ TABLE -->
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- MERGED MODALS: v_addmark_modal -->
+                    <!-- Modal to add new record -->
+                    <!-- MERGED MODALS: v_m_marks_modal -->
                     <div class="row justify-content-center">
                         <div class="col-md-6">
-                            @include('userpanels.modals.v_addmark_modal')
+                            {{-- @include('userpanels.modals.v_addmark_modal') --}}
+                            @include('userpanels.modals.vmm.m_mark.vm_addmark_modal_for_tb')
+                            @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_tb')
+
                         </div>
                     </div>
                     <!-- / v_addmark_modal -->
@@ -245,7 +325,7 @@
 
 
         </div>
-        <!--/ TABLE -->
+
 
     </div>
 @endsection
@@ -255,101 +335,11 @@
 
 @section('footer_page_js')
     {{-- <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script> --}}
-    <script>
-        $(document).ready(function() {
-            var dt_fixedheader = $('.dt-fixedheader');
-            $('#DataTables_Table_1').DataTable({
-                "paging": true,
-                "searching": true,
-                "pageLength": 10,
-                "lengthMenu": [10, 25, 50, 75, 100, 150, 200, 250, 300, 350, 400],
-                "info": true,
-                "ordering": true,
-                "columnDefs": [{
-                    "orderable": false,
-                    "targets": 0, // Disable sorting on Actions column
-                    "className": "control",
-                    // "width": "auto"
-                }]
-            });
 
-            // Fixed header
-            if (window.Helpers.isNavbarFixed()) {
-                var navHeight = $('#layout-navbar').outerHeight();
-                new $.fn.dataTable.FixedHeader(dt_fixedheader).headerOffset(navHeight);
-            } else {
-                new $.fn.dataTable.FixedHeader(dt_fixedheader);
-            }
-        });
-    </script>
-
-    <script>
-        $(document).ready(() => {
-            Dropzone.autoDiscover = false;
-            const dropzones = []
-            $('.dropzone').each(function(i, el) {
-                const name = 'g_' + $(el).data('field')
-
-                const previewTemplate = `<div class="dz-preview dz-file-preview">
-        <div class="dz-details">
-        <div class="dz-thumbnail">
-            <img data-dz-thumbnail>
-            <span class="dz-nopreview">No preview</span>
-            <div class="dz-success-mark"></div>
-            <div class="dz-error-mark"></div>
-            <div class="dz-error-message"><span data-dz-errormessage></span></div>
-            <div class="dz-complete">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
-                </div>
-            </div>
-
-        </div>
-        <div class="dz-filename" data-dz-name></div>
-        <div class="dz-size" data-dz-size></div>
-        </div>
-        </div>`;
-
-
-                var myDropzone = new Dropzone(el, {
-                    previewTemplate: previewTemplate,
-                    url: window.location.pathname,
-                    autoProcessQueue: false,
-                    uploadMultiple: true,
-                    parallelUploads: 100,
-                    maxFiles: 100,
-                    paramName: name,
-                    addRemoveLinks: true,
-                })
-                dropzones.push(myDropzone)
-            })
-
-            // document.querySelector("button[type=submit]").addEventListener("click", function(e) {
-            //     // Make sure that the form isn't actually being sent.
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            //     let form = new FormData($('form')[0])
-
-            //     dropzones.forEach(dropzone => {
-            //         let {
-            //             paramName
-            //         } = dropzone.options
-            //         dropzone.files.forEach((file, i) => {
-            //             form.append(paramName + '[' + i + ']', file)
-            //         })
-            //     })
-            //     $.ajax({
-            //         method: 'POST',
-            //         data: form,
-            //         processData: false,
-            //         contentType: false,
-            //         success: function(response) {
-            //             window.location.replace(response)
-            //         }
-            //     });
-            // });
-        })
-    </script>
-
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/tbinit_mark.js') }}"></script>
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/add_mark_for_tb.js') }}"></script> --}}
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_tb.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_tb.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>
 
 @endsection

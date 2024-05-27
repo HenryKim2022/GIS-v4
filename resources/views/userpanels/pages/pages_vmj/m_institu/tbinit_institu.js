@@ -38,19 +38,9 @@ dt_basic = $('#DataTables_Table_1').DataTable({
             responsivePriority: 5
         },
         {
-            orderable: false,
             targets: 5, // Target the second column (index 1)
             responsivePriority: 6
-        },
-        {
-            orderable: false,
-            targets: 6, // Target the second column (index 1)
-            responsivePriority: 7
-        },
-        {
-            targets: 7, // Target the second column (index 1)
-            responsivePriority: 3
-        },
+        }
     ],
     "buttons": [{
         "extend": 'collection',
@@ -79,20 +69,20 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "name"
     }, // Column '2': NAME
     {
-        "data": "mark_id"
-    }, // Column '3': MARK-ID
+        "data": "cat_id"
+    }, // Column '3': CAT
     {
-        "data": "mark_lat"
-    }, // Column '4': LAT
+        "data": "npsn"
+    }, // Column '4': NPSN
     {
-        "data": "mark_lon"
-    }, // Column '5': LON
+        "data": "logo"
+    }, // Column '5': LOGO
     {
-        "data": "created_at"
-    }, // Column '6': CREATED
+        "data": "images"
+    }, // Column '6': IMAGES
     {
-        "data": "updated_at"
-    } // Column '7': UPDATE
+        "data": "addr"
+    } // Column '7': ADDR
     ]
 });
 
@@ -105,14 +95,14 @@ if (window.Helpers.isNavbarFixed()) {
 }
 
 
-// Delete Record
-$('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
-    var confirmed = confirm("Are you sure you want to this records?");
-    if (confirmed) {
-        dt_basic.row($(this).parents('tr')).remove().draw();
-    }
+// // Delete Record
+// $('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
+//     var confirmed = confirm("Are you sure you want to this records?");
+//     if (confirmed) {
+//         dt_basic.row($(this).parents('tr')).remove().draw();
+//     }
 
-});
+// });
 
 // ResetRecord
 $('.reset-record').on('click', function () {

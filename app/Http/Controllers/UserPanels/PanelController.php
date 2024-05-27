@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserPanels;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mark_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -22,56 +23,37 @@ class PanelController extends Controller
 
 
     //
-    public function index(){
+    public function index()
+    {
         $process = $this->setPageSession("Dashboard", "dashboard");
-        if ($process){
+        if ($process) {
             return $this->setReturnView('userpanels/pages/v_dashboard');
         }
     }
 
-    public function myprofile(){
+    public function myprofile()
+    {
         $process = $this->setPageSession("My Profile", "myprofile");
-        if ($process){
+        if ($process) {
             return $this->setReturnView('userpanels/pages/v_userprofile');
         }
-
     }
 
-    public function logout(){
+    public function logout()
+    {
         $process = $this->setPageSession("Login Page", "login");
-        if ($process){
+        if ($process) {
             return Redirect::to('/login');
         }
     }
 
-    public function manage_institutions(){
+    public function manage_institutions()
+    {
         $process = $this->setPageSession("Manage Institutions", "m-inst");
-        if ($process){
+        if ($process) {
             return $this->setReturnView('userpanels/pages/v_m_institutions');
         }
     }
-
-    public function manage_institutions_cat(){
-        $process = $this->setPageSession("Manage Institution Categories", "m-categories");
-        if ($process){
-            return $this->setReturnView('userpanels/pages/v_m_categories');
-        }
-    }
-
-    public function manage_markings(){
-        $process = $this->setPageSession("Manage Markings", "m-mark");
-        if ($process){
-            return $this->setReturnView('userpanels/pages/v_m_marks');
-        }
-    }
-
-    public function manage_users(){
-        $process = $this->setPageSession("Manage Users", "m-users");
-        if ($process){
-            return $this->setReturnView('userpanels/pages/v_m_users');
-        }
-    }
-
 
 
 
@@ -79,18 +61,23 @@ class PanelController extends Controller
 
 
     ///////////////////////////// PAGE TITLE & URL SETTER ////////////////////////////
-    public function setPageSession($pageTitle, $pageUrl){
+    public function setPageSession($pageTitle, $pageUrl, $lastTab = "")    // Param1 = page title, Param2 = page url !
+    {
         $pageData = Session::get('page');
         $pageData['page_title'] = $pageTitle;
         $pageData['page_url'] = $pageUrl;
+
+        $lastTab = $lastTab == "" ? 'from-maps' : $lastTab;
+        $pageData['last_tab'] = $lastTab;
 
         // Store the updated array back in the session
         Session::put('page', $pageData);
         return true;
     }
-    public function setReturnView($viewurl){
+    public function setReturnView($viewurl, $loadMarksFromDB = [])
+    {
         $pageData = Session::get('page');
-        return view($viewurl, ['pageData' => $pageData]);
+        $mergedData = array_merge($loadMarksFromDB, ['pageData' => $pageData]);
+        return view($viewurl, $mergedData);
     }
-
 }

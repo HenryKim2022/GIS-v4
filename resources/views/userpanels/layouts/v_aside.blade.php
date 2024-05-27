@@ -88,7 +88,7 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item">
-                            <a href="{{ route('m-categories') }}" class="menu-link">
+                            <a href="{{ route('m-categories.index') }}" class="menu-link">
                                 <i class="menu-icon tf-icons mdi mdi-factory"></i>
                                 <div data-i18n="Categories"> Categories</div>
                             </a>
@@ -103,7 +103,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="{{ route('m-markings') }}" class="menu-link">
+                    <a href="{{ route('m-markings.index') }}" class="menu-link">
                         <div data-i18n="Marking List">Marking List</div>
                     </a>
                 </li>
@@ -123,7 +123,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="{{ route('m-userlist') }}" class="menu-link">
+                    <a href="{{ route('m-ul.index') }}" class="menu-link">
                         <div data-i18n="User List">User List</div>
                     </a>
                 </li>

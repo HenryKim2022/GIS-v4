@@ -322,7 +322,7 @@
                         <div class="col-12 text-center">
                             <div class="d-flex flex-col justify-content-end">
                                 <button class="modal-mark-cancel-btn btn btn-primary me-2" data-bs-dismiss="modal"
-                                    onclick="closeModal()">Cancel</button>
+                                    onclick="closeModal()" type="button">Cancel</button>
                                 <button class="modal-mark-save-btn btn btn-success" type="submit"
                                     onclick="closeModal()">Save</button>
                             </div>

@@ -9,6 +9,9 @@ use App\Http\Controllers\Setups\ConfigurationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserPanels\PanelController;
+use App\Http\Controllers\Marks\MarkController;
+use App\Http\Controllers\Categories\CategoryController;
+use App\Http\Controllers\Users\UserController;
 
 
 
@@ -82,7 +85,34 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
     Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
     Route::get('/m-inst', [PanelController::class, 'manage_institutions'])->name('m-institutions');
-    Route::get('/m-categories', [PanelController::class, 'manage_institutions_cat'])->name('m-categories');
-    Route::get('/m-mark', [PanelController::class, 'manage_markings'])->name('m-markings');
-    Route::get('/m-userlist', [PanelController::class, 'manage_users'])->name('m-userlist');
+
+
+    Route::get('/m-mark', [MarkController::class, 'index'])->name('m-markings.index');
+    // Route::post('/m-mark', [MarkController::class, 'add_marking'])->name('m-markings.post');
+    Route::post('/m-mark/add-mark', [MarkController::class, 'add_marking'])->name('m-markings.post');
+    Route::post('/m-mark/get-mark', [MarkController::class, 'get_marking'])->name('m-mark-data.get');
+    Route::post('/m-mark/edit-mark', [MarkController::class, 'edit_marking'])->name('m-mark-data.edit');
+    Route::post('/m-mark/update-mark', [MarkController::class, 'update_marking'])->name('m-mark-data.update');
+    Route::post('/m-mark/delete-mark', [MarkController::class, 'delete_marking'])->name('m-mark-data.delete');
+    Route::post('/m-mark/reset', [MarkController::class, 'reset_marking'])->name('m-mark-data.reset');
+
+
+    Route::get('/m-categories', [CategoryController::class, 'index'])->name('m-categories.index');
+    Route::post('/m-categories/add-cat', [CategoryController::class, 'add_categories'])->name('m-categories.post');
+    Route::post('/m-categories/get-cat', [CategoryController::class, 'get_categories'])->name('m-cat-data.get');
+    Route::post('/m-categories/edit-cat', [CategoryController::class, 'edit_categories'])->name('m-cat-data.edit');
+    Route::post('/m-categories/update-cat', [CategoryController::class, 'update_categories'])->name('m-cat-data.update');
+    Route::post('/m-categories/delete-cat', [CategoryController::class, 'delete_categories'])->name('m-cat-data.delete');
+    Route::post('/m-categories/reset', [CategoryController::class, 'reset_categories'])->name('m-cat-data.reset');
+
+
+
+    Route::get('/m-userlist', [UserController::class, 'index'])->name('m-ul.index');
+    Route::post('/m-userlist/add-u', [UserController::class, 'add_user'])->name('m-ul.post');
+    Route::post('/m-userlist/get-u', [UserController::class, 'get_user'])->name('m-ul-data.get');
+    Route::post('/m-userlist/edit-u', [UserController::class, 'edit_user'])->name('m-ul-data.edit');
+    Route::post('/m-userlist/update-u', [UserController::class, 'update_user'])->name('m-ul-data.update');
+    Route::post('/m-userlist/delete-u', [UserController::class, 'delete_user'])->name('m-ul-data.delete');
+    Route::post('/m-userlist/reset', [UserController::class, 'reset_user'])->name('m-ul-data.reset');
+
 }
