@@ -874,6 +874,17 @@
     <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script>
 
     <script>
+        var hover_images = document.querySelectorAll('.hover-image');
+        if (hover_images.length > 0) {
+            hover_images.forEach(function(hover_img) {
+                hover_img.setAttribute('data-bs-toggle', 'tooltip');
+                hover_img.setAttribute('data-bs-placement', 'top');
+                hover_img.setAttribute('title', 'Click to Enlarge!');
+            });
+        }
+    </script>
+
+    <script>
         $(document).ready(() => {
             Dropzone.autoDiscover = false;
             const dropzones = []
@@ -940,5 +951,4 @@
             // });
         })
     </script>
-
 @endsection

@@ -38,9 +38,13 @@ dt_basic = $('#DataTables_Table_1').DataTable({
             responsivePriority: 5
         },
         {
-            orderable: false,
             targets: 5, // Target the second column (index 1)
             responsivePriority: 6
+        },
+        {
+            orderable: false,
+            targets: 6, // Target the second column (index 1)
+            responsivePriority: 4
         }
     ],
     "buttons": [{
@@ -73,11 +77,14 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "longitude"
     }, // Column '3': LON
     {
+        "data": "mark_address"
+    }, // Column '4': MARK ADDRESS
+    {
         "data": "created_at"
-    }, // Column '4': CREATED
+    }, // Column '5': CREATED
     {
         "data": "updated_at"
-    } // Column '5': UPDATED
+    } // Column '6': UPDATED
     ]
 });
 

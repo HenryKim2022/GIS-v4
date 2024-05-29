@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('mark_id'); // Set 'mark_id' as primary key
             $table->string('mark_lat', 20);
             $table->string('mark_lon', 20);
+            $table->string('mark_address', 255);
             $table->timestamps();
             $table->softDeletes();
         });

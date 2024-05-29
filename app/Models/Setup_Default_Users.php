@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Setup_Default_Users extends Model
 {
     use HasFactory;
-
     use SoftDeletes;
 
     protected $table = 'tb_users';

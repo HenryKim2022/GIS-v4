@@ -15,35 +15,30 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         {
             orderable: false,
             targets: 0, // Disable sorting on the first and second columns
-            // width: '0.1rem',
+            width: '0.1rem',
             className: 'control',
-            responsivePriority: 0
+            responsivePriority: 1
             // "width": "auto"
         },
         {
             targets: 1, // Target the second column (index 1)
-            // width: '0.1rem', // Set the width of the second column
-            responsivePriority: 1
-        },
-        {
-            targets: 2, // Target the second column (index 1)
+            width: '0.1rem', // Set the width of the second column
             responsivePriority: 2
         },
         {
-            targets: 3, // Target the second column (index 1)
+            targets: 2, // Target the second column (index 1)
             responsivePriority: 3
         },
         {
-            targets: 4, // Target the second column (index 1)
-            responsivePriority: 4
+            targets: 3, // Target the second column (index 1)
+            responsivePriority: 8
         },
         {
-            targets: 5, // Target the second column (index 1)
+            targets: 4, // Target the second column (index 1)
             responsivePriority: 5
         },
         {
-            orderable: false,
-            targets: 6, // Target the second column (index 1)
+            targets: 5, // Target the second column (index 1)
             responsivePriority: 6
         }
     ],
@@ -71,24 +66,25 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "no"
     }, // Column '1': NO.
     {
-        "data": "institu_name"
-    }, // Column '2': LAT
+        "data": "name"
+    }, // Column '2': NAME
     {
-        "data": "institu_npsn"
-    }, // Column '3': LON
+        "data": "cat_id"
+    }, // Column '3': CAT
     {
-        "data": "mark_address"
-    }, // Column '4': ADDRESS
+        "data": "npsn"
+    }, // Column '4': NPSN
     {
-        "data": "institu_logo"
+        "data": "logo"
     }, // Column '5': LOGO
     {
-        "data": "updated_at"
-    }  // Column '6': UPDATED
+        "data": "images"
+    }, // Column '6': IMAGES
+    {
+        "data": "addr"
+    } // Column '7': ADDR
     ]
 });
-
-
 
 // Fixed header
 if (window.Helpers.isNavbarFixed()) {
@@ -99,86 +95,24 @@ if (window.Helpers.isNavbarFixed()) {
 }
 
 
-
-var addRecordBtn = document.querySelector('.add-institution-record');
-if (addRecordBtn) {
-    addRecordBtn.addEventListener('click', function () {
-        // Make an AJAX request to get the data mark & category select-list
-        $.ajax({
-            url: '/m-inst/load-select-list-addmodal',
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                action: 'Get Mark & Category List for Select-list usage'
-            },
-            success: function (response) {
-                // Handle the success response
-                console.log('Data mark & category select list loaded successfully:', response);
-
-                // Close the modal if needed
-
-                // Populate the select options for modalEditInstitutionMARKID1
-                var markSelect = $('#addInstituModalTB #modalEditInstitutionMARKID1');
-                markSelect.empty(); // Clear existing options
-                markSelect.append($('<option>', { value: "", text: "Select Mark" }));
-
-                $.each(response.markList, function (index, markOption) {
-                    var option = $('<option>', { value: markOption.value, text: `[${markOption.value}] ${markOption.text}` });
-                    if (markOption.selected) {
-                        option.attr('selected', 'selected'); // Select the option
-                    }
-                    markSelect.append(option);
-                });
-
-                // Populate the select options for modalEditInstitutionCATID1
-                var catSelect = $('#addInstituModalTB #modalEditInstitutionCATID1');
-                catSelect.empty(); // Clear existing options
-                catSelect.append($('<option>', { value: "", text: "Select Category" }));
-
-                $.each(response.catList, function (index, catOption) {
-                    var option = $('<option>', { value: catOption.value, text: `[${catOption.value}] ${catOption.text}` });
-                    if (catOption.selected) {
-                        option.attr('selected', 'selected'); // Select the option
-                    }
-                    catSelect.append(option);
-                });
-            },
-            error: function (error) {
-                // Handle the error response
-                console.log('Error occurred while loading the data:', error);
-            }
-        });
-
-    });
-}
-
-
-
-
-
-
-
-
 // // Delete Record
 // $('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
-//     var confirmed = confirm("Are you sure you want to delete this records?");
+//     var confirmed = confirm("Are you sure you want to this records?");
 //     if (confirmed) {
 //         dt_basic.row($(this).parents('tr')).remove().draw();
 //     }
 
 // });
 
-// // ResetRecord
-// $('#DataTables_Table_1 tbody .reset-record').on('click', function () {
-//     var confirmed = confirm("Are you sure you want to delete all records?");
-//     if (confirmed) {
-//         var tbody = $('#DataTables_Table_1 tbody');
-//         tbody.empty();
-//         tbody.append('<tr><td colspan="5" class="text-center">No data</td></tr>');
-//     }
-// });
+// ResetRecord
+$('.reset-record').on('click', function () {
+    var confirmed = confirm("Are you sure you want to delete all records?");
+    if (confirmed) {
+        var tbody = $('#DataTables_Table_1 tbody');
+        tbody.empty();
+        tbody.append('<tr><td colspan="8" class="text-center">No data</td></tr>');
+    }
+});
 
 
 // Function to convert an image file to Base64 format
@@ -195,9 +129,8 @@ function imageToBase64(file) {
 
 
 // PART: SET DROPZONE
-// setDropZone();
 function setDropZone() {
-    Dropzones.autoDiscover = false;
+    Dropzone.autoDiscover = false;
     const dropzones = []
     $('.dropzone').each(function (i, el) {
         const name = 'g_' + $(el).data('field')
@@ -225,8 +158,7 @@ function setDropZone() {
 
         var myDropzone = new Dropzone(el, {
             previewTemplate: previewTemplate,
-            // url: window.location.pathname,
-            url: '/public/storage/',
+            url: window.location.pathname,
             autoProcessQueue: false,
             uploadMultiple: true,
             parallelUploads: 100,
@@ -243,7 +175,7 @@ function setDropZone() {
         });
 
         dropzones.push(myDropzone)
-    });
+    })
 
     // document.querySelector("button[type=submit]").addEventListener("click", function(e) {
     //     // Make sure that the form isn't actually being sent.

@@ -19,12 +19,18 @@
                             <label for="modalEditLatitude1">Latitude</label>
                         </div>
                     </div>
-
                     <div class="col-12 col-md-6">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalEditLongitude1" name="modalEditLongitude1" class="form-control"
                                 placeholder="longitude" required />
                             <label for="modalEditLongitude1">Logitude</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-floating form-floating-outline">
+                            <input type="text" id="modalEditMarkAddress1" name="modalEditMarkAddress1" class="form-control"
+                                placeholder="address" required />
+                            <label for="modalEditMarkAddress1">Mark Address</label>
                         </div>
                     </div>
                     <div class="col-12 mb-3">

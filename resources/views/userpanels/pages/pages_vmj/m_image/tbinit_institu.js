@@ -42,9 +42,13 @@ dt_basic = $('#DataTables_Table_1').DataTable({
             responsivePriority: 5
         },
         {
-            orderable: false,
             targets: 6, // Target the second column (index 1)
             responsivePriority: 6
+        },
+        {
+            orderable: false,
+            targets: 7, // Target the second column (index 1)
+            responsivePriority: 7
         }
     ],
     "buttons": [{
@@ -83,8 +87,11 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "institu_logo"
     }, // Column '5': LOGO
     {
+        "data": "institu_image"
+    }, // Column '6': MARK ADDRESS
+    {
         "data": "updated_at"
-    }  // Column '6': UPDATED
+    }  // Column '7': UPDATED
     ]
 });
 
@@ -100,12 +107,12 @@ if (window.Helpers.isNavbarFixed()) {
 
 
 
-var addRecordBtn = document.querySelector('.add-institution-record');
+const addRecordBtn = document.querySelector('.add-institution-record');
 if (addRecordBtn) {
     addRecordBtn.addEventListener('click', function () {
         // Make an AJAX request to get the data mark & category select-list
         $.ajax({
-            url: '/m-inst/load-select-list-addmodal',
+            url: '/m-inst/load-select-list',
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -122,7 +129,6 @@ if (addRecordBtn) {
                 // Populate the select options for modalEditInstitutionMARKID1
                 var markSelect = $('#addInstituModalTB #modalEditInstitutionMARKID1');
                 markSelect.empty(); // Clear existing options
-                markSelect.append($('<option>', { value: "", text: "Select Mark" }));
 
                 $.each(response.markList, function (index, markOption) {
                     var option = $('<option>', { value: markOption.value, text: `[${markOption.value}] ${markOption.text}` });
@@ -135,7 +141,6 @@ if (addRecordBtn) {
                 // Populate the select options for modalEditInstitutionCATID1
                 var catSelect = $('#addInstituModalTB #modalEditInstitutionCATID1');
                 catSelect.empty(); // Clear existing options
-                catSelect.append($('<option>', { value: "", text: "Select Category" }));
 
                 $.each(response.catList, function (index, catOption) {
                     var option = $('<option>', { value: catOption.value, text: `[${catOption.value}] ${catOption.text}` });
@@ -153,10 +158,6 @@ if (addRecordBtn) {
 
     });
 }
-
-
-
-
 
 
 

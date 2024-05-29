@@ -29,13 +29,20 @@ $dbname = $envVariables['DB_DATABASE'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+$ignoredTables = [
+    'migrations', 'password_reset_tokens', 'failed_jobs', 'personal_access_tokens', 'users'
+]; // Define the ignored table names here
+
 $tables = [];
 $query = "SHOW TABLES";
 $result = $conn->query($query);
 
 if ($result) {
     while ($row = $result->fetch_row()) {
-        $tables[] = $row[0];
+        $tableName = $row[0];
+        if (!in_array($tableName, $ignoredTables)) {
+            $tables[] = $tableName;
+        }
     }
 }
 

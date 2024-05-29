@@ -50,6 +50,7 @@
 <!-- Page JS -->
 <script src="{{ asset('public/materialize/assets/js/dashboards-analytics.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/js/front-page-landing.js') }}"></script>
+<script src="{{ asset('public/materialize/assets/js/ui-popover.js') }}"></script>
 {{-- <script src="{{ asset('public/materialize/assets/js/forms-file-upload.js') }}"></script> --}}
 
 @yield('footer_page_js')
@@ -58,9 +59,3 @@
 {{-- <script src="{{ asset('public/materialize/assets/js/maps-leaflet.js') }}"></script> --}}
 
 <script src="{{ asset('public/materialize/assets/js/app-user-view-account.js') }}"></script>
-
-
-
-
-
-

@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id('institu_id');
             $table->string('institu_name', 45);
             $table->string('institu_npsn', 20);
-            $table->string('institu_logo', 254);
-            $table->string('institu_address', 254);
-            $table->string('institu_image', 254);
+            $table->string('institu_logo', 255);
             $table->foreignId('mark_id')->constrained('tb_mark', 'mark_id'); // Specify 'mark_id' as the foreign key column
             $table->foreignId('cat_id')->constrained('tb_category', 'cat_id');
             $table->timestamps();

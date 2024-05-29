@@ -69,10 +69,10 @@
                                 <tr>
                                     <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
                                         style="width: 18px;" aria-label="Actions">ACT</th>
-                                    <th>NO.</th>
-                                    <th>Category Name</th>
-                                    <th>Created At</th>
-                                    <th>Updated At</th>
+                                    <th style="width: 18px;">NO.</th>
+                                    <th>CATEGORY NAME</th>
+                                    <th>CREATED</th>
+                                    <th>LAST-UPDATE</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -183,6 +183,15 @@
 
                                     imagePopup.style.top = topPosition + 'px';
                                     imagePopup.style.left = leftPosition + 'px';
+                                }
+
+                                var hover_images = document.querySelectorAll('.hover-image');
+                                if (hover_images.length > 0) {
+                                    hover_images.forEach(function(hover_img) {
+                                        hover_img.setAttribute('data-bs-toggle', 'tooltip');
+                                        hover_img.setAttribute('data-bs-placement', 'top');
+                                        hover_img.setAttribute('title', 'Click to Enlarge!');
+                                    });
                                 }
                             });
                         </script>

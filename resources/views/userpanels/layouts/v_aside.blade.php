@@ -83,6 +83,11 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
+                    <a href="{{ route('m-markings.index') }}" class="menu-link">
+                        <div data-i18n="Marking List">Marking List</div>
+                    </a>
+                </li>
+                <li class="menu-item">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div data-i18n="Institutions">Institutions</div>
                     </a>
@@ -94,19 +99,21 @@
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ route('m-institutions') }}" class="menu-link">
+                            <a href="{{ route('m-inst.index') }}" class="menu-link">
                                 <i class="menu-icon tf-icons mdi mdi-clipboard-list-outline"></i>
                                 <div data-i18n="List"> List</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ route('m-image.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons mdi mdi-image-multiple-outline"></i>
+                                <div data-i18n="Images"> Images</div>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="menu-item">
-                    <a href="{{ route('m-markings.index') }}" class="menu-link">
-                        <div data-i18n="Marking List">Marking List</div>
-                    </a>
-                </li>
+
             </ul>
         </li>
         <!-- manage-maps menu end -->

@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const modalSelector = document.getElementById('addMarkModalTB');
+    const modalSelector = document.getElementById('addInstituModalTB');
     const modalToShow = new bootstrap.Modal(modalSelector);
-    const targetedModalForm = document.querySelector('#addMarkModalTB #addMarkForm');
+    const targetedModalForm = document.querySelector('#addInstituModalTB #addInstituForm');
 
 
     if (modalSelector) {
         setTimeout(() => {
-            const saveRecordBtn = document.querySelector('#addMarkModalTB #addMarkForm .modal-mark-save-btn');
+            const saveRecordBtn = document.querySelector('#addInstituModalTB #addInstituForm .modal-mark-save-btn');
             if (saveRecordBtn) {
                 saveRecordBtn.addEventListener('click', function () {
                     var markID = $('#modalEditMarkID').val();
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        const saveRecordBtn = document.querySelector('#addMarkModalTB .modal-mark-save-btn');
+        const saveRecordBtn = document.querySelector('#addInstituModalTB .modal-mark-save-btn');
         if (saveRecordBtn) {
             saveRecordBtn.addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent the default button behavior

@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(Setup_Default_Users_Seeder::class);
+        $this->call(Setup_Default_WFK::class);
     }
 }

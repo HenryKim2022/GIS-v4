@@ -32,7 +32,8 @@
     {{-- HTML BELOW --}}
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">UserPanels /</span> <a href="{{ $page_url }}">{{ $page_title }}</a></h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light">UserPanels /</span> <a
+                href="{{ $page_url }}">{{ $page_title }}</a></h4>
 
 
         <div class="card">
@@ -61,7 +62,7 @@
                         <tr>
                             <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
                                 style="width: 18px;" aria-label="Actions">ACT</th>
-                            <th>NO.</th>
+                            <th style="width: 18px;">NO.</th>
                             <th>FULLNAME</th>
                             <th>USERNAME</th>
                             <th>PASSWORD</th>
@@ -97,7 +98,7 @@
                                     @if (!$user->lastname && $user->lastname == null)
                                         {{ $user->firstname }}
                                     @else
-                                        {{ $user->firstname . " " . $user->lastname }}
+                                        {{ $user->firstname . ' ' . $user->lastname }}
                                     @endif
                                 </td>
                                 <td>{{ $user->user_name }}</td>
@@ -106,11 +107,14 @@
                                         <div class="form-password-toggle">
                                             <div class="input-group input-group-merge">
                                                 <div class="form-floating form-floating-outline">
-                                                    <input type="password" id="user-{{ $user->user_id }}-password" class="form-control px-0 border-0"
+                                                    <input type="password" id="user-{{ $user->user_id }}-password"
+                                                        class="form-control px-0 border-0"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="user-{{ $user->user_id }}-password" value="{{ $user->user_pwd }}" readonly />
+                                                        aria-describedby="user-{{ $user->user_id }}-password"
+                                                        value="{{ $user->user_pwd }}" readonly />
                                                 </div>
-                                                <span class="input-group-text cursor-pointer border-0 toggle-password" style="padding-right: 0px"
+                                                <span class="input-group-text cursor-pointer border-0 toggle-password"
+                                                    style="padding-right: 0px"
                                                     data-target="#user-{{ $user->user_id }}-password">
                                                     <i class="mdi mdi-eye-off-outline"></i>
                                                 </span>
@@ -120,15 +124,13 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-around">
-                                        <img src="{{ $user->user_image != null ? $user->user_image : asset(env(key: 'APP_NOIMAGE')) }}" alt="Logo 1"
-                                            style="height: 24px; width: 24px;" class="hover-image">
+                                        <img src="{{ $user->user_image != null ? $user->user_image : asset(env(key: 'APP_NOIMAGE')) }}"
+                                            alt="Logo 1" style="height: 24px; width: 24px;" class="hover-image">
                                     </div>
                                 </td>
                                 <td>{{ $user->created_at }}</td>
                                 <td>{{ $user->updated_at }}</td>
                             </tr>
-
-
                         @endforeach
                     </tbody>
                 </table>
@@ -210,6 +212,15 @@
 
                             imagePopup.style.top = topPosition + 'px';
                             imagePopup.style.left = leftPosition + 'px';
+                        }
+
+                        var hover_images = document.querySelectorAll('.hover-image');
+                        if (hover_images.length > 0) {
+                            hover_images.forEach(function(hover_img) {
+                                hover_img.setAttribute('data-bs-toggle', 'tooltip');
+                                hover_img.setAttribute('data-bs-placement', 'top');
+                                hover_img.setAttribute('title', 'Click to Enlarge!');
+                            });
                         }
                     });
                 </script>

@@ -146,43 +146,48 @@
                                     <table id="DataTables_Table_1" class="dt-fixedheader table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 18px;" aria-label="Actions">ACT</th>
-                                                <th>NO.</th>
-                                                <th>Latitude</th>
-                                                <th>Longitude</th>
-                                                <th>Created At</th>
-                                                <th>Updated At</th>
+                                                <th class="control sorting_disabled dtr-hidden" rowspan="1"
+                                                    colspan="1" style="width: 18px;" aria-label="Actions">ACT</th>
+                                                <th style="width: 18px;">NO.</th>
+                                                <th>LATITUDE</th>
+                                                <th>LONGITUDE</th>
+                                                <th>MARK-ADDR</th>
+                                                <th>CREATED</th>
+                                                <th>LAST-UPDATE</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($loadMarksFromDB as $index => $mark)
-                                            <tr>
-                                                <td class="dtr-hidden" tabindex="0" style="">
-                                                    <!-- Action buttons -->
-                                                    <div class="d-inline-block">
-                                                        <a href="javascript:;"
-                                                            class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
-                                                            data-bs-toggle="dropdown"><i
-                                                                class="mdi mdi-dots-vertical"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end m-0">
-                                                            <a class="d-none" href="javascript:;"
-                                                                class="dropdown-item btn-text-success detail-record btn-sm mdi mdi-image-text">Details</a>
+                                                <tr>
+                                                    <td class="dtr-hidden" tabindex="0" style="">
+                                                        <!-- Action buttons -->
+                                                        <div class="d-inline-block">
+                                                            <a href="javascript:;"
+                                                                class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown"><i
+                                                                    class="mdi mdi-dots-vertical"></i></a>
+                                                            <div class="dropdown-menu dropdown-menu-end m-0">
+                                                                <a class="d-none" href="javascript:;"
+                                                                    class="dropdown-item btn-text-success detail-record btn-sm mdi mdi-image-text">Details</a>
 
-                                                            <a href="javascript:;" mark_id_value="{{ $mark->mark_id }}"
-                                                                class="dropdown-item btn-text-warning edit-record-{{ $index+1 }} btn-sm mdi mdi-pencil-outline">Edit</a>
+                                                                <a href="javascript:;"
+                                                                    mark_id_value="{{ $mark->mark_id }}"
+                                                                    class="dropdown-item btn-text-warning edit-record-{{ $index + 1 }} btn-sm mdi mdi-pencil-outline">Edit</a>
 
-                                                            <div class="dropdown-divider"></div>
-                                                            <a href="javascript:;" mark_id_value="{{ $mark->mark_id }}"
-                                                                class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline">Delete</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="javascript:;"
+                                                                    mark_id_value="{{ $mark->mark_id }}"
+                                                                    class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline">Delete</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $mark->mark_lat }}</td>
-                                                <td>{{ $mark->mark_lon }}</td>
-                                                <td>{{ $mark->created_at }}</td>
-                                                <td>{{ $mark->updated_at }}</td>
-                                            </tr>
+                                                    </td>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $mark->mark_lat }}</td>
+                                                    <td>{{ $mark->mark_lon }}</td>
+                                                    <td>{{ $mark->mark_address }}</td>
+                                                    <td>{{ $mark->created_at }}</td>
+                                                    <td>{{ $mark->updated_at }}</td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -265,6 +270,15 @@
                                                 imagePopup.style.top = topPosition + 'px';
                                                 imagePopup.style.left = leftPosition + 'px';
                                             }
+
+                                            var hover_images = document.querySelectorAll('.hover-image');
+                                            if (hover_images.length > 0) {
+                                                hover_images.forEach(function(hover_img) {
+                                                    hover_img.setAttribute('data-bs-toggle', 'tooltip');
+                                                    hover_img.setAttribute('data-bs-placement', 'top');
+                                                    hover_img.setAttribute('title', 'Click to Enlarge!');
+                                                });
+                                            }
                                         });
                                     </script>
                                     <!--/ TABLE -->
@@ -341,5 +355,4 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>
-
 @endsection

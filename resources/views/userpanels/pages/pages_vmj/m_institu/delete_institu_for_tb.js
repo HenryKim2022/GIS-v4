@@ -6,25 +6,25 @@ document.addEventListener('DOMContentLoaded', function () {
             if (confirmed) {
 
                 // Send AJAX request to delete the mark record
-                var catD = $(this).attr('cat_id_value');
+                var instID = $(this).attr('institu_id_value');
                 $.ajax({
-                    url: '/m-categories/delete-cat',
+                    url: '/m-inst/delete-inst',
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        cat_id: catD
+                        institu_id: instID
                     },
                     success: function (response) {
                         // Handle success response, e.g., reload the table or show a success message
-                        console.log('Mark deleted successfully');
+                        console.log('Institution deleted successfully');
                         dt_basic.row($(this).parents('tr')).remove().draw();
-                        // location.reload(); // Reload the page to update the table
+                        location.reload(); // Reload the page to update the table
                     },
                     error: function (error) {
                         // Handle error response, e.g., show an error message
-                        console.log('Error deleting mark:', error);
+                        console.log('Error deleting institution:', error);
                     }
                 });
             }

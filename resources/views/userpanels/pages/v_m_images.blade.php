@@ -75,6 +75,7 @@
                                     <th>NPSN</th>
                                     <th>ADDRESS</th>
                                     <th>LOGO</th>
+                                    <th>IMAGES</th>
                                     <th>LAST-UPDATE</th>
                                 </tr>
                             </thead>
@@ -92,7 +93,7 @@
                                                         class="dropdown-item btn-text-success detail-record btn-sm mdi mdi-image-text">Details</a>
 
                                                     <a href="javascript:;" institu_id_value="{{ $institu->institu_id }}"
-                                                        class="dropdown-item btn-text-warning edit-record btn-sm mdi mdi-pencil-outline">Edit</a>
+                                                        class="dropdown-item btn-text-warning edit-record-{{ $index + 1 }} btn-sm mdi mdi-pencil-outline">Edit</a>
 
                                                     <div class="dropdown-divider"></div>
                                                     <a href="javascript:;" institu_id_value="{{ $institu->institu_id }}"
@@ -110,6 +111,22 @@
                                             <div class="d-flex align-items-center justify-content-around">
                                                 <img src="{{ $institu->institu_logo != null ? $institu->institu_logo : asset(env(key: 'APP_NOIMAGE')) }}"
                                                     alt="Logo 1" style="height: 24px; width: 24px;" class="hover-image">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div
+                                                class="d-flex align-items-center justify-content-around gap-1 gap-md-0 gap-lg-0">
+                                                @if ($institu->tb_image != null)
+                                                    @foreach ($institu->tb_image as $img)
+                                                        <img src="{{ $img->img_src != null ? $img->img_src : asset(env(key: 'APP_NOIMAGE')) }}"
+                                                            alt="{{ $img->img_alt }}" class="hover-image mr-2"
+                                                            style="height: 24px; width: 24px;">
+                                                    @endforeach
+                                                @else
+                                                    Please, upload the images from [Manage Maps > Istitutions > Images]
+                                                @endif
+
+
                                             </div>
                                         </td>
                                         <td>{{ $institu->updated_at }}</td>
@@ -202,15 +219,11 @@
                                     hover_images.forEach(function(hover_img) {
                                         hover_img.setAttribute('data-bs-toggle', 'tooltip');
                                         hover_img.setAttribute('data-bs-placement', 'top');
-                                        hover_img.setAttribute('data-bs-custom-class', 'tooltip-primary');
                                         hover_img.setAttribute('title', 'Click to Enlarge!');
                                     });
                                 }
-
-
                             });
                         </script>
-
                         <!--/ TABLE -->
 
                     </div>
@@ -225,7 +238,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 @include('userpanels.modals.vmm.m_institu.vm_addinstitu_modal_for_tb')
-                @include('userpanels.modals.vmm.m_institu.vm_editinstitu_modal_for_tb')
+                {{-- @include('userpanels.modals.vmm.m_institu.vm_editinstitu_modal_for_tb') --}}
 
             </div>
         </div>
@@ -242,8 +255,7 @@
     {{-- <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script> --}}
 
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/tbinit_institu.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/add_insititu_for_modal.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/edit_institu_for_tb.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/delete_institu_for_tb.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/reset_institu.js') }}"></script>
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/edit_institu_for_tb.js') }}"></script> --}}
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/delete_institu_for_tb.js') }}"></script> --}}
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/reset_institu.js') }}"></script> --}}
 @endsection

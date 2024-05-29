@@ -12,6 +12,8 @@ use App\Http\Controllers\UserPanels\PanelController;
 use App\Http\Controllers\Marks\MarkController;
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\Institutions\InstutionController;
+use App\Http\Controllers\Images\ImageController;
 
 
 
@@ -84,7 +86,6 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard.page');
     Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
     Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
-    Route::get('/m-inst', [PanelController::class, 'manage_institutions'])->name('m-institutions');
 
 
     Route::get('/m-mark', [MarkController::class, 'index'])->name('m-markings.index');
@@ -106,7 +107,6 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::post('/m-categories/reset', [CategoryController::class, 'reset_categories'])->name('m-cat-data.reset');
 
 
-
     Route::get('/m-userlist', [UserController::class, 'index'])->name('m-ul.index');
     Route::post('/m-userlist/add-u', [UserController::class, 'add_user'])->name('m-ul.post');
     Route::post('/m-userlist/get-u', [UserController::class, 'get_user'])->name('m-ul-data.get');
@@ -114,5 +114,27 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::post('/m-userlist/update-u', [UserController::class, 'update_user'])->name('m-ul-data.update');
     Route::post('/m-userlist/delete-u', [UserController::class, 'delete_user'])->name('m-ul-data.delete');
     Route::post('/m-userlist/reset', [UserController::class, 'reset_user'])->name('m-ul-data.reset');
+
+
+    Route::get('/m-inst', [InstutionController::class, 'index'])->name('m-inst.index');
+    Route::post('/m-inst/add-inst', [InstutionController::class, 'add_inst'])->name('m-inst.post');
+    Route::post('/m-inst/get-inst', [InstutionController::class, 'get_inst'])->name('m-inst-data.get');
+    Route::post('/m-inst/edit-inst', [InstutionController::class, 'edit_inst'])->name('m-inst-data.edit');
+    Route::post('/m-inst/update-inst', [InstutionController::class, 'update_inst'])->name('m-inst-data.update');
+    Route::post('/m-inst/delete-inst', [InstutionController::class, 'delete_inst'])->name('m-inst-data.delete');
+    Route::post('/m-inst/reset', [InstutionController::class, 'reset_inst'])->name('m-inst-data.reset');
+    Route::post('/m-inst/load-select-list-addmodal', [InstutionController::class, 'load_select_list_for_addmodal'])->name('m-inst-get-selectlist-addm');
+    Route::post('/m-inst/load-select-list-editmodal', [InstutionController::class, 'load_select_list_for_editmodal'])->name('m-inst-get-selectlist-editm');
+
+
+    Route::get('/m-image', [ImageController::class, 'index'])->name('m-image.index');
+    Route::post('/m-image/add-inst', [ImageController::class, 'add_m-image'])->name('m-image.post');
+    Route::post('/m-image/get-inst', [ImageController::class, 'get_m-image'])->name('m-image-data.get');
+    Route::post('/m-image/edit-inst', [ImageController::class, 'edit_m-image'])->name('m-image-data.edit');
+    Route::post('/m-image/update-inst', [ImageController::class, 'update_m-image'])->name('m-image-data.update');
+    Route::post('/m-image/delete-inst', [ImageController::class, 'delete_m-image'])->name('m-image-data.delete');
+    Route::post('/m-image/reset', [ImageController::class, 'reset_m-image'])->name('m-image-data.reset');
+    Route::post('/m-image/load-select-list', [ImageController::class, 'load_select_list_for_modal'])->name('m-image-data.reset');
+
 
 }
