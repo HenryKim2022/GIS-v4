@@ -26,39 +26,39 @@
                 <div class="text-center mb-4">
                     <h3 class="mb-2">View Mark Information</h3>
                 </div>
-                <form id="viewUserForm" class="row g-2">
+                <form id="viewMarkForm" class="row g-2">
                     <div class="col-6 col-md-6">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewLatitude" name="modalViewLatitude" class="form-control"
-                                placeholder="latitude" disabled />
+                                placeholder="latitude" readonly />
                             <label for="modalViewLatitude">Latitude</label>
                         </div>
                     </div>
                     <div class="col-6 col-md-6">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewLongitude" name="modalViewLongitude" class="form-control"
-                                placeholder="longitude" disabled />
+                                placeholder="longitude" readonly />
                             <label for="modalViewLongitude">Logitude</label>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-12">
+                    <div class="col-12 col-lg-9 col-md-12">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewInstitutionName" name="modalViewInstitutionName"
-                                class="form-control" placeholder="institution name" disabled />
+                                class="form-control" placeholder="institution name" readonly />
                             <label for="modalViewInstitutionName">Institution Name</label>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 col-md-12">
+                    <div class="col-12 col-lg-3 col-md-12">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewNPSN" name="modalViewNPSN" class="form-control"
-                                placeholder="npsn" disabled />
+                                placeholder="npsn" readonly />
                             <label for="modalViewNPSN">NPSN</label>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewAddress" name="modalViewAddress"
-                                class="form-control modal-edit-tax-id" placeholder="institution address" disabled />
+                                class="form-control modal-edit-tax-id" placeholder="institution address" readonly />
                             <label for="modalViewAddress">Address</label>
                         </div>
                     </div>
@@ -69,6 +69,8 @@
                                 <div id="modalViewLogoPreview" name="modalViewLogoPreview"
                                     class="logo-view-preview-container mb-2 d-flex justify-content-center">
                                     <!-- Initial Image -->
+                                    <img src="{{ asset(env(key: 'APP_NOIMAGE')) }}" alt=""
+                                        class="logo-preview hover-image" style="height: 96px; width: 96px;">
                                 </div>
                             </div>
                         </div>
@@ -145,6 +147,7 @@
 
 
                         <script>
+                            var modalViewImagesPreview = document.getElementById('swiperImagesContainerView');
                             // Add event listeners to dynamically generated images
                             document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
                                 // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
@@ -172,7 +175,7 @@
                     <div class="col-12">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewLastUpdate" name="modalViewLastUpdate"
-                                class="form-control" placeholder="last update" disabled />
+                                class="form-control" placeholder="last update" readonly />
                             <label for="modalViewLastUpdate">Last update</label>
                         </div>
                     </div>
@@ -181,7 +184,8 @@
                         <div class="col-12 text-center">
                             <div class="d-flex flex-col justify-content-end">
                                 <button class="modal-btn modal-view-mark-cancel-btn btn btn-primary"
-                                    data-bs-dismiss="modal" id="close_modalviewMarkVisitorModal">Close</button>
+                                    {{-- data-bs-dismiss="modal"  --}}
+                                    id="close_modalviewMarkVisitorModal">Close</button>
 
                             </div>
                         </div>

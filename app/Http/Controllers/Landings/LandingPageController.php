@@ -18,6 +18,7 @@ use App\Models\Category_Model;
 
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Http\Response;
 
 
 
@@ -40,10 +41,12 @@ class LandingPageController extends Controller
 
 
     //
-    public function index(){
+    public function index()
+    {
+        $loadInstReviewFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get(); // Retrieve the marks from the database (exclude: softDeleted's).
         $process = $this->setPageSession("Landing Page", "landing-page");
-        if ($process){
-            return view('landings/pages/v_landing_customizer');
+        if ($process) {
+            return $this->setReturnView('landings/pages/v_landing_customizer', ['loadInstReviewFromDB' => $loadInstReviewFromDB]);
         }
     }
 
@@ -74,7 +77,9 @@ class LandingPageController extends Controller
                     "institu_address" => $inst->tb_mark->mark_address,
                     "institu_images" => $inst->tb_image->map(function ($image) {
                         return [
+                            "title" => $image->img_title,
                             "src" => $image->img_src,
+                            "alt" => $image->img_alt,
                             "description" => $image->img_descb
                         ];
                     })->all(),
@@ -94,8 +99,48 @@ class LandingPageController extends Controller
             $featureCollection["features"][] = $feature;
         }
 
-        return response()->json($featureCollection);
+        $response = response()->json($featureCollection);
+        // Append a query parameter to the logo and image URLs (avoid image not updated in browser cache).
+        $queryParam = 'v=' . time(); // Unique value, such as a timestamp
+        $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        $response->header('Pragma', 'no-cache');
+        $response->header('Expires', '0');
+        $response->header('Content-Type', 'application/json');
+        $response->header('Vary', 'Accept-Encoding');
+        $response->header('X-Powered-By', 'Laravel');
+        $response->header('Access-Control-Allow-Origin', '*');
+
+        // Modify the logo and image URLs in the feature collection
+        $response->setData($this->modifyAssetUrls($response->getData(), $queryParam));
+
+        return $response;
     }
+
+
+    private function modifyAssetUrls($data, $queryParam)
+    {
+        if (!isset($data->features) || !is_array($data->features)) {
+            return $data;
+        }
+
+        foreach ($data->features as $feature) {
+            if (isset($feature->properties->institu_logo)) {
+                $feature->properties->institu_logo .= '?' . $queryParam;
+            }
+
+            if (isset($feature->properties->institu_images) && is_array($feature->properties->institu_images)) {
+                foreach ($feature->properties->institu_images as $image) {
+                    if (isset($image->src)) {
+                        $image->src .= '?' . $queryParam;
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+
 
 
 
@@ -106,7 +151,8 @@ class LandingPageController extends Controller
 
 
     ///////////////////////////// PAGE SETTER ////////////////////////////
-    public function setPageSession($pageTitle, $pageUrl){
+    public function setPageSession($pageTitle, $pageUrl)
+    {
         $pageData = Session::get('page');
         $pageData['page_title'] = $pageTitle;
         $pageData['page_url'] = $pageUrl;
@@ -115,8 +161,10 @@ class LandingPageController extends Controller
         Session::put('page', $pageData);
         return true;
     }
-    public function setReturnView($viewurl){
+    public function setReturnView($viewurl, $loadInstReviewFromDB = [])
+    {
         $pageData = Session::get('page');
-        return view($viewurl, ['pageData' => $pageData]);
+        $mergedData = array_merge($loadInstReviewFromDB, ['pageData' => $pageData]);
+        return view($viewurl, $mergedData);
     }
 }

@@ -75,11 +75,6 @@
                                 </div>
                                 {{-- MERGED MODALS: v_viewmark_modal --}}
                                 @include('landings.modals.v_viewmark_modal')
-                                {{-- @include('userpanels.modals.v_viewmark_modal') --}}
-                                <!-- / v_viewmark_modal -->
-                                {{-- MERGED MODALS: v_editmark_modal --}}
-                                {{-- @include('userpanels.modals.v_editmark_modal') --}}
-                                <!-- / v_editmark_modal -->
 
                                 {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
                                 <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config.js') }}"></script>
@@ -116,8 +111,8 @@
                     alt="section title icon" class="me-2" />
                 <span class="text-uppercase">Useful features</span>
             </h6>
-            <h3 class="text-center mb-2"><span class="fw-bold">Everything you need</span> to start your next
-                project</h3>
+            {{-- <h3 class="text-center mb-2"><span class="fw-bold">Everything you need</span> to start your next
+                project</h3> --}}
             <p class="text-center fw-medium mb-3 mb-md-5 pb-3">
                 Not just a set of tools, the package includes ready-to-deploy conceptual application.
             </p>
@@ -129,7 +124,7 @@
                     </div>
                     <h5 class="mb-2">Quality Code</h5>
                     <p class="features-icon-description">
-                        Code structure that all developers will easily understand and fall in love with.
+                        Code optimized for {{ env('APP_ALIAS') }} purpose.
                     </p>
                 </div>
                 <div class="col-lg-4 col-sm-6 text-center features-icon-box">
@@ -139,7 +134,8 @@
                     </div>
                     <h5 class="mb-2">Continuous Updates</h5>
                     <p class="features-icon-description">
-                        Free updates for the next 12 months, including new demos and features.
+                        Institution data is up-to-date.
+                        {{-- Free updates for the next 12 months, including new demos and features. --}}
                     </p>
                 </div>
                 <div class="col-lg-4 col-sm-6 text-center features-icon-box">
@@ -147,9 +143,9 @@
                         <img src="{{ asset('public/materialize/assets/img/front-pages/icons/edit.png') }}"
                             alt="edit" />
                     </div>
-                    <h5 class="mb-2">Stater-Kit</h5>
+                    <h5 class="mb-2">Manageable Data</h5>
                     <p class="features-icon-description">
-                        Start your project quickly without having to remove unnecessary features.
+                        Institution, mark, and images data is easy to manage (CRUD).
                     </p>
                 </div>
                 <div class="col-lg-4 col-sm-6 text-center features-icon-box">
@@ -157,9 +153,9 @@
                         <img src="{{ asset('public/materialize/assets/img/front-pages/icons/3d-select-solid.png') }}"
                             alt="3d select solid" />
                     </div>
-                    <h5 class="mb-2">API Ready</h5>
+                    <h5 class="mb-2">Searchable Data</h5>
                     <p class="features-icon-description">
-                        Just change the endpoint and see your own data loaded within seconds.
+                        Data is searchable from Public and UserPanels side.
                     </p>
                 </div>
                 <div class="col-lg-4 col-sm-6 text-center features-icon-box">
@@ -167,18 +163,16 @@
                         <img src="{{ asset('public/materialize/assets/img/front-pages/icons/lifebelt.png') }}"
                             alt="lifebelt" />
                     </div>
-                    <h5 class="mb-2">Excellent Support</h5>
-                    <p class="features-icon-description">An easy-to-follow doc with lots of references and code
-                        examples.</p>
+                    <h5 class="mb-2">Authentication</h5>
+                    <p class="features-icon-description">Only 1 actor allowed to manage data from UserPanels.</p>
                 </div>
                 <div class="col-lg-4 col-sm-6 text-center features-icon-box">
                     <div class="features-icon mb-3">
                         <img src="{{ asset('public/materialize/assets/img/front-pages/icons/google-docs.png') }}"
                             alt="google docs" />
                     </div>
-                    <h5 class="mb-2">Well Documented</h5>
-                    <p class="features-icon-description">An easy-to-follow doc with lots of references and code
-                        examples.</p>
+                    <h5 class="mb-2">Plugins</h5>
+                    <p class="features-icon-description">Leaflet plugins css and javascript, modified for {{ env('APP_ALIAS') }} usage.</p>
                 </div>
             </div>
         </div>
@@ -191,402 +185,49 @@
             <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
                 <img src="{{ asset('public/materialize/assets/img/front-pages/icons/section-tilte-icon.png') }}"
                     alt="section title icon" class="me-2" />
-                <span class="text-uppercase">real locations reviews</span>
+                <span class="text-uppercase">real location reviews</span>
             </h6>
-            <p class="text-center fw-medium mb-3 mb-md-5">See locations saved on {{ env('APP_NAME') }} database.
+            <p class="text-center fw-medium mb-3 mb-md-5">Locations saved on our {{ env('APP_NAME') }} database.
             </p>
         </div>
-        <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
+        <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4 pt-8">
             <div class="swiper" id="swiper-reviews">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-4.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                    building dashboard
-                                    sites on almost any project.”
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">Founder of Hubspot</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-1.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>Materio is awesome, and I particularly enjoy knowing that if I get stuck on
-                                    something.</p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Tommy haffman</h6>
-                                    <p class="mb-0">Founder of Levis</p>
+
+                    @foreach ($loadInstReviewFromDB as $index => $inst)
+                        <div class="swiper-slide">
+                            <div class="card h-100">
+                                <div class="card-body text-body d-flex flex-column justify-content-between text-center">
+                                    <div class="mb-3">
+                                        <img src="{{ $inst->institu_logo ? $inst->institu_logo : env('APP_NOIMAGE') }}" alt="institution logo"
+                                            class="client-logo img-fluid hover-image" style="height: 4.75rem" />
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">{{ $inst->institu_name }}</h6>
+                                        <p class="mb-0">(npsn: {{ $inst->institu_npsn }})</p>
+                                    </div>
+                                    <div class="divider text-warning mb-1 mt-0">
+                                        <div class="divider-text">
+                                            <div class="divider-icon">
+                                                <i class="tf-icon mdi mdi-map-marker-outline mdi-24px"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        “{{ $inst->tb_mark->mark_address }}”
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-3.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    This template is superior in so many ways. The code, the design, the regular
-                                    updates, the
-                                    support.. It’s the whole package. Excellent Work.
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">CTO of Airbnb</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-2.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    All the requirements for developers have been taken into consideration, so I’m
-                                    able to build any
-                                    interface I want.
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Sara Smith</h6>
-                                    <p class="mb-0">Founder of Continental</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-5.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                    building dashboard
-                                    sites on almost any project.”
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">Founder of Hubspot</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-4.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                    building dashboard
-                                    sites on almost any project.”
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star-outline mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">Founder of Hubspot</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-1.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>Materio is awesome, and I particularly enjoy knowing that if I get stuck on
-                                    something.</p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Tommy haffman</h6>
-                                    <p class="mb-0">Founder of Levis</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-3.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    This template is superior in so many ways. The code, the design, the regular
-                                    updates, the
-                                    support.. It’s the whole package. Excellent Work.
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">CTO of Airbnb</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-2.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    All the requirements for developers have been taken into consideration, so I’m
-                                    able to build any
-                                    interface I want.
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star-outline mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Sara Smith</h6>
-                                    <p class="mb-0">Founder of Continental</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-5.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                    building dashboard
-                                    sites on almost any project.”
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">Founder of Hubspot</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-4.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                    building dashboard
-                                    sites on almost any project.”
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">Founder of Hubspot</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-1.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>Materio is awesome, and I particularly enjoy knowing that if I get stuck on
-                                    something.</p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Tommy haffman</h6>
-                                    <p class="mb-0">Founder of Levis</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-3.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    This template is superior in so many ways. The code, the design, the regular
-                                    updates, the
-                                    support.. It’s the whole package. Excellent Work.
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">CTO of Airbnb</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-2.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    All the requirements for developers have been taken into consideration, so I’m
-                                    able to build any
-                                    interface I want.
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Sara Smith</h6>
-                                    <p class="mb-0">Founder of Continental</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card h-100">
-                            <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                                <div class="mb-3">
-                                    <img src="{{ asset('public/materialize/assets/img/front-pages/branding/logo-5.png') }}"
-                                        alt="client logo" class="client-logo img-fluid" />
-                                </div>
-                                <p>
-                                    “I've never used a theme as versatile and flexible as Vuexy. It's my go to for
-                                    building dashboard
-                                    sites on almost any project.”
-                                </p>
-                                <div class="text-warning mb-3">
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                    <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">Eugenia Moore</h6>
-                                    <p class="mb-0">Founder of Hubspot</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
 
         <hr class="m-0" />
-        <div class="container">
+        <div class="container d-none">
             <div class="swiper-logo-carousel py-4 my-lg-2">
                 <div class="swiper" id="swiper-clients-logos">
                     <div class="swiper-wrapper">

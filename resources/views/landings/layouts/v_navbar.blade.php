@@ -113,7 +113,7 @@
             <li>
                 <a href="{{ base_url('login') }}" class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
                     target="_self"><span class="tf-icons mdi mdi-account me-md-1"></span><span
-                        class="d-none d-md-block">Login/Register</span></a>
+                        class="d-none d-md-block"></span></a>
             </li>
             <!-- navbar button: End -->
         </ul>

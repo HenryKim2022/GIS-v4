@@ -74,13 +74,9 @@
 
                                 </div>
                                 {{-- MERGED MODALS: v_viewmark_modal --}}
-                                @include('userpanels.modals.v_viewmark_modal')
-                                <!-- / v_viewmark_modal -->
-                                {{-- MERGED MODALS: v_editmark_modal --}}
-                                {{-- @include('userpanels.modals.v_editmark_modal') --}}
-                                <!-- / v_editmark_modal -->
+                                @include('landings.modals.v_viewmark_modal')
 
-                                <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script>
+                                {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
                                 <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config.js') }}"></script>
                             </div>
 
@@ -115,8 +111,8 @@
                     alt="section title icon" class="me-2" />
                 <span class="text-uppercase">Useful features</span>
             </h6>
-            <h3 class="text-center mb-2"><span class="fw-bold">Everything you need</span> to start your next
-                project</h3>
+            {{-- <h3 class="text-center mb-2"><span class="fw-bold">Everything you need</span> to start your next
+                project</h3> --}}
             <p class="text-center fw-medium mb-3 mb-md-5 pb-3">
                 Not just a set of tools, the package includes ready-to-deploy conceptual application.
             </p>
@@ -192,10 +188,10 @@
                     alt="section title icon" class="me-2" />
                 <span class="text-uppercase">real locations reviews</span>
             </h6>
-            <p class="text-center fw-medium mb-3 mb-md-5">See locations saved on {{ env('APP_NAME') }} database.
+            <p class="text-center fw-medium mb-3 mb-md-5">Locations saved on our {{ env('APP_NAME') }} database.
             </p>
         </div>
-        <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
+        <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4 pt-8">
             <div class="swiper" id="swiper-reviews">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
@@ -585,7 +581,7 @@
         </div>
 
         <hr class="m-0" />
-        <div class="container">
+        <div class="container d-none">
             <div class="swiper-logo-carousel py-4 my-lg-2">
                 <div class="swiper" id="swiper-clients-logos">
                     <div class="swiper-wrapper">
