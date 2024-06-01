@@ -30,6 +30,11 @@ class Institution_Model extends Model
         return $this->belongsTo(Category_Model::class, 'cat_id');
     }   // Set relation with tb_category bound by cat_id (one to one)
 
+    public function tb_image()
+    {
+        return $this->hasMany(Image_Model::class, 'institu_id');
+    }   // Set relation with tb_category bound by institu_id (one to many)
+
 
 
 
