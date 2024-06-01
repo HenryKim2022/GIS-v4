@@ -128,12 +128,12 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     Route::get('/m-image', [ImageController::class, 'index'])->name('m-image.index');
-    Route::post('/m-image/add-inst', [ImageController::class, 'add_m-image'])->name('m-image.post');
-    Route::post('/m-image/get-inst', [ImageController::class, 'get_m-image'])->name('m-image-data.get');
-    Route::post('/m-image/edit-inst', [ImageController::class, 'edit_m-image'])->name('m-image-data.edit');
-    Route::post('/m-image/update-inst', [ImageController::class, 'update_m-image'])->name('m-image-data.update');
-    Route::post('/m-image/delete-inst', [ImageController::class, 'delete_m-image'])->name('m-image-data.delete');
-    Route::post('/m-image/reset', [ImageController::class, 'reset_m-image'])->name('m-image-data.reset');
+    Route::post('/m-image/add-img', [ImageController::class, 'add_img'])->name('m-image.post');
+    Route::post('/m-image/get-img', [ImageController::class, 'get_img'])->name('m-image-data.get');
+    Route::post('/m-image/edit-img', [ImageController::class, 'edit_img'])->name('m-image-data.edit');
+    Route::post('/m-image/update-img', [ImageController::class, 'update_img'])->name('m-image-data.update');
+    Route::post('/m-image/delete-img', [ImageController::class, 'delete_img'])->name('m-image-data.delete');
+    Route::post('/m-image/reset', [ImageController::class, 'reset_img'])->name('m-image-data.reset');
     Route::post('/m-image/load-select-list', [ImageController::class, 'load_select_list_for_modal'])->name('m-image-data.reset');
 
 

@@ -18,6 +18,11 @@ class Image_Model extends Model
     protected $dates = ['deleted_at'];
 
 
+    public function tb_institution()
+    {
+        return $this->belongsTo(Institution_Model::class, 'institu_id');
+    }   // Set relation with tb_institu bound by institu_id (one to one)
+
     // public function tb_mark()
     // {
     //     return $this->belongsTo(Mark_Model::class, 'mark_id');

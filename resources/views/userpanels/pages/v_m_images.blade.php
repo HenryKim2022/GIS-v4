@@ -46,12 +46,12 @@
                         data-bs-toggle="dropdown"><i class="mdi mdi-table-cog"></i></a>
                     <div class="dropdown-menu dropdown-menu-end m-0">
                         <a href="javascript:;"
-                            class="dropdown-item text-success add-institution-record btn-sm mdi mdi-image-text"
-                            data-bs-toggle="modal" data-bs-target="#addInstituModalTB"> Add
+                            class="dropdown-item text-success add-image-record btn-sm mdi mdi-image-text"
+                            data-bs-toggle="modal" data-bs-target="#addImageModalTB"> Add
                             New Data</a>
                         <div class="dropdown-divider"></div>
                         <a href="javascript:;"
-                            class="dropdown-item text-danger reset-all-institutions-record btn-sm mdi mdi-database-settings">
+                            class="dropdown-item text-danger reset-all-images-record btn-sm mdi mdi-database-settings">
                             ResetTable</a>
                     </div>
                 </div>
@@ -71,16 +71,15 @@
                                     <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
                                         style="width: 18px;" aria-label="Actions">ACT</th>
                                     <th style="width: 18px;">NO.</th>
-                                    <th>NAME</th>
-                                    <th>NPSN</th>
-                                    <th>ADDRESS</th>
-                                    <th>LOGO</th>
-                                    <th>IMAGES</th>
+                                    <th>INSTITUTION</th>
+                                    <th>IMAGE TITLE</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>IMAGE</th>
                                     <th>LAST-UPDATE</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($loadInstitutionsFromDB as $index => $institu)
+                                @foreach ($loadInstitutionImagesFromDB as $index => $instituImage)
                                     <tr>
                                         <td class="dtr-hidden" tabindex="0" style="">
                                             <!-- Action buttons -->
@@ -92,44 +91,28 @@
                                                     <a class="d-none" href="javascript:;"
                                                         class="dropdown-item btn-text-success detail-record btn-sm mdi mdi-image-text">Details</a>
 
-                                                    <a href="javascript:;" institu_id_value="{{ $institu->institu_id }}"
-                                                        class="dropdown-item btn-text-warning edit-record-{{ $index + 1 }} btn-sm mdi mdi-pencil-outline">Edit</a>
+                                                    <a href="javascript:;" img_id_value="{{ $instituImage->img_id }}"
+                                                        class="dropdown-item btn-text-warning edit-record btn-sm mdi mdi-pencil-outline">Edit</a>
 
                                                     <div class="dropdown-divider"></div>
-                                                    <a href="javascript:;" institu_id_value="{{ $institu->institu_id }}"
+                                                    <a href="javascript:;" img_id_value="{{ $instituImage->img_id }}"
                                                         class="dropdown-item text-danger delete-record btn-sm mdi mdi-trash-can-outline">Delete</a>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $institu->institu_name }}</td>
-                                        <td>{{ $institu->institu_npsn }}</td>
+                                        <td>{{ $instituImage->tb_institution->institu_name }}</td>
+                                        <td>{{ $instituImage->img_title }}</td>
                                         <td>
-                                            {{ $institu->tb_mark->mark_address }} <br>
+                                            {{ $instituImage->img_descb }} <br>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-around">
-                                                <img src="{{ $institu->institu_logo != null ? $institu->institu_logo : asset(env(key: 'APP_NOIMAGE')) }}"
-                                                    alt="Logo 1" style="height: 24px; width: 24px;" class="hover-image">
+                                                <img src="{{ $instituImage->img_src != null ? $instituImage->img_src : asset(env(key: 'APP_NOIMAGE')) }}"
+                                                    alt="{{ $instituImage->img_alt }}" style="height: 24px; width: 24px;" class="hover-image">
                                             </div>
                                         </td>
-                                        <td>
-                                            <div
-                                                class="d-flex align-items-center justify-content-around gap-1 gap-md-0 gap-lg-0">
-                                                @if ($institu->tb_image != null)
-                                                    @foreach ($institu->tb_image as $img)
-                                                        <img src="{{ $img->img_src != null ? $img->img_src : asset(env(key: 'APP_NOIMAGE')) }}"
-                                                            alt="{{ $img->img_alt }}" class="hover-image mr-2"
-                                                            style="height: 24px; width: 24px;">
-                                                    @endforeach
-                                                @else
-                                                    Please, upload the images from [Manage Maps > Istitutions > Images]
-                                                @endif
-
-
-                                            </div>
-                                        </td>
-                                        <td>{{ $institu->updated_at }}</td>
+                                        <td>{{ $instituImage->updated_at }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -237,8 +220,8 @@
         <!-- MERGED MODALS: v_m_cat_modal -->
         <div class="row justify-content-center">
             <div class="col-md-6">
-                @include('userpanels.modals.vmm.m_institu.vm_addinstitu_modal_for_tb')
-                {{-- @include('userpanels.modals.vmm.m_institu.vm_editinstitu_modal_for_tb') --}}
+                @include('userpanels.modals.vmm.m_image.vm_addimage_modal_for_tb')
+                @include('userpanels.modals.vmm.m_image.vm_editimage_modal_for_tb')
 
             </div>
         </div>
@@ -253,9 +236,11 @@
 
 @section('footer_page_js')
     {{-- <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script> --}}
+    <script src="{{ asset('public/materialize/assets/js/forms-selects.js') }}"></script>
 
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/tbinit_institu.js') }}"></script>
-    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/edit_institu_for_tb.js') }}"></script> --}}
-    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/delete_institu_for_tb.js') }}"></script> --}}
-    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/reset_institu.js') }}"></script> --}}
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/tbinit_image.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/add_image_for_modal.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/edit_image_for_tb.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/delete_image_for_tb.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/reset_image.js') }}"></script>
 @endsection

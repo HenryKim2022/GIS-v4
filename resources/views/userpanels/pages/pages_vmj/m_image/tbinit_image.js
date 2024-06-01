@@ -15,30 +15,36 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         {
             orderable: false,
             targets: 0, // Disable sorting on the first and second columns
-            width: '0.1rem',
+            // width: '0.1rem',
             className: 'control',
-            responsivePriority: 1
+            responsivePriority: 0
             // "width": "auto"
         },
         {
             targets: 1, // Target the second column (index 1)
-            width: '0.1rem', // Set the width of the second column
-            responsivePriority: 2
+            // width: '0.1rem', // Set the width of the second column
+            responsivePriority: 1
         },
         {
             targets: 2, // Target the second column (index 1)
-            responsivePriority: 3
+            responsivePriority: 2
         },
         {
             targets: 3, // Target the second column (index 1)
-            responsivePriority: 8
+            responsivePriority: 3
         },
         {
             targets: 4, // Target the second column (index 1)
+            responsivePriority: 4
+        },
+        {
+            orderable: false,
+            targets: 5, // Target the second column (index 1)
             responsivePriority: 5
         },
         {
-            targets: 5, // Target the second column (index 1)
+            orderable: false,
+            targets: 6, // Target the second column (index 1)
             responsivePriority: 6
         }
     ],
@@ -66,25 +72,24 @@ dt_basic = $('#DataTables_Table_1').DataTable({
         "data": "no"
     }, // Column '1': NO.
     {
-        "data": "name"
-    }, // Column '2': NAME
+        "data": "institu_name"
+    }, // Column '2': INSTITUTION
     {
-        "data": "cat_id"
-    }, // Column '3': CAT
+        "data": "img_title"
+    }, // Column '3': IMAGE TITLE
     {
-        "data": "npsn"
-    }, // Column '4': NPSN
+        "data": "img_descb"
+    }, // Column '4': IMAGE DESCRIPTION
     {
-        "data": "logo"
-    }, // Column '5': LOGO
+        "data": "img_sources"
+    }, // Column '5': IMG SOURCES(SRC)
     {
-        "data": "images"
-    }, // Column '6': IMAGES
-    {
-        "data": "addr"
-    } // Column '7': ADDR
+        "data": "updated_at"
+    }  // Column '6': UPDATED
     ]
 });
+
+
 
 // Fixed header
 if (window.Helpers.isNavbarFixed()) {
@@ -95,24 +100,74 @@ if (window.Helpers.isNavbarFixed()) {
 }
 
 
+
+var addRecordBtn = document.querySelector('.add-image-record');
+if (addRecordBtn) {
+    addRecordBtn.addEventListener('click', function () {
+        // Make an AJAX request to get the data mark & category select-list
+        $.ajax({
+            url: '/m-image/load-select-list',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                action: 'Get Institution List for Select-list usage'
+            },
+            success: function (response) {
+                // Handle the success response
+                console.log('Data institution select list loaded successfully:', response);
+
+                // Close the modal if needed
+
+                // Populate the select options for modalEditInstitutionIDSelect1
+                var institutionSelect = $('#addImageModalTB #modalEditInstitutionIDSelect1');
+                institutionSelect.empty(); // Clear existing options
+                institutionSelect.append($('<option>', { value: "", text: "Select Institution" }));
+
+                $.each(response.institutionList, function (index, institutionOption) {
+                    var option = $('<option>', { value: institutionOption.value, text: `[${institutionOption.value}] ${institutionOption.text}` });
+                    if (institutionOption.selected) {
+                        option.attr('selected', 'selected'); // Select the option
+                    }
+                    institutionSelect.append(option);
+                });
+
+            },
+            error: function (error) {
+                // Handle the error response
+                console.log('Error occurred while loading the data:', error);
+            }
+        });
+
+    });
+}
+
+
+
+
+
+
+
+
 // // Delete Record
 // $('#DataTables_Table_1 tbody').on('click', '.delete-record', function () {
-//     var confirmed = confirm("Are you sure you want to this records?");
+//     var confirmed = confirm("Are you sure you want to delete this records?");
 //     if (confirmed) {
 //         dt_basic.row($(this).parents('tr')).remove().draw();
 //     }
 
 // });
 
-// ResetRecord
-$('.reset-record').on('click', function () {
-    var confirmed = confirm("Are you sure you want to delete all records?");
-    if (confirmed) {
-        var tbody = $('#DataTables_Table_1 tbody');
-        tbody.empty();
-        tbody.append('<tr><td colspan="8" class="text-center">No data</td></tr>');
-    }
-});
+// // ResetRecord
+// $('#DataTables_Table_1 tbody .reset-record').on('click', function () {
+//     var confirmed = confirm("Are you sure you want to delete all records?");
+//     if (confirmed) {
+//         var tbody = $('#DataTables_Table_1 tbody');
+//         tbody.empty();
+//         tbody.append('<tr><td colspan="5" class="text-center">No data</td></tr>');
+//     }
+// });
 
 
 // Function to convert an image file to Base64 format
@@ -129,8 +184,9 @@ function imageToBase64(file) {
 
 
 // PART: SET DROPZONE
+// setDropZone();
 function setDropZone() {
-    Dropzone.autoDiscover = false;
+    Dropzones.autoDiscover = false;
     const dropzones = []
     $('.dropzone').each(function (i, el) {
         const name = 'g_' + $(el).data('field')
@@ -158,7 +214,8 @@ function setDropZone() {
 
         var myDropzone = new Dropzone(el, {
             previewTemplate: previewTemplate,
-            url: window.location.pathname,
+            // url: window.location.pathname,
+            url: '/public/storage/',
             autoProcessQueue: false,
             uploadMultiple: true,
             parallelUploads: 100,
@@ -175,7 +232,7 @@ function setDropZone() {
         });
 
         dropzones.push(myDropzone)
-    })
+    });
 
     // document.querySelector("button[type=submit]").addEventListener("click", function(e) {
     //     // Make sure that the form isn't actually being sent.

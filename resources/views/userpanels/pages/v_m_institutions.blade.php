@@ -240,6 +240,7 @@
 
 @section('footer_page_js')
     {{-- <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script> --}}
+    <script src="{{ asset('public/materialize/assets/js/forms-selects.js') }}"></script>
 
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/tbinit_institu.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/add_insititu_for_modal.js') }}"></script>

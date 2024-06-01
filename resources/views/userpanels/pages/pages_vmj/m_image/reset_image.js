@@ -1,29 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const modalSelector = document.getElementById('editMarkModalTB');
-    const modalToShow = new bootstrap.Modal(modalSelector);
-    const targetedModalForm = document.querySelector('#editMarkModalTB #editMarkForm');
-
-
-    if (modalSelector) {
+    // const modalSelector = document.getElementById('editInstituModalTB');
+    // const modalToShow = new bootstrap.Modal(modalSelector);
+    // const targetedModalForm = document.querySelector('#editMarkModalTB #editMarkForm');
+    resetBtnSelector = document.querySelector('.reset-all-images-record');
+    if (resetBtnSelector) {
         setTimeout(() => {
-            $('.reset-all-marks-record').on('click', function () {
+            $('.reset-all-images-record').on('click', function () {
                 // Delete Record
-                var confirmed = confirm("Are you sure you want to reset all of mark records?");
+                var confirmed = confirm("Are you sure you want to reset all of instutions image records?");
                 if (confirmed) {
 
-                    // Send AJAX request to reset the marks record
+                    // Send AJAX request to reset the institution record
                     $.ajax({
-                        url: '/m-mark/reset',
+                        url: '/m-image/reset',
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         data: {
-                            action: "reset-all-marks-record"
+                            action: "reset-all-images-record"
                         },
                         success: function (response) {
                             // Handle success response, e.g., reload the table or show a success message
-                            console.log('Marks reset successfully');
+                            console.log('Images reset successfully');
 
                             var tbody = $('#DataTables_Table_1 tbody');
                             tbody.empty();
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                         error: function (error) {
                             // Handle error response, e.g., show an error message
-                            console.log('Error deleting mark:', error);
+                            console.log('Error deleting images:', error);
                         }
                     });
                 }
