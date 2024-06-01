@@ -70,6 +70,8 @@ function populateMarks4romDB(map, markersLayer) {
                     function applyMarksToolTips(final_addr) {
                         populateMarker.bindTooltip(institu_name + "  ➟  " + final_addr);
                         markersLayer.addLayer(populateMarker);
+
+                        setDataModal();
                     }
                 });
 
