@@ -233,6 +233,7 @@ function populateMarks4romDB(map, markersLayer) {
                     const tooltipData = {
                         institution_lat: coordinates[0] || "none",
                         institution_lon: coordinates[1] || "none",
+                        institution_id: f.properties.institu_id || "none",
                         institution_name: f.properties.institu_name || "none",
                         institution_cat: f.properties.institu_category || "none",
                         institution_npsn: f.properties.institu_npsn || "none",
@@ -303,6 +304,17 @@ function populateMarks4romDB(map, markersLayer) {
             });
 
 
+            // Create a modal element
+            const modal = document.querySelector('#viewMarkVisitorModal');
+            // modal.id = 'myModal';
+            // modal.classList.add('modal');
+            // modal.innerHTML = 'Modal content'; // Replace with your modal content
+
+            // Append the modal to the document body
+            // document.body.appendChild(modal);
+
+
+
             let selectedMarker;
             let selectedCircle;
             $('.typeahead-multi-datasets').on('typeahead:selected', function (event, result) {
@@ -324,9 +336,9 @@ function populateMarks4romDB(map, markersLayer) {
 
                     // Create a new marker and circle for the selected result
                     selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.institution_name + " ➟ " + selectedMarkerData.institution_address, {
-                        permanent: true
+                        permanent: false
                     }).openTooltip();
-                    selectedCircle = L.circle(selectedCoordinates, { radius: 10, color: 'red' });
+                    selectedCircle = L.circle(selectedCoordinates, { radius: 0, color: 'red' });
 
                     // Add the marker and circle to the map
                     markersLayer.addLayer(selectedMarker);
@@ -337,9 +349,12 @@ function populateMarks4romDB(map, markersLayer) {
                     // Zoom the map to the selected marker
                     // map.setZoom(15); // Adjust the zoom level as needed
 
-
                     // Log the coordinates
                     console.log('Selected coordinates:', lat, lon);
+                    selectedMarker.on('click', function () {
+                        // Show the modal when the marker is clicked
+                       console.log('institu_id:',selectedMarkerData.institution_id);
+                    });
                 }
             });
 
@@ -386,7 +401,7 @@ function populateMarks4romDB(map, markersLayer) {
                         selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.institution_name + " ➟ " + selectedMarkerData.institution_address, {
                             permanent: true
                         }).openTooltip();
-                        selectedCircle = L.circle(selectedCoordinates, { radius: 10, color: 'red' });
+                        selectedCircle = L.circle(selectedCoordinates, { radius: 0, color: 'red' });
 
                         // Add the marker and circle to the map
                         markersLayer.addLayer(selectedMarker);

@@ -69,8 +69,8 @@
                                     </div>
                                 </h5>
                             </div>
-                            <div class="card-body" style="z-index: 9999;">
-                                <div class="col-12 mt-4">
+                            <div class="card-body pb-0" style="z-index: 9999;">
+                                <div class="col-12 mt-1">
                                     <label for="searchLeafletField" class="form-label">Search</label>
                                     <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
                                         type="text" autocomplete="off" placeholder="e.g sma/ jl" />
@@ -78,7 +78,6 @@
                             </div>
                             <div class="card-body" id="leaflet_card_body">
                                 <div id="map" class="leaflet-map leaflet_wrapper" id="userLocation">
-
                                 </div>
                                 {{-- MERGED MODALS: v_viewmark_modal --}}
                                 @include('landings.modals.v_viewmark_modal')
