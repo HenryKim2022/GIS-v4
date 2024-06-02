@@ -34,7 +34,13 @@
     @endphp
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row gy-4">
+        <div class="row gy-4 d-flex align-content-center justify-center text-center">
+            <h1>
+                THIS PAGE<br>IS UNDER CONSTRUCTION
+            </h1>
+        </div>
+
+        <div class="row gy-4 d-none">
             <!-- Gamification Card -->
             <div class="col-md-12 col-lg-8">
                 <div class="card h-100">

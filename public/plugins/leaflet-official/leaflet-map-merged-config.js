@@ -10,7 +10,7 @@ function closeModal() {
     isModalActive = false;
 }
 
-function setDataModal(map, markersLayer) {
+function setDataModal(map, markersLayer, selectedMarkerData = []) {
     const modalSelector = document.querySelector('#viewMarkVisitorModal');
     const modalToShow = new bootstrap.Modal(modalSelector);
     const targetedModalForm = document.querySelector('#viewMarkVisitorModal #viewMarkForm');
@@ -334,7 +334,6 @@ function populateMarks4romDB(map, markersLayer) {
 
                     // Pan the map to the selected marker
                     map.panTo(selectedCoordinates);
-
                     // Zoom the map to the selected marker
                     // map.setZoom(15); // Adjust the zoom level as needed
 
@@ -397,7 +396,6 @@ function populateMarks4romDB(map, markersLayer) {
 
                         // Pan the map to the selected marker
                         map.panTo(selectedCoordinates);
-
 
 
                         // Log the coordinates
