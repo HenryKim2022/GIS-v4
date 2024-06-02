@@ -22,6 +22,11 @@ class Setup_Default_WFK extends Seeder
             'mark_lon' => '111.7089844',
             'mark_address' => 'Jl. Sample 1',
         ]);
+        Mark_Model::create([
+            'mark_lat' => '-6.6996277',
+            'mark_lon' => '107.5534058',
+            'mark_address' => 'Jl. Sample 2',
+        ]);
 
         Category_Model::create([
             'cat_name' => 'SMA',
@@ -32,6 +37,14 @@ class Setup_Default_WFK extends Seeder
             'institu_npsn' => '00000001',
             'institu_logo' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
             'mark_id' => '1',
+            'cat_id' => '1',
+        ]);
+
+        Institution_Model::create([
+            'institu_name' => 'SMA N 2 JAYAPURA',
+            'institu_npsn' => '00000002',
+            'institu_logo' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
+            'mark_id' => '2',
             'cat_id' => '1',
         ]);
 
@@ -54,7 +67,7 @@ class Setup_Default_WFK extends Seeder
             'img_alt' => 'Images 3 alt',
             'img_descb' => 'Images 4 blabla',
             'img_src' => 'https://www.dbl.id/uploads/school/31323/209-SMAN_3_JAYAPURA.png',
-            'institu_id' => '1',
+            'institu_id' => '2',
         ]);
 
 

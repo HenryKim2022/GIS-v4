@@ -8,6 +8,7 @@
 <script src="{{ asset('public/materialize/assets/vendor/libs/hammer/hammer.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/libs/i18n/i18n.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+<script src="{{ asset('public/materialize/assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/js/menu.js') }}"></script>
 <!-- endbuild -->
 

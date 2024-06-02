@@ -43,7 +43,8 @@ class LandingPageController extends Controller
     //
     public function index()
     {
-        $loadInstReviewFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get(); // Retrieve the marks from the database (exclude: softDeleted's).
+        // $loadInstReviewFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get(); // Retrieve the marks from the database (exclude: softDeleted's).
+        $loadInstReviewFromDB = Institution_Model::all(); // Retrieve the marks from the database (exclude: softDeleted's).
         $process = $this->setPageSession("Landing Page", "landing-page");
         if ($process) {
             return $this->setReturnView('landings/pages/v_landing_customizer', ['loadInstReviewFromDB' => $loadInstReviewFromDB]);

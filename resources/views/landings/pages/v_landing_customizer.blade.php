@@ -69,6 +69,13 @@
                                     </div>
                                 </h5>
                             </div>
+                            <div class="card-body" style="z-index: 9999;">
+                                <div class="col-12 mt-4">
+                                    <label for="searchLeafletField" class="form-label">Search</label>
+                                    <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
+                                        type="text" autocomplete="off" placeholder="e.g sma/ jl" />
+                                </div>
+                            </div>
                             <div class="card-body" id="leaflet_card_body">
                                 <div id="map" class="leaflet-map leaflet_wrapper" id="userLocation">
 
@@ -78,17 +85,23 @@
 
                                 {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
                                 <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config.js') }}"></script>
+
+
                             </div>
-
-
+                            {{-- im using typehead.js, the other depedency of materialize already present and imported! --}}
 
 
                         </div>
-                    </div>
 
+
+
+
+                    </div>
                 </div>
-                <!-- /Draggable Marker With Popup -->
+
             </div>
+            <!-- /Draggable Marker With Popup -->
+        </div>
 
 
 
@@ -172,7 +185,8 @@
                             alt="google docs" />
                     </div>
                     <h5 class="mb-2">Plugins</h5>
-                    <p class="features-icon-description">Leaflet plugins css and javascript, modified for {{ env('APP_ALIAS') }} usage.</p>
+                    <p class="features-icon-description">Leaflet plugins css and javascript, modified for
+                        {{ env('APP_ALIAS') }} usage.</p>
                 </div>
             </div>
         </div>
@@ -199,8 +213,9 @@
                             <div class="card h-100">
                                 <div class="card-body text-body d-flex flex-column justify-content-between text-center">
                                     <div class="mb-3">
-                                        <img src="{{ $inst->institu_logo ? $inst->institu_logo : env('APP_NOIMAGE') }}" alt="institution logo"
-                                            class="client-logo img-fluid hover-image" style="height: 4.75rem" />
+                                        <img src="{{ $inst->institu_logo ? $inst->institu_logo : env('APP_NOIMAGE') }}"
+                                            alt="institution logo" class="client-logo img-fluid hover-image"
+                                            style="height: 4.75rem" />
                                     </div>
                                     <div>
                                         <h6 class="mb-1">{{ $inst->institu_name }}</h6>
@@ -514,6 +529,7 @@
 
 @section('footer_page_js')
     <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script>
+    <script src="{{ asset('public/materialize/assets/js/forms-selects.js') }}"></script>
 
     <script>
         var hover_images = document.querySelectorAll('.hover-image');
@@ -593,4 +609,227 @@
             // });
         })
     </script>
+
+{{--
+    <script>
+        'use strict';
+        $(function() {
+
+            var nbaTeams = [{
+                    search_item: 'Boston Celtics'
+                },
+                {
+                    search_item: 'Dallas Mavericks'
+                },
+                {
+                    search_item: 'Brooklyn Nets'
+                },
+                {
+                    search_item: 'Houston Rockets'
+                },
+                {
+                    search_item: 'New York Knicks'
+                },
+                {
+                    search_item: 'Memphis Grizzlies'
+                },
+                {
+                    search_item: 'Philadelphia 76ers'
+                },
+                {
+                    search_item: 'New Orleans Hornets'
+                },
+                {
+                    search_item: 'Toronto Raptors'
+                },
+                {
+                    search_item: 'San Antonio Spurs'
+                },
+                {
+                    search_item: 'Chicago Bulls'
+                },
+                {
+                    search_item: 'Denver Nuggets'
+                },
+                {
+                    search_item: 'Cleveland Cavaliers'
+                },
+                {
+                    search_item: 'Minnesota Timberwolves'
+                },
+                {
+                    search_item: 'Detroit Pistons'
+                },
+                {
+                    search_item: 'Portland Trail Blazers'
+                },
+                {
+                    search_item: 'Indiana Pacers'
+                },
+                {
+                    search_item: 'Oklahoma City Thunder'
+                },
+                {
+                    search_item: 'Milwaukee Bucks'
+                },
+                {
+                    search_item: 'Utah Jazz'
+                },
+                {
+                    search_item: 'Atlanta Hawks'
+                },
+                {
+                    search_item: 'Golden State Warriors'
+                },
+                {
+                    search_item: 'Charlotte Bobcats'
+                },
+                {
+                    search_item: 'Los Angeles Clippers'
+                },
+                {
+                    search_item: 'Miami Heat'
+                },
+                {
+                    search_item: 'Los Angeles Lakers'
+                },
+                {
+                    search_item: 'Orlando Magic'
+                },
+                {
+                    search_item: 'Phoenix Suns'
+                },
+                {
+                    search_item: 'Washington Wizards'
+                },
+                {
+                    search_item: 'Sacramento Kings'
+                }
+            ];
+            var nhlTeams = [{
+                    search_item: 'New Jersey Devils'
+                },
+                {
+                    search_item: 'New York Islanders'
+                },
+                {
+                    search_item: 'New York Rangers'
+                },
+                {
+                    search_item: 'Philadelphia Flyers'
+                },
+                {
+                    search_item: 'Pittsburgh Penguins'
+                },
+                {
+                    search_item: 'Chicago Blackhawks'
+                },
+                {
+                    search_item: 'Columbus Blue Jackets'
+                },
+                {
+                    search_item: 'Detroit Red Wings'
+                },
+                {
+                    search_item: 'Nashville Predators'
+                },
+                {
+                    search_item: 'St. Louis Blues'
+                },
+                {
+                    search_item: 'Boston Bruins'
+                },
+                {
+                    search_item: 'Buffalo Sabres'
+                },
+                {
+                    search_item: 'Montreal Canadiens'
+                },
+                {
+                    search_item: 'Ottawa Senators'
+                },
+                {
+                    search_item: 'Toronto Maple Leafs'
+                },
+                {
+                    search_item: 'Calgary Flames'
+                },
+                {
+                    search_item: 'Colorado Avalanche'
+                },
+                {
+                    search_item: 'Edmonton Oilers'
+                },
+                {
+                    search_item: 'Minnesota Wild'
+                },
+                {
+                    search_item: 'Vancouver Canucks'
+                },
+                {
+                    search_item: 'Carolina Hurricanes'
+                },
+                {
+                    search_item: 'Florida Panthers'
+                },
+                {
+                    search_item: 'Tampa Bay Lightning'
+                },
+                {
+                    search_item: 'Washington Capitals'
+                },
+                {
+                    search_item: 'Winnipeg Jets'
+                },
+                {
+                    search_item: 'Anaheim Ducks'
+                },
+                {
+                    search_item: 'Dallas Stars'
+                },
+                {
+                    search_item: 'Los Angeles Kings'
+                },
+                {
+                    search_item: 'Phoenix Coyotes'
+                },
+                {
+                    search_item: 'San Jose Sharks'
+                }
+            ];
+
+            var nbaExample = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: nbaTeams
+            });
+            var nhlExample = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: nhlTeams
+            });
+
+            // Multiple
+            // --------------------------------------------------------------------
+            $('.typeahead-multi-datasets').typeahead({
+                hint: !isRtl,
+                highlight: true,
+                minLength: 0
+            }, {
+                name: 'nba-teams',
+                source: nbaExample,
+                display: 'team',
+                templates: {
+                    header: '<h4 class="league-name border-bottom mb-0 mx-3 mt-3 pb-2">NBA Teams</h4>'
+                }
+            }, {
+                name: 'nhl-teams',
+                source: nhlExample,
+                display: 'team',
+                templates: {
+                    header: '<h4 class="league-name border-bottom mb-0 mx-3 mt-3 pb-2">NHL Teams</h4>'
+                }
+            });
+        });
+    </script> --}}
 @endsection

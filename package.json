@@ -11,6 +11,8 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "@arcgis/core": "^4.29.10",
+    "esri-leaflet-geocoder": "^3.1.4",
     "jquery": "^3.7.1",
     "leaflet": "^1.9.4",
     "leaflet-control-geocoder": "^2.4.0",

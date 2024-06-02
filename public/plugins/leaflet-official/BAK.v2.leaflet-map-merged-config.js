@@ -250,23 +250,35 @@ function populateMarks4romDB(map, markersLayer) {
                         }) || "none"
                     };
 
+
+
                     const marker = L.marker(coordinates, tooltipData);
                     applyMarksToolTips();
                     function applyMarksToolTips() {
                         marker.bindTooltip(tooltipData.institution_name + "  ➟  " + tooltipData.institution_address);
                         markersLayer.addLayer(marker);
 
+                        // document.addEventListener('DOMContentLoaded', function () {
                         setDataModal(map, markersLayer);
-                    }
+                        // });
 
+                    }
                     return tooltipData;
+
+
+                    // const marker = L.marker(coordinates).bindTooltip(tooltipData.institution_name + " ➟ " + tooltipData.institution_address);
+                    // markersLayer.addLayer(marker);
+                    // return tooltipData;
+
+
+
                 });
             markersLayer.addTo(map);
 
 
 
             // console.log(markers);
-            // console.log("Data:", data);
+            console.log("Data:", data);
             // Populate the typeahead search field
             const institutionsNames = markers.map(marker => ({ search_item: marker.institution_name }));
             const institutionsAddress = markers.map(marker => ({ search_item: marker.institution_address }));
@@ -323,9 +335,7 @@ function populateMarks4romDB(map, markersLayer) {
                     const [lat, lon] = selectedCoordinates;
 
                     // Create a new marker and circle for the selected result
-                    selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.institution_name + " ➟ " + selectedMarkerData.institution_address, {
-                        permanent: true
-                    }).openTooltip();
+                    selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.institution_name + " ➟ " + selectedMarkerData.institution_address);
                     selectedCircle = L.circle(selectedCoordinates, { radius: 10, color: 'red' });
 
                     // Add the marker and circle to the map
@@ -333,8 +343,7 @@ function populateMarks4romDB(map, markersLayer) {
                     markersLayer.addLayer(selectedCircle);
 
                     // Pan the map to the selected marker
-                    // map.panTo(selectedCoordinates);
-                    map.setView(selectedCoordinates, 15);
+                    map.panTo(selectedCoordinates);
 
                     // Log the coordinates
                     console.log('Selected coordinates:', lat, lon);
@@ -356,8 +365,6 @@ function populateMarks4romDB(map, markersLayer) {
                         markersLayer.removeLayer(selectedCircle);
                         selectedCircle = null; // Set selectedCircle to null to clear it
                     }
-
-                    map.setView([-3.4763993, 115.2211498], 4.50);
                 } else {
                     // Find the corresponding marker based on the input value
                     const selectedMarkerData = markers.find(marker =>
@@ -381,9 +388,7 @@ function populateMarks4romDB(map, markersLayer) {
                         const [lat, lon] = selectedCoordinates;
 
                         // Create a new marker and circle for the selected result
-                        selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.institution_name + " ➟ " + selectedMarkerData.institution_address, {
-                            permanent: true
-                        }).openTooltip();
+                        selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.institution_name + " ➟ " + selectedMarkerData.institution_address);
                         selectedCircle = L.circle(selectedCoordinates, { radius: 10, color: 'red' });
 
                         // Add the marker and circle to the map
@@ -394,8 +399,6 @@ function populateMarks4romDB(map, markersLayer) {
 
                         // Pan the map to the selected marker
                         map.panTo(selectedCoordinates);
-
-
 
                         // Log the coordinates
                         console.log('Selected coordinates:', lat, lon);
