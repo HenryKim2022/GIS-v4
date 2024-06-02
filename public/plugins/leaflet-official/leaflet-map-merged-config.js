@@ -312,11 +312,11 @@ function populateMarks4romDB(map, markersLayer) {
                 }
                 if (selectedCircle) {
                     markersLayer.removeLayer(selectedCircle);
+                    map.setView([-3.4763993, 115.2211498], 4.50);
                 }
 
                 // Find the corresponding marker based on the selected result (matching name or address)
                 const selectedMarkerData = markers.find(marker => marker.institution_name === result.search_item || marker.institution_address === result.search_item);
-
                 if (selectedMarkerData) {
                     // Get the coordinates of the selected marker
                     const selectedCoordinates = [selectedMarkerData.institution_lat, selectedMarkerData.institution_lon];
@@ -334,7 +334,10 @@ function populateMarks4romDB(map, markersLayer) {
 
                     // Pan the map to the selected marker
                     map.panTo(selectedCoordinates);
-                    // map.setView(selectedCoordinates, 15);
+
+                    // Zoom the map to the selected marker
+                    // map.setZoom(15); // Adjust the zoom level as needed
+
 
                     // Log the coordinates
                     console.log('Selected coordinates:', lat, lon);
