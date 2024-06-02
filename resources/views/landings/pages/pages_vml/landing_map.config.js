@@ -26,14 +26,17 @@ function setStartingValue() {
 }
 
 
-function openModal() {
+function openModal(modalToShow, modalSelector) {
     isModalActive = true;
+    modalToShow.show();
+    modalSelector.scrollIntoView();
 
     document.getElementById('map-overlay').style.display = 'block';
     document.getElementById('map').style.pointerEvents = 'none';
 }
-function closeModal() {
+function closeModal(modalToShow) {
     isModalActive = false;
+    modalToShow.hide();
 
     document.getElementById('map-overlay').style.display = 'none';
     document.getElementById('map').style.pointerEvents = 'auto';
@@ -170,12 +173,10 @@ function setDataModal(map, markersLayer, selectedMarkerData = []) {
 
 
 
-            openModal();
-            modalToShow.show();
+            openModal(modalToShow, modalSelector);
             const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
             closeModalBtn.addEventListener('click', function () {
-                closeModal();
-                modalToShow.hide();
+                closeModal(modalToShow);
             });
 
 
@@ -633,12 +634,10 @@ function setDataModalAfterSearch(selectedMarkerData = []) {
         }
     }
 
-    openModal();
-    modalToShow.show();
+    openModal(modalToShow, modalSelector);
     const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
     closeModalBtn.addEventListener('click', function () {
-        closeModal();
-        modalToShow.hide();
+        closeModal(modalToShow);
     });
 }
 
