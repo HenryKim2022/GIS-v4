@@ -333,8 +333,8 @@ function populateMarks4romDB(map, markersLayer) {
                     markersLayer.addLayer(selectedCircle);
 
                     // Pan the map to the selected marker
-                    // map.panTo(selectedCoordinates);
-                    map.setView(selectedCoordinates, 15);
+                    map.panTo(selectedCoordinates);
+                    // map.setView(selectedCoordinates, 15);
 
                     // Log the coordinates
                     console.log('Selected coordinates:', lat, lon);
