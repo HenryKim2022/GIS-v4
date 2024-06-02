@@ -87,11 +87,15 @@
                                     border-top-left-radius: 0%;
                                     border-bottom-left-radius: 0%;
                                 }
-                                input#searchLeafletField{
+
+                                input#searchLeafletField {
                                     padding-right: 3.3rem;
                                 }
+                                div.tt-menu{
+                                    z-index: 1085 !important;
+                                }
                             </style>
-                            <div class="card-body pb-0" style="z-index: 9999;">
+                            <div class="card-body pb-0" style="">
                                 <div class="col-12 mt-1">
                                     <label for="searchLeafletField" class="form-label">Search</label>
                                     <div class="w-100">
@@ -105,18 +109,35 @@
                                 </div>
                             </div>
 
+                            <style>
+                                .map-overlay {
+                                    position: fixed;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: transparent;
+                                    z-index: 1000;
+                                    display: none;
+                                }
+                            </style>
+
                             <div class="card-body" id="leaflet_card_body">
-                                <div id="map" class="leaflet-map leaflet_wrapper" id="userLocation">
+                                <div id="map-overlay" class="map-overlay">
                                 </div>
+                                <div id="map" class="leaflet-map leaflet_wrapper" id="userLocation">
+
+                                </div>
+
                                 {{-- MERGED MODALS: v_viewmark_modal --}}
                                 @include('landings.modals.v_viewmark_modal')
 
-                                {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
-                                <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config.js') }}"></script>
+                                <script src="{{ asset('resources/views/landings/pages/pages_vml/landing_map.config.js') }}"></script>
 
+                                {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
+                                {{-- <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config.js') }}"></script> --}}
 
                             </div>
-                            {{-- im using typehead.js, the other depedency of materialize already present and imported! --}}
 
 
                         </div>

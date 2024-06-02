@@ -28,9 +28,15 @@ function setStartingValue() {
 
 function openModal() {
     isModalActive = true;
+
+    document.getElementById('map-overlay').style.display = 'block';
+    document.getElementById('map').style.pointerEvents = 'none';
 }
 function closeModal() {
     isModalActive = false;
+
+    document.getElementById('map-overlay').style.display = 'none';
+    document.getElementById('map').style.pointerEvents = 'auto';
 }
 
 function setDataModal(map, markersLayer, selectedMarkerData = []) {
@@ -189,12 +195,24 @@ function initLeafletMap() {
             forcePseudoFullscreen: false
         },
         gestureHandling: true,
+        // zoom: {
+        //     scrollWheelZoom: false,
+        //     wheelPxPerZoomLevel: 120
+        // }
     }).setView(startingCoordinates, startingZoom);
 
     var appName = "GIS";
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">${appName}</a>`
     }).addTo(map);
+
+    // Override scroll behavior for the map container when modal is active
+    map.addEventListener('wheel', function (event) {
+        if (isModalActive) {
+            event.stopPropagation();
+        }
+    }, { passive: false });
+
 
 
     function handleViewportChange() {
@@ -412,6 +430,7 @@ function populateMarks4romDB(map, markersLayer) {
                     const searchField = document.getElementById('searchLeafletField');
                     clearInputButton.addEventListener('click', () => {
                         searchField.value = '';
+                        markersLayer.removeLayer(selectedCircle);
                         map.flyTo(startingCoordinates, startingZoom);
                     });
 
@@ -487,6 +506,7 @@ function populateMarks4romDB(map, markersLayer) {
                         const searchField = document.getElementById('searchLeafletField');
                         clearInputButton.addEventListener('click', () => {
                             searchField.value = '';
+                            markersLayer.removeLayer(selectedCircle);
                             map.flyTo(startingCoordinates, startingZoom);
                         });
 

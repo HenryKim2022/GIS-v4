@@ -14,11 +14,19 @@
     .swiper-button-prev::after {
         content: '\e5cb';
     }
+
+    /* CSS */
+    @-moz-document url-prefix() {
+        .modal-body{
+            overflow-x: hidden !important;
+        }
+    }
 </style>
 
 
 <!-- Modal: EditProfile / edit profile modal -->
-<div class="modal fade" id="viewMarkVisitorModal" data-bs-backdrop="false" tabindex="-1" style="z-index: 1104 !important;">
+<div class="modal fade" style="overflow-x: hidden" id="viewMarkVisitorModal" data-bs-backdrop="false" tabindex="-1"
+    style="z-index: 1104 !important;">
     <div class="modal-dialog modal-lg modal-simple modal-edit-user modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content p-3 p-md-1 pt-md-5">
             <div class="modal-body py-3 py-md-0">
@@ -184,8 +192,7 @@
                         <div class="col-12 text-center">
                             <div class="d-flex flex-col justify-content-end">
                                 <button class="modal-btn modal-view-mark-cancel-btn btn btn-primary"
-                                    {{-- data-bs-dismiss="modal"  --}}
-                                    id="close_modalviewMarkVisitorModal">Close</button>
+                                    {{-- data-bs-dismiss="modal"  --}} id="close_modalviewMarkVisitorModal">Close</button>
 
                             </div>
                         </div>
@@ -222,6 +229,7 @@
     const viewMarkVisitorModal = document.getElementById('viewMarkVisitorModal');
     viewMarkVisitorModal.addEventListener('click', function(event) {
         event.preventDefault(); // Prevent autoscroll & prevent leaflet auto-exit fullscreen
+        event.stopPropagation();
     });
 
 
