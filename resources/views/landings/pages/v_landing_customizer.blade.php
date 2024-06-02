@@ -69,13 +69,42 @@
                                     </div>
                                 </h5>
                             </div>
-                            <div class="card-body pb-0" style="z-index: 9999;">
+                            {{-- <div class="card-body pb-0" style="z-index: 9999;">
                                 <div class="col-12 mt-1">
                                     <label for="searchLeafletField" class="form-label">Search</label>
                                     <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
-                                        type="text" autocomplete="off" placeholder="e.g sma/ jl" />
+                                        type="text" autocomplete="off" placeholder="e.g sma/ jl/ -" />
                                 </div>
                             </div>
+                            --}}
+
+
+                            <style>
+                                span.clearInput {
+                                    top: 4.64rem;
+                                    right: -0.28rem;
+                                    transform: translate(-50%, -50%);
+                                    border-top-left-radius: 0%;
+                                    border-bottom-left-radius: 0%;
+                                }
+                                input#searchLeafletField{
+                                    padding-right: 3.3rem;
+                                }
+                            </style>
+                            <div class="card-body pb-0" style="z-index: 9999;">
+                                <div class="col-12 mt-1">
+                                    <label for="searchLeafletField" class="form-label">Search</label>
+                                    <div class="w-100">
+                                        <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
+                                            type="text" autocomplete="off" placeholder="e.g sma/ jl/ -" />
+                                        <span class="input-group-text clearInput position-absolute" type="button"
+                                            data-bs-dismiss="input" aria-label="Clear input">
+                                            <i class="mdi mdi-close"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="card-body" id="leaflet_card_body">
                                 <div id="map" class="leaflet-map leaflet_wrapper" id="userLocation">
                                 </div>
@@ -609,7 +638,7 @@
         })
     </script>
 
-{{--
+    {{--
     <script>
         'use strict';
         $(function() {
