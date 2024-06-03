@@ -17,6 +17,42 @@
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}" />
+
+    <style>
+        .hover-image {
+            cursor: pointer;
+        }
+
+        #image-popup {
+            display: none;
+            position: fixed;
+            background-color: #30334e;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-clip: padding-box;
+            border: 1px solid rgba(20, 21, 33, 0.175);
+            border-radius: 0.625rem;
+            outline: 0;
+            z-index: 9999;
+        }
+
+        #image-popup img {
+            width: 100%;
+        }
+
+        #image-popup .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.6rem;
+            cursor: pointer;
+            color: #fff;
+            background-color: rgba(248, 23, 23, 0.267);
+        }
+
+        #image-popup .close-btn:hover {
+            background-color: rgba(248, 23, 23, 0.945);
+        }
+    </style>
 @endsection
 
 
@@ -144,9 +180,13 @@
                     #image-popup {
                         display: none;
                         position: fixed;
-                        background-color: inherit;
+                        background-color: #30334e;
                         padding: 10px;
-                        box-shadow: inherit;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                        background-clip: padding-box;
+                        border: 1px solid rgba(20, 21, 33, 0.175);
+                        border-radius: 0.625rem;
+                        outline: 0;
                         z-index: 9999;
                     }
 

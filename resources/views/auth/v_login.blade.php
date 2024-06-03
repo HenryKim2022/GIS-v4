@@ -122,13 +122,15 @@
       <!-- /Logo -->
       <div class="authentication-inner row m-0">
         <!-- /Left Section -->
-        <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-5 pb-2">
+        <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center pl-5 pr-5 pb-2">
           <img
-            src="{{ asset('public/materialize/assets/img/illustrations/auth-login-illustration-light.png') }}"
+            {{-- src="{{ asset('public/materialize/assets/img/illustrations/auth-login-illustration-light.png') }}" --}}
+            src="{{ asset('public/materialize/assets/img/illustrations/auth-login-illustration-dark-v2.png') }}"
             class="auth-cover-illustration w-100"
             alt="auth-illustration"
-            data-app-light-img="illustrations/auth-login-illustration-light.png"
-            data-app-dark-img="illustrations/auth-login-illustration-dark.png" />
+            {{-- data-app-light-img="illustrations/auth-login-illustration-light.png" --}}
+            data-app-light-img="illustrations/auth-login-illustration-dark-v2.png"
+            data-app-dark-img="illustrations/auth-login-illustration-dark-v2.png" />
           <img
             src="{{ asset('public/materialize/assets/img/illustrations/auth-cover-login-mask-light.png') }}"
             class="authentication-image"

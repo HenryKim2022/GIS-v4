@@ -5,21 +5,42 @@
 @section('head_page_cssjs')
     <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/dropzone/dropzone.css') }}" />
     <script src="{{ asset('public/materialize/assets/vendor/libs/dropzone/dropzone.js') }}"></script>
-@endsection
 
-@section('footer_page_js')
-    <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script>
-
-    <script>
-        var hover_images = document.querySelectorAll('.hover-image');
-        if (hover_images.length > 0) {
-            hover_images.forEach(function(hover_img) {
-                hover_img.setAttribute('data-bs-toggle', 'tooltip');
-                hover_img.setAttribute('data-bs-placement', 'top');
-                hover_img.setAttribute('title', 'Click to Enlarge!');
-            });
+    <style>
+        .hover-image {
+            cursor: pointer;
         }
-    </script>
+
+        #image-popup {
+            display: none;
+            position: fixed;
+            background-color: #30334e;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-clip: padding-box;
+            border: 1px solid rgba(20, 21, 33, 0.175);
+            border-radius: 0.625rem;
+            outline: 0;
+            z-index: 9999;
+        }
+
+        #image-popup img {
+            width: 100%;
+        }
+
+        #image-popup .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.6rem;
+            cursor: pointer;
+            color: #fff;
+            background-color: rgba(248, 23, 23, 0.267);
+        }
+
+        #image-popup .close-btn:hover {
+            background-color: rgba(248, 23, 23, 0.945);
+        }
+    </style>
 @endsection
 
 
@@ -32,6 +53,13 @@
         $page_title = $page['page_title'];
         $page_url = $page['page_url'];
     @endphp
+
+    <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
+        {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
+        <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i
+                class="mdi mdi-close"></i></span>
+        <img src="" alt="Large Image" />
+    </div>
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row gy-4 d-flex align-content-center justify-center text-center">
@@ -875,3 +903,64 @@
     </div>
 @endsection
 <!-- / CONTENT: DASHBOARD -->
+
+
+
+
+@section('footer_page_js')
+    <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hoverImages = document.querySelectorAll('.hover-image');
+            const imagePopup = document.getElementById('image-popup');
+            const popupImage = imagePopup.querySelector('img');
+            const closeBtn = imagePopup.querySelector('.close-btn');
+
+            hoverImages.forEach(function(image) {
+                image.addEventListener('click', function() {
+                    const largeImageSrc = this.getAttribute('src');
+                    popupImage.src = largeImageSrc;
+                    imagePopup.style.display = 'block';
+                    centerPopup();
+                });
+            });
+
+            closeBtn.addEventListener('click', function() {
+                imagePopup.style.display = 'none';
+            });
+
+            // Center the popup when the window is resized
+            window.addEventListener('resize', function() {
+                if (imagePopup.style.display === 'block') {
+                    centerPopup();
+                }
+            });
+
+            // Function to center the popup
+            function centerPopup() {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const popupWidth = imagePopup.offsetWidth;
+                const popupHeight = imagePopup.offsetHeight;
+
+                const topPosition = (windowHeight - popupHeight) / 2;
+                const leftPosition = (windowWidth - popupWidth) / 2;
+
+                imagePopup.style.top = topPosition + 'px';
+                imagePopup.style.left = leftPosition + 'px';
+            }
+
+            var hover_images = document.querySelectorAll('.hover-image');
+            if (hover_images.length > 0) {
+                hover_images.forEach(function(hover_img) {
+                    hover_img.setAttribute('data-bs-toggle', 'tooltip');
+                    hover_img.setAttribute('data-bs-placement', 'top');
+                    hover_img.setAttribute('data-bs-custom-class', 'tooltip-primary');
+                    hover_img.setAttribute('title', 'Click to Enlarge!');
+                });
+            }
+
+        });
+    </script>
+@endsection

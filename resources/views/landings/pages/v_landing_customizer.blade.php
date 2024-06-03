@@ -8,6 +8,42 @@
 
     <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/dropzone/dropzone.css') }}" />
     <script src="{{ asset('public/materialize/assets/vendor/libs/dropzone/dropzone.js') }}"></script>
+
+    <style>
+        .hover-image {
+            cursor: pointer;
+        }
+
+        #image-popup {
+            display: none;
+            position: fixed;
+            background-color: #30334e;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-clip: padding-box;
+            border: 1px solid rgba(20, 21, 33, 0.175);
+            border-radius: 0.625rem;
+            outline: 0;
+            z-index: 9999;
+        }
+
+        #image-popup img {
+            width: 100%;
+        }
+
+        #image-popup .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.6rem;
+            cursor: pointer;
+            color: #fff;
+            background-color: rgba(248, 23, 23, 0.267);
+        }
+
+        #image-popup .close-btn:hover {
+            background-color: rgba(248, 23, 23, 0.945);
+        }
+    </style>
 @endsection
 
 
@@ -28,6 +64,12 @@
         $page = Session::get('page');
         $page_title = $page['page_title'];
     @endphp
+
+    <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
+        {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
+        <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i class="mdi mdi-close"></i></span>
+        <img src="" alt="Large Image" />
+    </div>
 
     <!-- Hero: Start -->
     <section id="hero" class="section-py pt-5 landing-hero position-relative">
@@ -91,7 +133,8 @@
                                 input#searchLeafletField {
                                     padding-right: 3.3rem;
                                 }
-                                div.tt-menu{
+
+                                div.tt-menu {
                                     z-index: 1085 !important;
                                 }
                             </style>
@@ -581,14 +624,74 @@
     <script src="{{ asset('public/materialize/assets/js/forms-selects.js') }}"></script>
 
     <script>
-        var hover_images = document.querySelectorAll('.hover-image');
-        if (hover_images.length > 0) {
-            hover_images.forEach(function(hover_img) {
-                hover_img.setAttribute('data-bs-toggle', 'tooltip');
-                hover_img.setAttribute('data-bs-placement', 'top');
-                hover_img.setAttribute('title', 'Click to Enlarge!');
+        document.addEventListener('DOMContentLoaded', function() {
+            const hoverImages = document.querySelectorAll('.hover-image');
+            const imagePopup = document.getElementById('image-popup');
+            const popupImage = imagePopup.querySelector('img');
+            const closeBtn = imagePopup.querySelector('.close-btn');
+
+            hoverImages.forEach(function(image) {
+                image.addEventListener('click', function() {
+                    const largeImageSrc = this.getAttribute('src');
+                    popupImage.src = largeImageSrc;
+                    imagePopup.style.display = 'block';
+                    centerPopup();
+                });
             });
-        }
+
+            closeBtn.addEventListener('click', function() {
+                imagePopup.style.display = 'none';
+            });
+
+            var modalViewImagesPreview = document.getElementById('swiperImagesContainerView');
+            if (modalViewImagesPreview) {
+                document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
+                    // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
+                    var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
+                    var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
+
+                    var clickedImage = event.target.closest('img');
+                    if (clickedImage) {
+                        const largeImageSrc = clickedImage.getAttribute('src');
+                        // var clickedImageUrl = clickedImage.src;
+                        popupImage.src = largeImageSrc;
+                        imagePopup.style.display = 'block';
+                        centerPopup();
+                    }
+                });
+            }
+
+
+            // Center the popup when the window is resized
+            window.addEventListener('resize', function() {
+                if (imagePopup.style.display === 'block') {
+                    centerPopup();
+                }
+            });
+
+            // Function to center the popup
+            function centerPopup() {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const popupWidth = imagePopup.offsetWidth;
+                const popupHeight = imagePopup.offsetHeight;
+
+                const topPosition = (windowHeight - popupHeight) / 2;
+                const leftPosition = (windowWidth - popupWidth) / 2;
+
+                imagePopup.style.top = topPosition + 'px';
+                imagePopup.style.left = leftPosition + 'px';
+            }
+
+            var hover_images = document.querySelectorAll('.hover-image');
+            if (hover_images.length > 0) {
+                hover_images.forEach(function(hover_img) {
+                    hover_img.setAttribute('data-bs-toggle', 'tooltip');
+                    hover_img.setAttribute('data-bs-placement', 'top');
+                    hover_img.setAttribute('title', 'Click to Enlarge!');
+                });
+            }
+        });
     </script>
 
     <script>
@@ -671,87 +774,6 @@
                     search_item: 'Dallas Mavericks'
                 },
                 {
-                    search_item: 'Brooklyn Nets'
-                },
-                {
-                    search_item: 'Houston Rockets'
-                },
-                {
-                    search_item: 'New York Knicks'
-                },
-                {
-                    search_item: 'Memphis Grizzlies'
-                },
-                {
-                    search_item: 'Philadelphia 76ers'
-                },
-                {
-                    search_item: 'New Orleans Hornets'
-                },
-                {
-                    search_item: 'Toronto Raptors'
-                },
-                {
-                    search_item: 'San Antonio Spurs'
-                },
-                {
-                    search_item: 'Chicago Bulls'
-                },
-                {
-                    search_item: 'Denver Nuggets'
-                },
-                {
-                    search_item: 'Cleveland Cavaliers'
-                },
-                {
-                    search_item: 'Minnesota Timberwolves'
-                },
-                {
-                    search_item: 'Detroit Pistons'
-                },
-                {
-                    search_item: 'Portland Trail Blazers'
-                },
-                {
-                    search_item: 'Indiana Pacers'
-                },
-                {
-                    search_item: 'Oklahoma City Thunder'
-                },
-                {
-                    search_item: 'Milwaukee Bucks'
-                },
-                {
-                    search_item: 'Utah Jazz'
-                },
-                {
-                    search_item: 'Atlanta Hawks'
-                },
-                {
-                    search_item: 'Golden State Warriors'
-                },
-                {
-                    search_item: 'Charlotte Bobcats'
-                },
-                {
-                    search_item: 'Los Angeles Clippers'
-                },
-                {
-                    search_item: 'Miami Heat'
-                },
-                {
-                    search_item: 'Los Angeles Lakers'
-                },
-                {
-                    search_item: 'Orlando Magic'
-                },
-                {
-                    search_item: 'Phoenix Suns'
-                },
-                {
-                    search_item: 'Washington Wizards'
-                },
-                {
                     search_item: 'Sacramento Kings'
                 }
             ];
@@ -763,87 +785,6 @@
                 },
                 {
                     search_item: 'New York Rangers'
-                },
-                {
-                    search_item: 'Philadelphia Flyers'
-                },
-                {
-                    search_item: 'Pittsburgh Penguins'
-                },
-                {
-                    search_item: 'Chicago Blackhawks'
-                },
-                {
-                    search_item: 'Columbus Blue Jackets'
-                },
-                {
-                    search_item: 'Detroit Red Wings'
-                },
-                {
-                    search_item: 'Nashville Predators'
-                },
-                {
-                    search_item: 'St. Louis Blues'
-                },
-                {
-                    search_item: 'Boston Bruins'
-                },
-                {
-                    search_item: 'Buffalo Sabres'
-                },
-                {
-                    search_item: 'Montreal Canadiens'
-                },
-                {
-                    search_item: 'Ottawa Senators'
-                },
-                {
-                    search_item: 'Toronto Maple Leafs'
-                },
-                {
-                    search_item: 'Calgary Flames'
-                },
-                {
-                    search_item: 'Colorado Avalanche'
-                },
-                {
-                    search_item: 'Edmonton Oilers'
-                },
-                {
-                    search_item: 'Minnesota Wild'
-                },
-                {
-                    search_item: 'Vancouver Canucks'
-                },
-                {
-                    search_item: 'Carolina Hurricanes'
-                },
-                {
-                    search_item: 'Florida Panthers'
-                },
-                {
-                    search_item: 'Tampa Bay Lightning'
-                },
-                {
-                    search_item: 'Washington Capitals'
-                },
-                {
-                    search_item: 'Winnipeg Jets'
-                },
-                {
-                    search_item: 'Anaheim Ducks'
-                },
-                {
-                    search_item: 'Dallas Stars'
-                },
-                {
-                    search_item: 'Los Angeles Kings'
-                },
-                {
-                    search_item: 'Phoenix Coyotes'
-                },
-                {
-                    search_item: 'San Jose Sharks'
                 }
             ];
 

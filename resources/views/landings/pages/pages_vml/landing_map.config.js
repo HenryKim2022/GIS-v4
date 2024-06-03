@@ -208,12 +208,22 @@ function initLeafletMap() {
         attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">${appName}</a>`
     }).addTo(map);
 
+    L.control.mousePosition({
+        position: 'bottomright',
+        formatter: function (lat, lng) {
+            var latDirection = lat >= 0 ? '' : '-';
+            var lngDirection = lng >= 0 ? '' : '-';
+            return lngDirection + Math.abs(lng).toFixed(7) + ' ' + latDirection + Math.abs(lat).toFixed(7);
+        }
+    }).addTo(map);
+
     // Override scroll behavior for the map container when modal is active
-    map.addEventListener('wheel', function (event) {
+    map.addEventListener('click', function (event) {
         if (isModalActive) {
             event.stopPropagation();
         }
     }, { passive: false });
+
 
 
 
@@ -686,11 +696,22 @@ function initializeSearchControl(map, markersLayer) {
 }
 
 
+function addResetViewControl(map) {
+    var resetControl = L.control.resetView({
+        position: "topright",
+        title: "Reset view",
+        latlng: L.latLng(startingCoordinates),
+        zoom: startingZoom,
+    }).addTo(map);
+}
+
+
+
 
 // ############################################################# MAIN CALLER ############################################################# //
 
 var map = initLeafletMap();
 var markersLayer = L.layerGroup();
 populateMarks4romDB(map, markersLayer);
-
+addResetViewControl(map);
 

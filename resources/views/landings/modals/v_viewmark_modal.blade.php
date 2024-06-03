@@ -17,12 +17,11 @@
 
     /* CSS */
     @-moz-document url-prefix() {
-        .modal-body{
+        .modal-body {
             overflow-x: hidden !important;
         }
     }
 </style>
-
 
 <!-- Modal: EditProfile / edit profile modal -->
 <div class="modal fade" style="overflow-x: hidden" id="viewMarkVisitorModal" data-bs-backdrop="false" tabindex="-1"
@@ -86,41 +85,43 @@
                         <script>
                             var modalViewLogoPreview = document.getElementById('modalViewLogoPreview');
 
-                            // Add magnifying icon on hover
-                            modalViewLogoPreview.addEventListener('mouseenter', function() {
-                                var zoomIcon = document.createElement('i');
-                                zoomIcon.classList.add('mdi', 'mdi-magnify', 'magnify-icon');
-                                zoomIcon.style.position = 'absolute';
-                                zoomIcon.style.top = '50%';
-                                zoomIcon.style.left = '50%';
-                                zoomIcon.style.transform = 'translate(-50%, -26%)';
-                                zoomIcon.style.display = 'flex';
-                                zoomIcon.style.justifyContent = 'center';
-                                zoomIcon.style.alignItems = 'center';
-                                zoomIcon.style.fontSize = '24px';
-                                zoomIcon.style.color = 'white';
-                                zoomIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                                zoomIcon.style.borderRadius = '50%';
-                                zoomIcon.style.padding = '8px';
-                                zoomIcon.style.zIndex = '1';
-                                modalViewLogoPreview.appendChild(zoomIcon);
-                            });
+                            // // Add magnifying icon on hover
+                            // modalViewLogoPreview.addEventListener('mouseenter', function() {
+                            //     var zoomIcon = document.createElement('i');
+                            //     zoomIcon.classList.add('mdi', 'mdi-magnify', 'magnify-icon');
+                            //     zoomIcon.style.position = 'absolute';
+                            //     zoomIcon.style.top = '50%';
+                            //     zoomIcon.style.left = '50%';
+                            //     zoomIcon.style.transform = 'translate(-50%, -26%)';
+                            //     zoomIcon.style.display = 'flex';
+                            //     zoomIcon.style.justifyContent = 'center';
+                            //     zoomIcon.style.alignItems = 'center';
+                            //     zoomIcon.style.fontSize = '24px';
+                            //     zoomIcon.style.color = 'white';
+                            //     zoomIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                            //     zoomIcon.style.borderRadius = '50%';
+                            //     zoomIcon.style.padding = '8px';
+                            //     zoomIcon.style.zIndex = '1';
+                            //     modalViewLogoPreview.appendChild(zoomIcon);
+                            // });
 
-                            // Remove magnifying icon on hover out
-                            modalViewLogoPreview.addEventListener('mouseleave', function() {
-                                var zoomIcon = modalViewLogoPreview.querySelector('.magnify-icon');
-                                if (zoomIcon) {
-                                    zoomIcon.remove();
-                                }
-                            });
+                            // // Remove magnifying icon on hover out
+                            // var zoomIcon = modalViewLogoPreview.querySelector('.magnify-icon');
+                            // modalViewLogoPreview.addEventListener('mouseleave', function() {
+                            //     if (zoomIcon) {
+                            //         zoomIcon.remove();
+                            //     }
+                            // });
 
+                            // // Add click event listener to open the image in a Bootstrap 5 image modal
+                            // modalViewLogoPreview.addEventListener('click', function() {
+                            //     var modalViewLogoPopUp = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
+                            //     var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
+                            //     modalViewZoomImageContent.src = modalViewLogoPreview.querySelector('.logo-preview').src;
+                            //     modalViewLogoPopUp.show();
+                            // });
                             // Add click event listener to open the image in a Bootstrap 5 image modal
-                            modalViewLogoPreview.addEventListener('click', function() {
-                                var modalViewLogoPopUp = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
-                                var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
-                                modalViewZoomImageContent.src = modalViewLogoPreview.querySelector('.logo-preview').src;
-                                modalViewLogoPopUp.show();
-                            });
+
                         </script>
                     </div>
 
@@ -155,20 +156,37 @@
 
 
                         <script>
-                            var modalViewImagesPreview = document.getElementById('swiperImagesContainerView');
-                            // Add event listeners to dynamically generated images
-                            document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
-                                // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
-                                var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
-                                var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
+                            // var modalViewImagesPreview = document.getElementById('swiperImagesContainerView');
+                            // // Add event listeners to dynamically generated images
+                            // // document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
+                            // //     // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
+                            // //     var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
+                            // //     var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
 
-                                var clickedImage = event.target.closest('img');
-                                if (clickedImage) {
-                                    var clickedImageUrl = clickedImage.src;
-                                    modalViewZoomImageContent.src = clickedImageUrl;
-                                    modalViewImage.show();
-                                }
-                            });
+                            // //     var clickedImage = event.target.closest('img');
+                            // //     if (clickedImage) {
+                            // //         var clickedImageUrl = clickedImage.src;
+                            // //         modalViewZoomImageContent.src = clickedImageUrl;
+                            // //         modalViewImage.show();
+                            // //     }
+                            // // });
+                            // document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
+                            //     // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
+                            //     var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
+                            //     var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
+
+                            //     var clickedImage = event.target.closest('img');
+                            //     if (clickedImage) {
+                            //         const largeImageSrc = clickedImage.getAttribute('src');
+                            //         // var clickedImageUrl = clickedImage.src;
+                            //         popupImage.src = largeImageSrc;
+                            //         imagePopup.style.display = 'block';
+                            //         centerPopup();
+                            //     }
+                            // });
+
+
+
 
                             // Get the swiperNavs
                             var swiperNavs = document.getElementById('swiperImagesContainerView');

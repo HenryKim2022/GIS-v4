@@ -124,4 +124,8 @@
 <script src="{{ asset('public/plugins/leaflet-official/leaflet.routing.machine/dist/leaflet-routing-machine.js') }}">
 </script>
 
-{{-- LeafletExtraMarkers (addons) --}}
+{{-- LeafletMousePosition (addons) --}}
+<link rel="stylesheet"
+    href="{{ asset('public/plugins/leaflet-official/leaflet.mouse.position/src/L.Control.MousePosition.css') }}" />
+<script src="{{ asset('public/plugins/leaflet-official/leaflet.mouse.position/src/L.Control.MousePosition.js') }}">
+</script>

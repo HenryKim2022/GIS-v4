@@ -17,6 +17,42 @@
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('public/materialize/assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}" />
+
+    <style>
+        .hover-image {
+            cursor: pointer;
+        }
+
+        #image-popup {
+            display: none;
+            position: fixed;
+            background-color: #30334e;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-clip: padding-box;
+            border: 1px solid rgba(20, 21, 33, 0.175);
+            border-radius: 0.625rem;
+            outline: 0;
+            z-index: 9999;
+        }
+
+        #image-popup img {
+            width: 100%;
+        }
+
+        #image-popup .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.6rem;
+            cursor: pointer;
+            color: #fff;
+            background-color: rgba(248, 23, 23, 0.267);
+        }
+
+        #image-popup .close-btn:hover {
+            background-color: rgba(248, 23, 23, 0.945);
+        }
+    </style>
 @endsection
 
 
@@ -45,8 +81,7 @@
                         class="btn btn-sm btn-text-primary rounded-pill btn-icon dropdown-toggle hide-arrow"
                         data-bs-toggle="dropdown"><i class="mdi mdi-table-cog"></i></a>
                     <div class="dropdown-menu dropdown-menu-end m-0">
-                        <a href="javascript:;"
-                            class="dropdown-item text-success add-image-record btn-sm mdi mdi-image-text"
+                        <a href="javascript:;" class="dropdown-item text-success add-image-record btn-sm mdi mdi-image-text"
                             data-bs-toggle="modal" data-bs-target="#addImageModalTB"> Add
                             New Data</a>
                         <div class="dropdown-divider"></div>
@@ -109,7 +144,8 @@
                                         <td>
                                             <div class="d-flex align-items-center justify-content-around">
                                                 <img src="{{ $instituImage->img_src != null ? $instituImage->img_src : asset(env(key: 'APP_NOIMAGE')) }}"
-                                                    alt="{{ $instituImage->img_alt }}" style="height: 24px; width: 24px;" class="hover-image">
+                                                    alt="{{ $instituImage->img_alt }}" style="height: 24px; width: 24px;"
+                                                    class="hover-image">
                                             </div>
                                         </td>
                                         <td>{{ $instituImage->updated_at }}</td>
@@ -119,37 +155,6 @@
                         </table>
 
 
-                        <style>
-                            .hover-image {
-                                cursor: pointer;
-                            }
-
-                            #image-popup {
-                                display: none;
-                                position: fixed;
-                                background-color: inherit;
-                                padding: 10px;
-                                box-shadow: inherit;
-                                z-index: 9999;
-                            }
-
-                            #image-popup img {
-                                width: 100%;
-                            }
-
-                            #image-popup .close-btn {
-                                position: absolute;
-                                top: 1rem;
-                                right: 1.6rem;
-                                cursor: pointer;
-                                color: #fff;
-                                background-color: rgba(248, 23, 23, 0.267);
-                            }
-
-                            #image-popup .close-btn:hover {
-                                background-color: rgba(248, 23, 23, 0.945);
-                            }
-                        </style>
                         <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
                             {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
                             <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i
