@@ -34,6 +34,17 @@ function openModal(modalToShow, modalSelector) {
     modalToShow.show();
     modalSelector.scrollIntoView();
 
+    $('body').on('click', modalSelector, function(oEvt) {
+        oEvt.preventDefault(); // Prevents the default behavior of the click event
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (isModalActive && event.key === 'Escape') {
+            closeModal(modalToShow);
+        }
+    });
+
+
     document.getElementById('map-overlay').style.display = 'block';
     document.getElementById('map').style.pointerEvents = 'none';
 }
@@ -45,7 +56,7 @@ function closeModal(modalToShow) {
     document.getElementById('map').style.pointerEvents = 'auto';
 }
 
-function setDataModal(map, markersLayer, whichModal = 'viewMarkVisitorModal') {
+function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
     const modalSelector = document.querySelector('#' + whichModal);
     const modalToShow = new bootstrap.Modal(modalSelector);
     const targetedModalForm = document.querySelector('#' + whichModal + ' #viewMarkForm');
@@ -177,7 +188,7 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkVisitorModal') {
 
 
             openModal(modalToShow, modalSelector);
-            const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
+            const closeModalBtn = $(modalSelector).find('#close_modalviewMarkUserModal')[0];
             closeModalBtn.addEventListener('click', function () {
                 closeModal(modalToShow);
             });
@@ -204,6 +215,16 @@ function initLeafletMap() {
             wheelPxPerZoomLevel: 120
         }
     }).setView(startingCoordinates, startingZoom);
+
+    map.on('enterFullscreen', function () {
+        map.scrollWheelZoom.disable(); // Disable scroll wheel zoom in fullscreen mode
+        console.log('in fullscreen mode');
+    });
+    map.on('exitFullscreen', function () {
+        map.scrollWheelZoom.enable(); // Enable scroll wheel zoom when exiting fullscreen mode
+        console.log('not fullscreen mode');
+    });
+
 
     var appName = "GIS";
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -538,7 +559,7 @@ function populateMarks4romDB(map, markersLayer) {
 }
 
 
-function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMarkVisitorModal") {
+function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMarkUserModal") {
     const modalSelector = document.querySelector('#' + whichModal);
     const modalToShow = new bootstrap.Modal(modalSelector);
     const targetedModalForm = document.querySelector('#' + whichModal + ' #viewMarkForm');
@@ -650,7 +671,7 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
     }
 
     openModal(modalToShow, modalSelector);
-    const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
+    const closeModalBtn = $(modalSelector).find('#close_modalviewMarkUserModal')[0];
     closeModalBtn.addEventListener('click', function () {
         closeModal(modalToShow);
     });

@@ -36,6 +36,12 @@ function openModal(modalToShow, modalSelector) {
         oEvt.preventDefault(); // Prevents the default behavior of the click event
     });
 
+    document.addEventListener('keydown', function (event) {
+        if (isModalActive && event.key === 'Escape') {
+            closeModal(modalToShow);
+        }
+    });
+
     document.getElementById('map-overlay').style.display = 'block';
     document.getElementById('map').style.pointerEvents = 'none';
 }
@@ -209,7 +215,6 @@ function initLeafletMap() {
         map.scrollWheelZoom.disable(); // Disable scroll wheel zoom in fullscreen mode
         console.log('in fullscreen mode');
     });
-
     map.on('exitFullscreen', function () {
         map.scrollWheelZoom.enable(); // Enable scroll wheel zoom when exiting fullscreen mode
         console.log('not fullscreen mode');

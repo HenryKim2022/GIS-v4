@@ -1,5 +1,5 @@
 <!-- Modal: EditProfile / edit profile modal -->
-<div class="modal fade" id="viewMarkModal" data-bs-backdrop="false" tabindex="-1" style="z-index: 1104 !important;">
+<div class="modal fade" id="viewMarkUserModal" data-bs-backdrop="false" tabindex="-1" style="z-index: 1104 !important;">
     <div class="modal-dialog modal-lg modal-simple modal-edit-user modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content p-3 p-md-1 pt-md-5">
             <div class="modal-body py-3 py-md-0">
@@ -7,7 +7,7 @@
                 <div class="text-center mb-4">
                     <h3 class="mb-2">View Mark Information</h3>
                 </div>
-                <form id="viewUserForm" class="row g-2">
+                <form id="viewMarkForm" class="row g-2">
                     <div class="col-6 col-md-6">
                         <div class="form-floating form-floating-outline">
                             <input type="text" id="modalViewLatitude" name="modalViewLatitude" class="form-control"
