@@ -170,11 +170,11 @@
                                 </div>
                                 <div id="map" class="leaflet-map leaflet_wrapper" id="userLocation">
 
+                                    <script src="{{ asset('resources/views/landings/pages/pages_vml/landing_map.config.js') }}"></script>
                                 </div>
 
                                 {{-- MERGED MODALS: v_viewmark_modal --}}
                                 @include('landings.modals.v_viewmark_modal')
-                                <script src="{{ asset('resources/views/landings/pages/pages_vml/landing_map.config.js') }}"></script>
 
                                 {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
                                 {{-- <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config.js') }}"></script> --}}

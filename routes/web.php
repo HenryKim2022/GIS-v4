@@ -70,6 +70,7 @@ if (env('APP_INSTALL', false)) {    // Not False
     //////////// LANDING-PAGE
     Route::get('/landing-page', [LandingPageController::class, 'index'])->name('landing.page');
     Route::get('/landing-page/loadmark', [LandingPageController::class, 'load_marks_into_map'])->name('l-mark.landing.page');
+    Route::get('/landing-page/modalviewmark', [LandingPageController::class, 'modalurlpage'])->name('l-modalviewmark.landing.page');
 
 
 

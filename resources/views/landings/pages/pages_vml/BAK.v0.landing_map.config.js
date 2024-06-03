@@ -32,7 +32,7 @@ function openModal(modalToShow, modalSelector) {
     modalToShow.show();
     modalSelector.scrollIntoView();
 
-    $('body').on('click', modalSelector, function(oEvt) {
+    $('body').on('click', modalSelector, function (oEvt) {
         oEvt.preventDefault(); // Prevents the default behavior of the click event
     });
 
@@ -719,12 +719,92 @@ function addResetViewControl(map) {
 }
 
 
+function testPopulate(map, markersLayer) {
+    fetch('/landing-page/loadmark')
+        .then(response => response.json())
+        .then(data => {
+            const markers = data.features
+                .filter(f => f.properties.institu_name)
+                .map(f => {
+                    const coordinates = f.geometry.coordinates.map(parseFloat).reverse();
+                    const createdTimestamp = new Date(f.properties.created_at);
+                    const updatedTimestamp = new Date(f.properties.created_at);
+                    const tooltipData = {
+                        full_coordinates: coordinates || "none",
+                        institution_lat: coordinates[0] || "none",
+                        institution_lon: coordinates[1] || "none",
+                        institution_id: f.properties.institu_id || "none",
+                        institution_name: f.properties.institu_name || "none",
+                        institution_cat: f.properties.institu_category || "none",
+                        institution_npsn: f.properties.institu_npsn || "none",
+                        institution_logo: f.properties.institu_logo || "none",
+                        institution_address: f.properties.institu_address || "none",
+                        institution_images: f.properties.institu_images || [],
+                        institution_mark_id: f.properties.institu_mark_id || "none",
+                        institution_created: createdTimestamp.toLocaleString('id-ID', {
+                            timeZone: 'Asia/Jakarta',
+                            hour12: true
+                        }) || "none",
+                        institution_updated: updatedTimestamp.toLocaleString('id-ID', {
+                            timeZone: 'Asia/Jakarta',
+                            hour12: true
+                        }) || "none"
+                    };
+
+                    const marker = L.marker(coordinates);
+                    marker.bindTooltip(tooltipData.institution_name + "  ➟  " + tooltipData.institution_address);
+                    markersLayer.addLayer(marker);
+
+                    marker.on('click', function () {
+                        // Get the base URL dynamically
+                        var baseUrl = window.location.protocol + "//" + window.location.hostname + "/";
+                        var modalUrl = baseUrl + 'landing-page/modalviewmark';
+
+                        // Make an AJAX request to fetch the modal content
+                        $.ajax({
+                            url: modalUrl,
+                            method: 'GET',
+                            dataType: 'html',
+                            success: function (response) {
+                                // Assign the retrieved content to popupContent
+                                var responseObj = JSON.parse(response);
+                                var popupContent = responseObj.html;
+
+
+                                const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
+                                closeModalBtn.addEventListener('click', function () {
+                                    closeModal(modalToShow);
+                                });
+
+                                marker.bindPopup(popupContent).openPopup();
+
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+
+
+                    });
+
+                    return tooltipData;
+                });
+
+            markersLayer.addTo(map);
+        });
+}
+
 
 
 // ############################################################# MAIN CALLER ############################################################# //
 
 var map = initLeafletMap();
 var markersLayer = L.layerGroup();
-populateMarks4romDB(map, markersLayer);
+// populateMarks4romDB(map, markersLayer);
+testPopulate(map, markersLayer);
+
+
 addResetViewControl(map);
 

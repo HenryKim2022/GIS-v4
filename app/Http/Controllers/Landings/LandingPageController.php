@@ -143,6 +143,24 @@ class LandingPageController extends Controller
 
 
 
+    // public function modalurlpage(){
+    //     $process = $this->setPageSession("Landing Page", "landing-page");
+    //     if ($process) {
+    //         return $this->setReturnView('landings/modals/v_viewmark_modal');
+    //     }
+    // }
+
+
+    public function modalurlpage()
+    {
+        $process = $this->setPageSession("ViewMark ModalPage", "/landing-page/modalviewmark");
+        if ($process) {
+            $view = $this->setReturnView('landings/modals/v_viewmark_modal');
+            $html = $view->render();
+
+            return response()->json(['html' => $html]);
+        }
+    }
 
 
 
