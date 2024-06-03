@@ -79,14 +79,6 @@
     @endphp
     {{-- HTML BELOW --}}
 
-
-    <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
-        {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
-        <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i class="mdi mdi-close"></i></span>
-        <img src="" alt="Large Image" />
-    </div>
-
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light">UserPanels /</span> <a
                 href="{{ $page_url }}">{{ $page_title }}</a></h4>
@@ -120,6 +112,11 @@
             {{-- <div class="card-body"> --}}
             <div class="tab-content p-0">
                 <div class="tab-pane fade show active" id="navs-justified-maps" role="tabpanel">
+                    <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
+                        {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
+                        <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i class="mdi mdi-close"></i></span>
+                        <img src="" alt="Large Image" />
+                    </div>
 
                     <div id="leaflet_card">
                         <div class="card mb-0">
@@ -140,22 +137,65 @@
                                     </div>
                                 </div>
 
+
+                                <style>
+                                    span.clearInput {
+                                        top: 4.52rem;
+                                        right: -0.28rem;
+                                        transform: translate(-50%, -50%);
+                                        border-top-left-radius: 0%;
+                                        border-bottom-left-radius: 0%;
+                                    }
+
+                                    input#searchLeafletField {
+                                        padding-right: 3.3rem;
+                                    }
+
+                                    div.tt-menu {
+                                        z-index: 1085 !important;
+                                    }
+                                </style>
+                                <div class="card-body p-0" style="">
+                                    <div class="col-12 mt-1">
+                                        <label for="searchLeafletField" class="form-label">Search</label>
+                                        <div class="w-100">
+                                            <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
+                                                type="text" autocomplete="off" placeholder="e.g sma/ jl/ -" />
+                                            <span class="input-group-text clearInput position-absolute" type="button"
+                                                data-bs-dismiss="input" aria-label="Clear input">
+                                                <i class="mdi mdi-close"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
+
+                            <style>
+                                .map-overlay {
+                                    z-index: 1000;
+                                    display: none;
+                                }
+                            </style>
                             <div class="card-body pt-0">
+                                <div id="map-overlay"
+                                    class="map-overlay position-fixed top-0 left-0 w-100 h-100 bg-transparent"></div>
                                 <div id="map" class="leaflet-map">
 
                                 </div>
                             </div>
 
-                            {{-- MERGED MODALS: v_viewmark_modal --}}
-                            @include('userpanels.modals.v_viewmark_modal')
-                            <!-- / v_viewmark_modal -->
-                            {{-- MERGED MODALS: v_editmark_modal --}}
-                            @include('userpanels.modals.v_editmark_modal')
+                            {{-- MERGED MODALS: , v_viewmark_modal, v_editmark_modal, v_addmark_modal --}}
+                            @include('userpanels.modals.vmm.m_mark.vm_viewmark_modal')
+                            <script src="{{ asset('resources/views/userpanels/modals/vml/userpanels_map.config.js') }}"></script>
+
+
+                            {{-- @include('userpanels.modals.v_viewmark_modal')
+                            @include('userpanels.modals.v_editmark_modal') --}}
                             <!-- / v_editmark_modal -->
 
-                            <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script>
-                            <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config-user-panels.js') }}"></script>
+                            {{-- <script src="{{ asset('public/plugins/leaflet-official/data.geojson.json/data.v1.js') }}"></script> --}}
+                            {{-- <script src="{{ asset('public/plugins/leaflet-official/leaflet-map-merged-config-user-panels.js') }}"></script> --}}
 
                         </div>
 
