@@ -646,7 +646,7 @@
             if (modalViewImagesPreview) {
                 document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
                     // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
-                    var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
+                    // var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
                     var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
 
                     var clickedImage = event.target.closest('img');
