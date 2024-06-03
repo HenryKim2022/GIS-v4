@@ -749,7 +749,6 @@ function addRightClick(map, markersLayer) {
                             addressValue = addressValue.replace(/east/gi, 'timur');
                             addressValue = addressValue.replace(/central/gi, 'tengah');
                             addressValue = addressValue.replace(/java/gi, 'jawa');
-                            addressValue = addressValue.replace(/regency/gi, 'jawa');
                             addressValue = addressValue.replace(/regency/gi, '');
 
 
