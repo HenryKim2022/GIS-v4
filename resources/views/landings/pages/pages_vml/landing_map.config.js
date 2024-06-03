@@ -5,6 +5,7 @@ var fullscreenControl, fullscreenElement;
 
 let startingCoordinates;
 let startingZoom;
+
 setStartingValue();
 function setStartingValue() {
     function handleViewportChange() {
@@ -231,7 +232,7 @@ function initLeafletMap() {
             map.setView(startingCoordinates, startingZoom);
         }
     }
-    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('onload', handleViewportChange);
     handleViewportChange();
 
 
