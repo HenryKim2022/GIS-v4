@@ -44,6 +44,11 @@ function openModal(modalToShow, modalSelector) {
         }
     });
 
+    modalToShow.on('hidden.bs.modal', function () {
+        isModalActive = false;
+        document.getElementById('map-overlay').style.display = 'none';
+        document.getElementById('map').style.pointerEvents = 'auto';
+    });
 
     document.getElementById('map-overlay').style.display = 'block';
     document.getElementById('map').style.pointerEvents = 'none';

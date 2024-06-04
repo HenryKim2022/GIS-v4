@@ -36,6 +36,12 @@ function openModal(modalToShow, modalSelector) {
         oEvt.preventDefault(); // Prevents the default behavior of the click event
     });
 
+    modalToShow.on('hidden.bs.modal', function () {
+        isModalActive = false;
+        document.getElementById('map-overlay').style.display = 'none';
+        document.getElementById('map').style.pointerEvents = 'auto';
+    });
+
     document.addEventListener('keydown', function (event) {
         if (isModalActive && event.key === 'Escape') {
             closeModal(modalToShow);
