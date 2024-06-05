@@ -77,13 +77,6 @@
         }
     });
 
-    const processCheckBox = document.querySelector('#'+modalId+ ' #cs_cb_maps');
-    if (processCheckBox) {
-        processCheckBox.addEventListener('click', function (event) {
-            // event.preventDefault(); // Prevent the default button behavior
-            // event.stopPropagation();
-        });
-    }
 
     const saveRecordBtn = document.querySelector('#'+modalId+ ' .modal-mark-map-save-btn');
     if (saveRecordBtn) {
