@@ -119,7 +119,7 @@
                         <img src="" alt="Large Image" />
                     </div>
 
-                    <div id="leaflet_card">
+                    <div id="leaflet_card" class="center_modal_in_layout">
                         <div class="card mb-0">
                             <div class="card-header d-flex justify-content-end">
                                 <div class="d-inline-block d-none">
@@ -195,10 +195,10 @@
                                 </div>
                             </div>
 
-                            {{-- MERGED MODALS: , v_viewmark_modal, v_editmark_modal, v_addmark_modal --}}
-                            @include('userpanels.modals.vmm.m_mark.vm_viewmark_modal')
+                            <!-- Tab1 -->
+                            @include('userpanels.modals.vmm.m_mark.vm_viewmark_modal_for_maps')
+                            @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_maps')
                             <script src="{{ asset('resources/views/userpanels/modals/vml/userpanels_map.config.js') }}"></script>
-
 
 
                             {{-- @include('userpanels.modals.v_viewmark_modal')
@@ -217,7 +217,7 @@
 
 
                 <div class="tab-pane fade" id="navs-justified-tables" role="tabpanel">
-                    <div id="leaflet_card p-0">
+                    <div class="center_modal_in_layout p-0">
                         <div class="card mb-0">
 
                             <div class="card-header d-flex justify-content-end pb-0">
@@ -272,7 +272,7 @@
 
                                                                 <a href="javascript:;"
                                                                     mark_id_value="{{ $mark->mark_id }}"
-                                                                    class="dropdown-item btn-text-warning edit-record-{{ $index + 1 }} btn-sm mdi mdi-pencil-outline">Edit</a>
+                                                                    class="dropdown-item btn-text-warning edit-record btn-sm mdi mdi-pencil-outline">Edit</a>
 
                                                                 <div class="dropdown-divider"></div>
                                                                 <a href="javascript:;"
@@ -296,22 +296,18 @@
 
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Modal to add new record -->
-                    <!-- MERGED MODALS: v_m_marks_modal -->
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            {{-- @include('userpanels.modals.v_addmark_modal') --}}
-                            @include('userpanels.modals.vmm.m_mark.vm_addmark_modal_for_tb')
-                            @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_tb')
+
+
 
                         </div>
+
+
                     </div>
-                    <!-- / v_addmark_modal -->
+
 
                 </div>
+
 
 
 
@@ -349,13 +345,21 @@
 
 
 
+
         </div>
+
+
 
 
     </div>
 @endsection
 <!-- CONTENT: M-MARKS -->
 
+@section('modals')
+    <!-- Tab2 -->
+    @include('userpanels.modals.vmm.m_mark.vm_addmark_modal_for_tb')
+    @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_tb')
+@endsection
 
 
 @section('footer_page_js')
@@ -434,6 +438,7 @@
 
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/tbinit_mark.js') }}"></script>
     {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/add_mark_for_tb.js') }}"></script> --}}
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_maps.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>

@@ -40,6 +40,13 @@ html {
     object-fit: cover;
 }
 
+
+
+.center_modal_in_layout {
+    transform: scale(1, 1) !important;
+    object-fit: cover !important;
+}
+
 /*  */
 /* CUST CSS: LEAFLET MAP */
 /*  */

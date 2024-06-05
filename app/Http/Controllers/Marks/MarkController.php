@@ -56,7 +56,7 @@ class MarkController extends Controller
         if ($mark) {
             $mark->mark_lat = $request->input('modalEditLatitude2');
             $mark->mark_lon = $request->input('modalEditLongitude2');
-            $mark->mark_lon = $request->input('modalEditMarkAddress2');
+            $mark->mark_address = $request->input('modalEditMarkAddress2');
             $mark->save();
             return Redirect::back();
         } else {
@@ -90,7 +90,7 @@ class MarkController extends Controller
                 'mark_id' => $markID,
                 'latitude' => $mark->mark_lat,
                 'longitude' => $mark->mark_lon,
-                'mark_address' => $mark->mark_laddress
+                'mark_address' => $mark->mark_address
             ]);
         } else {
             // Handle the case when the mark is not found

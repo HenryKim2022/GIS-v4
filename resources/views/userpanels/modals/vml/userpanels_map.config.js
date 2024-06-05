@@ -34,8 +34,9 @@ function openModal(modalToShow, modalSelector) {
     modalToShow.show();
     modalSelector.scrollIntoView();
 
-    $('body').on('click', modalSelector, function(oEvt) {
-        oEvt.preventDefault(); // Prevents the default behavior of the click event
+    $('body').on('click', modalSelector, function (oEvt) {
+        // oEvt.preventDefault(); // Prevents the default behavior of the click event
+        oEvt.stopPropagation();     //<--- this is important, for checkbox on leaflet + other
     });
 
     document.addEventListener('keydown', function (event) {
@@ -44,11 +45,12 @@ function openModal(modalToShow, modalSelector) {
         }
     });
 
-    modalToShow.on('hidden.bs.modal', function () {
+    $(modalToShow).on('hidden.bs.modal', function () {
         isModalActive = false;
         document.getElementById('map-overlay').style.display = 'none';
         document.getElementById('map').style.pointerEvents = 'auto';
     });
+
 
     document.getElementById('map-overlay').style.display = 'block';
     document.getElementById('map').style.pointerEvents = 'none';
@@ -197,6 +199,26 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
             closeModalBtn.addEventListener('click', function () {
                 closeModal(modalToShow);
             });
+
+            const editModalBtn = $(modalSelector).find('#edit_modalviewMarkUserModal')[0];
+            editModalBtn.addEventListener('click', function () {
+                closeModal(modalToShow);
+
+                $('#modalEditMarkID2MAPS').val(institution_mark_id);
+                $('#modalEditLatitudeMAPS').val(institution_lat);
+                $('#modalEditLongitudeMAPS').val(institution_lon);
+                $('#modalEditMarkAddressMAPS').val(institution_address);
+                openModal(new bootstrap.Modal(document.querySelector('#editMarkModalMAPS')), document.querySelector('#editMarkModalMAPS'));
+                const modalviewMarkUserModalMAPCancelModalBtn = $(document.querySelector('#editMarkModalMAPS')).find('#cancel_modalviewMarkUserModalMAPS')[0];
+                modalviewMarkUserModalMAPCancelModalBtn.addEventListener('click', function () {
+                    closeModal(modalToShow);
+                });
+
+            });
+
+
+
+
 
 
 

@@ -29,6 +29,7 @@
                 <div class="content-wrapper">
                     <!-- Content -->
                     @yield('content')
+                    @yield('modals')
 
 
                     <!-- Footer -->

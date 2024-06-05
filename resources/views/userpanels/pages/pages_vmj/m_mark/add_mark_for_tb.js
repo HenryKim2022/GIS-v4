@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     validators: {
                         notEmpty: {
                             message: 'The latitude field is required'
+                        },
+                        regexp: {
+                            regexp: /^-?\d+(\.\d+)?$/,
+                            message: 'The latitude field must be a valid number'
                         }
                     }
                 },
@@ -60,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     validators: {
                         notEmpty: {
                             message: 'The longitude field is required'
+                        },
+                        regexp: {
+                            regexp: /^-?\d+(\.\d+)?$/,
+                            message: 'The longitude field must be a valid number'
                         }
                     }
                 },
