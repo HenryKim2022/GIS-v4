@@ -57,10 +57,13 @@
                         case 'modalEditMarkAddressMAPS':
                             return '#' + modalId + ' .col-12';
                             // return '.col-12';
-                        case 'bsvalidationcheckboxMAPS':
-                            return '#' + modalId + ' #cs_cb_maps';
-                        //     return '#' + modalId + ' .form-check-input';
+                        // case 'bsvalidationcheckboxMAPS':
+                        //     return '#' + modalId + ' #cs_cb_maps';
+                        // //     return '#' + modalId + ' .form-check-input';
                         default:
+                            if (ele.type === 'checkbox') {
+                                return '#' + ele.id;
+                            }
                             return '.row';
                     }
                 }
