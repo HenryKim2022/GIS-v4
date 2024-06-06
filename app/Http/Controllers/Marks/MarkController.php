@@ -103,10 +103,12 @@ class MarkController extends Controller
                 return response()->json(['error' => 'Mark is used by tb_institution and cannot be deleted'], 400);
             } else {
                 $mark->delete();
-                return response()->json(['success' => 'Mark deleted successfully']);
+                // return response()->json(['success' => 'Mark deleted successfully']);
+                return Redirect::back();
             }
         } else {
             return response()->json(['error' => 'Mark not found'], 404);
+            // return Redirect::back();
         }
     }
 
@@ -164,11 +166,13 @@ class MarkController extends Controller
         ];
 
         foreach ($marks as $mark) {
+            $markColor = Institution_Model::where('mark_id', $mark->mark_id)->exists() ? "success" : "warning";
             $feature = [
                 "type" => "Feature",
                 "properties" => [
                     "mark_id" => $mark->mark_id,
                     "mark_address" => $mark->mark_address,
+                    "mark_color" => $markColor,       //<---- if mark_id is present in tb_institution then the color was green, if not it gray
                     "created_at" => $mark->created_at,
                     "updated_at" => $mark->updated_at
                 ],

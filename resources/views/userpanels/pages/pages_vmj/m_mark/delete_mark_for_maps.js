@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     success: function (response) {
                         // Handle success response, e.g., reload the table or show a success message
                         console.log('Mark deleted successfully');
-                        dt_basic.row($(this).parents('tr')).remove().draw();
-                        location.reload(); // Reload the page to update the table
+                        // dt_basic.row($(this).parents('tr')).remove().draw();
+                        // location.reload(); // Reload the page to update the table
                     },
                     error: function (error) {
                         // Handle error response, e.g., show an error message

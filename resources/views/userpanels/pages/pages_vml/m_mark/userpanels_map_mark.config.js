@@ -303,6 +303,7 @@ function populateMarks4romDB(map, markersLayer) {
                 .filter(f => f.properties.mark_id)
                 .map(f => {
                     const coordinates = f.geometry.coordinates.map(parseFloat).reverse();
+                    const markColor = f.properties.mark_color;
                     const createdTimestamp = new Date(f.properties.created_at);
                     const updatedTimestamp = new Date(f.properties.updated_at);
                     const tooltipData = {
@@ -321,14 +322,48 @@ function populateMarks4romDB(map, markersLayer) {
                         }) || "none"
                     };
 
-                    const marker = L.marker(coordinates, tooltipData);
+                    // const marker = L.marker(coordinates, tooltipData);
+                    // applyMarksToolTips();
+                    // function applyMarksToolTips() {
+                    //     marker.bindTooltip(tooltipData.full_coordinates + "  ➟  " + tooltipData.mark_address);
+                    //     markersLayer.addLayer(marker);
+
+                    //     setDataModal(map, markersLayer);
+                    // }
+
+
+                    let customIconMarker;
+                    if (markColor === 'success'){
+                        customIconMarker = L.icon({
+                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
+                            iconSize: [25, 42]
+                        });
+                    }else if (markColor === 'warning'){
+                        customIconMarker = L.icon({
+                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
+                            iconSize: [25, 42]
+                        });
+                    }
+
+                    const marker = L.marker(coordinates, {
+                        icon: customIconMarker,
+                        ...tooltipData
+                    });
+
                     applyMarksToolTips();
                     function applyMarksToolTips() {
-                        marker.bindTooltip(tooltipData.full_coordinates + "  ➟  " + tooltipData.mark_address);
+                        marker.bindTooltip(tooltipData.full_coordinates + "  ➟  " + tooltipData.mark_address, {
+                            offset: [16, -4],
+                            direction: 'right' // Set the direction of the tooltip (top, bottom, left, right)
+                        });
                         markersLayer.addLayer(marker);
 
                         setDataModal(map, markersLayer);
                     }
+
+
+
+
 
                     return tooltipData;
                 });
@@ -782,30 +817,42 @@ function addRightClick(map, markersLayer) {
             ];
             const last_update = "never";
 
-            const tooltipData = {
-                tobesearch: institu_name
-            };
+            // const tooltipData = {
+            //     tobesearch: institu_name + "  ➟  " + institu_addr
+            // };
 
 
-            const marker = L.marker(new L.latLng([LAT, LNG]), tooltipData);
+            customIconMarker = L.icon({
+                iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-danger.png',
+                iconSize: [25, 42]
+            });
+            const marker = L.marker(new L.latLng([LAT, LNG]), {
+                icon: customIconMarker
+            });
 
             // var markModalID = "editMarkModal";
-            marker.bindTooltip(institu_name + "  ➟  " + institu_addr);
+            marker.bindTooltip(institu_name + "  ➟  " + institu_addr, {
+                offset: [16, -4],
+                direction: 'right' // Set the direction of the tooltip (top, bottom, left, right)
+            });
+
+
+
             marker.on('click', function () {
                 // $('#modalEditMarkID2MAPS').val(mark_id);
                 $('#modalEditLatitudeMAPS2').val(coordinates['lat']);
                 $('#modalEditLongitudeMAPS2').val(coordinates['lng']);
                 $('#modalEditMarkAddressMAPS2').val(institu_addr);
                 openModal(new bootstrap.Modal(document.querySelector('#addMarkModalMAPS')), document.querySelector('#addMarkModalMAPS'));
-                const modaladdMarkUserModalMAPCancelModalBtn = $(document.querySelector('#addMarkModalMAPS')).find('#cancel_modaladdMarkUserModalMAPS')[0];
-                modaladdMarkUserModalMAPCancelModalBtn.addEventListener('click', function () {
+                const modaladdMarkUserModalMAPRemoveBtn = $(document.querySelector('#addMarkModalMAPS')).find('#remove_modalviewMarkUserModalMAPS')[0];
+                modaladdMarkUserModalMAPRemoveBtn.addEventListener('click', function () {
                     closeModal(new bootstrap.Modal(document.querySelector('#addMarkModalMAPS')));
                     markersLayer.removeLayer(marker);
                 });
-
-
-
-
+                const modaladdMarkUserModalMAPCancelBtn = $(document.querySelector('#addMarkModalMAPS')).find('#cancel_modaladdMarkUserModalMAPS')[0];
+                modaladdMarkUserModalMAPCancelBtn.addEventListener('click', function () {
+                    closeModal(new bootstrap.Modal(document.querySelector('#addMarkModalMAPS')));
+                });
             });
 
             markersLayer.addLayer(marker);

@@ -44,12 +44,17 @@
                     </div>
                     <div class="modal-footer p-0 pl-4 pt-4 pb-4">
                         <div class="col-12 text-center">
-                            <div class="d-flex flex-col justify-content-end">
-                                <button class="modal-btn modal-mark-map-cancel-btn btn btn-primary me-2"
-                                    id="cancel_modaladdMarkUserModalMAPS" data-bs-dismiss="modal"
-                                    type="button">Cancel</button>
-                                <button class="modal-btn modal-mark-map-save-btn btn btn-success"
-                                    type="submit">Save</button>
+                            <div class="d-flex flex-col justify-content-between">
+                                <button class="modal-btn modal-view-mark-remove-btn btn btn-danger ms-2"
+                                    id="remove_modalviewMarkUserModalMAPS" type="button"
+                                    data-bs-dismiss="modal">Remove</button>
+                                <div class="d-flex flex-col justify-content-end">
+                                    <button class="modal-btn modal-mark-map-cancel-btn btn btn-primary me-2"
+                                        id="cancel_modaladdMarkUserModalMAPS" data-bs-dismiss="modal"
+                                        type="button">Cancel</button>
+                                    <button class="modal-btn modal-mark-map-save-btn btn btn-success"
+                                        type="submit">Save</button>
+                                </div>
                             </div>
                         </div>
                     </div>
