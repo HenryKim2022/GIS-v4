@@ -324,30 +324,10 @@ function populateMarks4romDB(map, markersLayer) {
                         }) || "none"
                     };
 
-                    let customIconMarker;
-                    if (markColor === 'success'){
-                        customIconMarker = L.icon({
-                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
-                        });
-                    }else if (markColor === 'warning'){
-                        customIconMarker = L.icon({
-                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
-                        });
-                    }
-
-                    const marker = L.marker(coordinates, {
-                        icon: customIconMarker,
-                        ...tooltipData
-                    });
-
+                    const marker = L.marker(coordinates, tooltipData);
                     applyMarksToolTips();
                     function applyMarksToolTips() {
-                        marker.bindTooltip(tooltipData.full_coordinates + "  ➟  " + tooltipData.mark_address, {
-                            offset: [16, -4],
-                            direction: 'right' // Set the direction of the tooltip (top, bottom, left, right)
-                        });
+                        marker.bindTooltip(tooltipData.full_coordinates + "  ➟  " + tooltipData.mark_address);
                         markersLayer.addLayer(marker);
 
                         setDataModal(map, markersLayer);
@@ -437,21 +417,8 @@ function populateMarks4romDB(map, markersLayer) {
                     const selectedCoordinates = [selectedMarkerData.mark_lat, selectedMarkerData.mark_lon];
                     const [lat, lon] = selectedCoordinates;
 
-                    let customIconMarker2;
-                    if (selectedMarkerData.mark_color  === 'success'){
-                        customIconMarker2 = L.icon({
-                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
-                        });
-                    }else if (selectedMarkerData.mark_color  === 'warning'){
-                        customIconMarker2 = L.icon({
-                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
-                        });
-                    }
                     // Create a new marker and circle for the selected result
-                    selectedMarker = L.marker(selectedCoordinates, {icon: customIconMarker2}).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
-                        offset: [16, -4], direction: 'right',
+                    selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.mark_id + " ➟ " + selectedMarkerData.mark_address, {
                         permanent: false
                     }).openTooltip();
                     selectedCircle = L.circle(selectedCoordinates, { radius: 0, color: 'red' });
@@ -529,27 +496,14 @@ function populateMarks4romDB(map, markersLayer) {
                         const selectedCoordinates = [selectedMarkerData.mark_lat, selectedMarkerData.mark_lon];
                         const [lat, lon] = selectedCoordinates;
 
-                        let customIconMarker2;
-                        if (selectedMarkerData.mark_color  === 'success'){
-                            customIconMarker2 = L.icon({
-                                iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                                iconSize: [21, 38],iconAnchor: [10, 38]
-                            });
-                        }else if (selectedMarkerData.mark_color  === 'warning'){
-                            customIconMarker2 = L.icon({
-                                iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                                iconSize: [21, 38],iconAnchor: [10, 38]
-                            });
-                        }
                         // Create a new marker and circle for the selected result
-                        selectedMarker = L.marker(selectedCoordinates, {icon: customIconMarker2}).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
-                            offset: [16, -4], direction: 'right',
-                            permanent: false
+                        selectedMarker = L.marker(selectedCoordinates).bindTooltip(selectedMarkerData.mark_id + " ➟ " + selectedMarkerData.mark_address, {
+                            permanent: true
                         }).openTooltip();
                         selectedCircle = L.circle(selectedCoordinates, { radius: 0, color: 'red' });
-
                         // Add the marker and circle to the map
                         markersLayer.addLayer(selectedMarker);
+
                         // Add the circle only if the typed input matches the institution name or address
                         markersLayer.addLayer(selectedMarkerData.mark_id === inputValue || selectedMarkerData.mark_address === inputValue || selectedMarkerData.full_coordinates === inputValue ? selectedCircle : null);
 
@@ -822,7 +776,16 @@ function addRightClick(map, markersLayer) {
 
         // NOW
         function processIt(institu_addr) {
-            const institu_name = "Unsaved Marker";
+            const institu_name = "Untitled Marker";
+            const institu_npsn = "fill data!";
+            const imgLogo = imgu; // Corrected variable name
+            const institu_images = [
+                imgu,
+                imgu,
+                imgu
+            ];
+            const last_update = "never";
+
             // const tooltipData = {
             //     tobesearch: institu_name + "  ➟  " + institu_addr
             // };
@@ -830,7 +793,7 @@ function addRightClick(map, markersLayer) {
 
             customIconMarker = L.icon({
                 iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-danger.png',
-                iconSize: [21, 38],iconAnchor: [10, 38]
+                iconSize: [25, 42]
             });
             const marker = L.marker(new L.latLng([LAT, LNG]), {
                 icon: customIconMarker
