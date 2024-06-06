@@ -321,7 +321,7 @@ function populateMarks4romDB(map, markersLayer) {
                 .map(f => {
                     const coordinates = f.geometry.coordinates.map(parseFloat).reverse();
                     const createdTimestamp = new Date(f.properties.created_at);
-                    const updatedTimestamp = new Date(f.properties.created_at);
+                    const updatedTimestamp = new Date(f.properties.updated_at);
                     const tooltipData = {
                         full_coordinates: coordinates || "none",
                         institution_lat: coordinates[0] || "none",

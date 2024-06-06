@@ -1,4 +1,4 @@
-// document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const modalId = 'editMarkModalMAPS';
     const modalSelector = document.getElementById(modalId);
     const modalToShow = new bootstrap.Modal(modalSelector);
@@ -92,4 +92,4 @@
     }
 
 
-// });
+});

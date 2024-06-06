@@ -91,7 +91,7 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     Route::get('/m-mark', [MarkController::class, 'index'])->name('m-markings.index');
-    // Route::post('/m-mark', [MarkController::class, 'add_marking'])->name('m-markings.post');
+    Route::get('/m-mark/loadmark', [MarkController::class, 'load_marks_into_map'])->name('l-mark.m-mark.page');
     Route::post('/m-mark/add-mark', [MarkController::class, 'add_marking'])->name('m-markings.post');
     Route::post('/m-mark/get-mark', [MarkController::class, 'get_marking'])->name('m-mark-data.get');
     Route::post('/m-mark/edit-mark', [MarkController::class, 'edit_marking'])->name('m-mark-data.edit');

@@ -56,7 +56,6 @@ class LandingPageController extends Controller
     public function load_marks_into_map()
     {
         $institutions = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get();
-        // $institutions = Institution_Model::all();
 
         $featureCollection = [
             "type" => "FeatureCollection",
@@ -86,7 +85,7 @@ class LandingPageController extends Controller
                     })->all(),
                     "institu_mark_id" => $inst->tb_mark->mark_id,
                     "created_at" => $inst->tb_mark->created_at,
-                    "updated_at" => $inst->tb_mark->updated_at
+                    "updated_at" => max($inst->updated_at, $inst->tb_mark->updated_at, $inst->tb_category->updated_at, $inst->tb_image->max('updated_at'))
                 ],
                 "geometry" => [
                     "type" => "Point",
@@ -118,6 +117,7 @@ class LandingPageController extends Controller
     }
 
 
+
     private function modifyAssetUrls($data, $queryParam)
     {
         if (!isset($data->features) || !is_array($data->features)) {
@@ -143,6 +143,10 @@ class LandingPageController extends Controller
 
 
 
+
+
+
+
     // public function modalurlpage(){
     //     $process = $this->setPageSession("Landing Page", "landing-page");
     //     if ($process) {
@@ -161,6 +165,10 @@ class LandingPageController extends Controller
             return response()->json(['html' => $html]);
         }
     }
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Marks;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mark_Model;
+use App\Models\Institution_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -65,6 +66,23 @@ class MarkController extends Controller
         }
     }
 
+    public function edit_marking_from_maps(Request $request)
+    {
+        $mark = Mark_Model::find($request->input('modalEditMarkID2MAPS'));
+        if ($mark) {
+            $mark->mark_lat = $request->input('modalEditLatitudeMAPS');
+            $mark->mark_lon = $request->input('modalEditLongitudeMAPS');
+            $mark->mark_address = $request->input('modalEditMarkAddressMAPS');
+            $mark->save();
+            return Redirect::back();
+        } else {
+            // Handle the case when the mark is not found
+            return response()->json(['error' => 'Mark not found'], 404);
+        }
+    }
+
+
+
 
     public function delete_marking(Request $request)
     {
@@ -101,7 +119,7 @@ class MarkController extends Controller
 
     public function load_marks_into_map()
     {
-        $marks = Mark_Model::all();
+        $institutions = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get();
 
         $featureCollection = [
             "type" => "FeatureCollection",
@@ -111,27 +129,33 @@ class MarkController extends Controller
             "features" => []
         ];
 
-        foreach ($marks as $mark) {
+        foreach ($institutions as $inst) {
             $feature = [
                 "type" => "Feature",
                 "properties" => [
-                    "institu_id" => $mark->institu_id,
-                    "institu_name" => $mark->institu_name,
-                    "institu_category" => $mark->institu_category,
-                    "institu_npsn" => $mark->institu_npsn,
-                    "institu_logo" => $mark->institu_logo,
-                    "institu_address" => $mark->institu_address,
-                    "institu_descb" => $mark->institu_descb,
-                    "institu_image" => $mark->institu_image,
-                    "institu_mark_id" => $mark->institu_mark_id,
-                    "created_at" => $mark->created_at,
-                    "updated_at" => $mark->updated_at
+                    "institu_id" => $inst->institu_id,
+                    "institu_name" => $inst->institu_name,
+                    "institu_category" => $inst->tb_category->cat_name,
+                    "institu_npsn" => $inst->institu_npsn,
+                    "institu_logo" => $inst->institu_logo,
+                    "institu_address" => $inst->tb_mark->mark_address,
+                    "institu_images" => $inst->tb_image->map(function ($image) {
+                        return [
+                            "title" => $image->img_title,
+                            "src" => $image->img_src,
+                            "alt" => $image->img_alt,
+                            "description" => $image->img_descb
+                        ];
+                    })->all(),
+                    "institu_mark_id" => $inst->tb_mark->mark_id,
+                    "created_at" => $inst->tb_mark->created_at,
+                    "updated_at" => max($inst->updated_at, $inst->tb_mark->updated_at, $inst->tb_category->updated_at, $inst->tb_image->max('updated_at'))
                 ],
                 "geometry" => [
                     "type" => "Point",
                     "coordinates" => [
-                        $mark->mark_lon,
-                        $mark->mark_lat
+                        $inst->tb_mark->mark_lon,
+                        $inst->tb_mark->mark_lat
                     ]
                 ]
             ];
@@ -139,9 +163,44 @@ class MarkController extends Controller
             $featureCollection["features"][] = $feature;
         }
 
-        return response()->json($featureCollection);
+        $response = response()->json($featureCollection);
+        // Append a query parameter to the logo and image URLs (avoid image not updated in browser cache).
+        $queryParam = 'v=' . time(); // Unique value, such as a timestamp
+        $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        $response->header('Pragma', 'no-cache');
+        $response->header('Expires', '0');
+        $response->header('Content-Type', 'application/json');
+        $response->header('Vary', 'Accept-Encoding');
+        $response->header('X-Powered-By', 'Laravel');
+        $response->header('Access-Control-Allow-Origin', '*');
+
+        // Modify the logo and image URLs in the feature collection
+        $response->setData($this->modifyAssetUrls($response->getData(), $queryParam));
+
+        return $response;
     }
 
+
+    private function modifyAssetUrls($data, $queryParam)
+    {
+        if (!isset($data->features) || !is_array($data->features)) {
+            return $data;
+        }
+        foreach ($data->features as $feature) {
+            if (isset($feature->properties->institu_logo)) {
+                $feature->properties->institu_logo .= '?' . $queryParam;
+            }
+            if (isset($feature->properties->institu_images) && is_array($feature->properties->institu_images)) {
+                foreach ($feature->properties->institu_images as $image) {
+                    if (isset($image->src)) {
+                        $image->src .= '?' . $queryParam;
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
 
 
     public function reset_marking(Request $request)
@@ -155,6 +214,12 @@ class MarkController extends Controller
         // Redirect back to the previous page
         return redirect()->back();
     }
+
+
+
+
+
+
 
 
 

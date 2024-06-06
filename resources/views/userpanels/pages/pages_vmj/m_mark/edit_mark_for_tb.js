@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: '/m-mark/get-mark',
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Update the CSRF token here
                 },
+                // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 data: {
                     markID: markID
                 },

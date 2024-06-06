@@ -156,49 +156,6 @@ class InstutionController extends Controller
     }
 
 
-    public function load_marks_into_map()
-    {
-        $marks = Institution_Model::all();
-
-        $featureCollection = [
-            "type" => "FeatureCollection",
-            "generator" => "overpass-turbo",
-            "copyright" => "The data included in this document is own by " . env(key: 'APP_NAME') . ". The data is made available when we are active.",
-            "timestamp" => date('Y-m-d\TH:i:s\Z'),
-            "features" => []
-        ];
-
-        foreach ($marks as $mark) {
-            $feature = [
-                "type" => "Feature",
-                "properties" => [
-                    "institu_id" => $mark->institu_id,
-                    "institu_name" => $mark->institu_name,
-                    "institu_category" => $mark->institu_category,
-                    "institu_npsn" => $mark->institu_npsn,
-                    "institu_logo" => $mark->institu_logo,
-                    "institu_address" => $mark->institu_address,
-                    "institu_descb" => $mark->institu_descb,
-                    "institu_image" => $mark->institu_image,
-                    "institu_mark_id" => $mark->institu_mark_id,
-                    "created_at" => $mark->created_at,
-                    "updated_at" => $mark->updated_at
-                ],
-                "geometry" => [
-                    "type" => "Point",
-                    "coordinates" => [
-                        $mark->mark_lon,
-                        $mark->mark_lat
-                    ]
-                ]
-            ];
-
-            $featureCollection["features"][] = $feature;
-        }
-
-        return response()->json($featureCollection);
-    }
-
 
     public function load_select_list_for_addmodal()
     {
