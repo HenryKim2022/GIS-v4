@@ -325,15 +325,15 @@ function populateMarks4romDB(map, markersLayer) {
                     };
 
                     let customIconMarker;
-                    if (markColor === 'success'){
+                    if (markColor === 'success') {
                         customIconMarker = L.icon({
                             iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
+                            iconSize: [21, 38], iconAnchor: [10, 38]
                         });
-                    }else if (markColor === 'warning'){
+                    } else if (markColor === 'warning') {
                         customIconMarker = L.icon({
                             iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
+                            iconSize: [21, 38], iconAnchor: [10, 38]
                         });
                     }
 
@@ -438,19 +438,19 @@ function populateMarks4romDB(map, markersLayer) {
                     const [lat, lon] = selectedCoordinates;
 
                     let customIconMarker2;
-                    if (selectedMarkerData.mark_color  === 'success'){
+                    if (selectedMarkerData.mark_color === 'success') {
                         customIconMarker2 = L.icon({
                             iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
+                            iconSize: [21, 38], iconAnchor: [10, 38]
                         });
-                    }else if (selectedMarkerData.mark_color  === 'warning'){
+                    } else if (selectedMarkerData.mark_color === 'warning') {
                         customIconMarker2 = L.icon({
                             iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                            iconSize: [21, 38],iconAnchor: [10, 38]
+                            iconSize: [21, 38], iconAnchor: [10, 38]
                         });
                     }
                     // Create a new marker and circle for the selected result
-                    selectedMarker = L.marker(selectedCoordinates, {icon: customIconMarker2}).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
+                    selectedMarker = L.marker(selectedCoordinates, { icon: customIconMarker2 }).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
                         offset: [16, -4], direction: 'right',
                         permanent: false
                     }).openTooltip();
@@ -530,19 +530,19 @@ function populateMarks4romDB(map, markersLayer) {
                         const [lat, lon] = selectedCoordinates;
 
                         let customIconMarker2;
-                        if (selectedMarkerData.mark_color  === 'success'){
+                        if (selectedMarkerData.mark_color === 'success') {
                             customIconMarker2 = L.icon({
                                 iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                                iconSize: [21, 38],iconAnchor: [10, 38]
+                                iconSize: [21, 38], iconAnchor: [10, 38]
                             });
-                        }else if (selectedMarkerData.mark_color  === 'warning'){
+                        } else if (selectedMarkerData.mark_color === 'warning') {
                             customIconMarker2 = L.icon({
                                 iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                                iconSize: [21, 38],iconAnchor: [10, 38]
+                                iconSize: [21, 38], iconAnchor: [10, 38]
                             });
                         }
                         // Create a new marker and circle for the selected result
-                        selectedMarker = L.marker(selectedCoordinates, {icon: customIconMarker2}).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
+                        selectedMarker = L.marker(selectedCoordinates, { icon: customIconMarker2 }).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
                             offset: [16, -4], direction: 'right',
                             permanent: false
                         }).openTooltip();
@@ -675,148 +675,151 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
 
 
 // ############################################################# START ADD ############################################################# //
-function addRightClick(map, markersLayer) {
+function addRightClick(map, markersLayer, LAT = '', LNG = '') {
     map.on('contextmenu taphold', function (e) {
-        var LAT = e.latlng.lat.toFixed(7);
-        var LNG = e.latlng.lng.toFixed(7);
+        LAT = LAT == '' ? e.latlng.lat.toFixed(7) : LAT;
+        LNG = LNG == '' ? e.latlng.lng.toFixed(7) : LNG;
+
         var coordinates = {
             lat: LAT,
             lng: LNG
         };
 
-        // GET ADDRESS FROM NOMINATING DOMAIN
-        getAddressFromCoordinates(coordinates)
-            .then(address => {
-                // Define the addr components
-                var componentKeys = [
-                    { key: 'road', label: 'Jl.' },
-                    { key: 'neighbourhood', label: 'Ling.' },
-                    { key: 'hamlet', label: 'Dusun' },
-                    { key: 'village', label: 'Desa' },
-                    { key: 'suburb', label: 'Suburb' },
-                    { key: 'city_district', label: 'Kec.' },
-                    { key: 'town', label: 'Kota' },
-                    { key: 'county', label: 'Kab.' },
-                    { key: 'state_district', label: 'Wilayah' },
-                    { key: 'city', label: 'Kota' },
-                    { key: 'state', label: 'Prov.' },
-                    { key: 'postcode', label: 'Kode Pos' },
-                    { key: 'country', label: 'Negara' }
-                ];
+        getNominatingAddr(coordinates);
+        function getNominatingAddr(coordinates) {
+            // GET ADDRESS FROM NOMINATING DOMAIN
+            getAddressFromCoordinates(coordinates)
+                .then(address => {
+                    // Define the addr components
+                    var componentKeys = [
+                        { key: 'road', label: 'Jl.' },
+                        { key: 'neighbourhood', label: 'Ling.' },
+                        { key: 'hamlet', label: 'Dusun' },
+                        { key: 'village', label: 'Desa' },
+                        { key: 'suburb', label: 'Suburb' },
+                        { key: 'city_district', label: 'Kec.' },
+                        { key: 'town', label: 'Kota' },
+                        { key: 'county', label: 'Kab.' },
+                        { key: 'state_district', label: 'Wilayah' },
+                        { key: 'city', label: 'Kota' },
+                        { key: 'state', label: 'Prov.' },
+                        { key: 'postcode', label: 'Kode Pos' },
+                        { key: 'country', label: 'Negara' }
+                    ];
 
 
-                var province = address['state'];
-                var postcode = address['postcode'];
-                var addressComponents = [];
+                    var province = address['state'];
+                    var postcode = address['postcode'];
+                    var addressComponents = [];
 
+                    componentKeys.forEach(component => {
+                        var key = component.key;
+                        var label = component.label;
 
-                componentKeys.forEach(component => {
-                    var key = component.key;
-                    var label = component.label;
+                        if (key === 'state') {
+                            var provinceValue = province;
+                            try {
+                                // Perform dynamic swapping for specific directions
+                                provinceValue = provinceValue.replace(/north/gi, 'utara');
+                                provinceValue = provinceValue.replace(/south/gi, 'selatan');
+                                provinceValue = provinceValue.replace(/west/gi, 'barat');
+                                provinceValue = provinceValue.replace(/east/gi, 'timur');
+                                provinceValue = provinceValue.replace(/central/gi, 'tengah');
+                                provinceValue = provinceValue.replace(/java/gi, 'jawa');
 
-                    if (key === 'state') {
-                        var provinceValue = province;
-                        try {
-                            // Perform dynamic swapping for specific directions
-                            provinceValue = provinceValue.replace(/north/gi, 'utara');
-                            provinceValue = provinceValue.replace(/south/gi, 'selatan');
-                            provinceValue = provinceValue.replace(/west/gi, 'barat');
-                            provinceValue = provinceValue.replace(/east/gi, 'timur');
-                            provinceValue = provinceValue.replace(/central/gi, 'tengah');
-                            provinceValue = provinceValue.replace(/java/gi, 'jawa');
-
-                            if (provinceValue.toLowerCase().includes('jawa')) {
-                                provinceValue = provinceValue.replace('jawa', 'Jawa');
-                            }
-                            // Swap direction with province
-                            if (provinceValue.toLowerCase().includes('utara')) {
-                                provinceValue = provinceValue.replace('utara', '');
-                                provinceValue = provinceValue.trim() + ' Utara';
-                            } else if (provinceValue.toLowerCase().includes('selatan')) {
-                                provinceValue = provinceValue.replace('selatan', '');
-                                provinceValue = provinceValue.trim() + ' Selatan';
-                            } else if (provinceValue.toLowerCase().includes('barat')) {
-                                provinceValue = provinceValue.replace('barat', '');
-                                provinceValue = provinceValue.trim() + ' Barat';
-                            } else if (provinceValue.toLowerCase().includes('timur')) {
-                                provinceValue = provinceValue.replace('timur', '');
-                                provinceValue = provinceValue.trim() + ' Timur';
-                            } else if (provinceValue.toLowerCase().includes('tengah')) {
-                                provinceValue = provinceValue.replace('tengah', '');
-                                provinceValue = provinceValue.trim() + ' Tengah';
-                            }
-                        } catch (error) {
-                            // console.error('Err (state):', error);
-                        }
-
-                        // Generate the address component with the updated value
-                        if (provinceValue && postcode) {
-                            addressComponents.push(label + ' ' + provinceValue + ' (' + postcode + ')');
-                        } else if (provinceValue) {
-                            addressComponents.push(label + ' ' + provinceValue);
-                        }
-
-                    } else if (key !== 'postcode' && address[key]) {
-                        var addressValue = address[key];
-
-                        try {
-                            // Perform dynamic swapping for specific directions
-                            addressValue = addressValue.replace(/north/gi, 'utara');
-                            addressValue = addressValue.replace(/south/gi, 'selatan');
-                            addressValue = addressValue.replace(/west/gi, 'barat');
-                            addressValue = addressValue.replace(/east/gi, 'timur');
-                            addressValue = addressValue.replace(/central/gi, 'tengah');
-                            addressValue = addressValue.replace(/java/gi, 'jawa');
-                            addressValue = addressValue.replace(/regency/gi, '');
-
-
-                            if (addressValue.toLowerCase().includes('jawa')) {
-                                addressValue = addressValue.replace('jawa', 'Jawa');
-                            }
-                            // Swap direction with province
-                            if (addressValue.toLowerCase().includes('utara')) {
-                                addressValue = addressValue.replace('utara', '');
-                                addressValue = addressValue.trim() + ' Utara';
-                            } else if (addressValue.toLowerCase().includes('selatan')) {
-                                addressValue = addressValue.replace('selatan', '');
-                                addressValue = addressValue.trim() + ' Selatan';
-                            } else if (addressValue.toLowerCase().includes('barat')) {
-                                addressValue = addressValue.replace('barat', '');
-                                addressValue = addressValue.trim() + ' Barat';
-                            } else if (addressValue.toLowerCase().includes('timur')) {
-                                addressValue = addressValue.replace('timur', '');
-                                addressValue = addressValue.trim() + ' Timur';
-                            } else if (addressValue.toLowerCase().includes('tengah')) {
-                                addressValue = addressValue.replace('tengah', '');
-                                addressValue = addressValue.trim() + ' Tengah';
+                                if (provinceValue.toLowerCase().includes('jawa')) {
+                                    provinceValue = provinceValue.replace('jawa', 'Jawa');
+                                }
+                                // Swap direction with province
+                                if (provinceValue.toLowerCase().includes('utara')) {
+                                    provinceValue = provinceValue.replace('utara', '');
+                                    provinceValue = provinceValue.trim() + ' Utara';
+                                } else if (provinceValue.toLowerCase().includes('selatan')) {
+                                    provinceValue = provinceValue.replace('selatan', '');
+                                    provinceValue = provinceValue.trim() + ' Selatan';
+                                } else if (provinceValue.toLowerCase().includes('barat')) {
+                                    provinceValue = provinceValue.replace('barat', '');
+                                    provinceValue = provinceValue.trim() + ' Barat';
+                                } else if (provinceValue.toLowerCase().includes('timur')) {
+                                    provinceValue = provinceValue.replace('timur', '');
+                                    provinceValue = provinceValue.trim() + ' Timur';
+                                } else if (provinceValue.toLowerCase().includes('tengah')) {
+                                    provinceValue = provinceValue.replace('tengah', '');
+                                    provinceValue = provinceValue.trim() + ' Tengah';
+                                }
+                            } catch (error) {
+                                // console.error('Err (state):', error);
                             }
 
-                        } catch (error) {
-                            // console.error('Err (post-code):', error);
+                            // Generate the address component with the updated value
+                            if (provinceValue && postcode) {
+                                addressComponents.push(label + ' ' + provinceValue + ' (' + postcode + ')');
+                            } else if (provinceValue) {
+                                addressComponents.push(label + ' ' + provinceValue);
+                            }
+
+                        } else if (key !== 'postcode' && address[key]) {
+                            var addressValue = address[key];
+
+                            try {
+                                // Perform dynamic swapping for specific directions
+                                addressValue = addressValue.replace(/north/gi, 'utara');
+                                addressValue = addressValue.replace(/south/gi, 'selatan');
+                                addressValue = addressValue.replace(/west/gi, 'barat');
+                                addressValue = addressValue.replace(/east/gi, 'timur');
+                                addressValue = addressValue.replace(/central/gi, 'tengah');
+                                addressValue = addressValue.replace(/java/gi, 'jawa');
+                                addressValue = addressValue.replace(/regency/gi, '');
+
+
+                                if (addressValue.toLowerCase().includes('jawa')) {
+                                    addressValue = addressValue.replace('jawa', 'Jawa');
+                                }
+                                // Swap direction with province
+                                if (addressValue.toLowerCase().includes('utara')) {
+                                    addressValue = addressValue.replace('utara', '');
+                                    addressValue = addressValue.trim() + ' Utara';
+                                } else if (addressValue.toLowerCase().includes('selatan')) {
+                                    addressValue = addressValue.replace('selatan', '');
+                                    addressValue = addressValue.trim() + ' Selatan';
+                                } else if (addressValue.toLowerCase().includes('barat')) {
+                                    addressValue = addressValue.replace('barat', '');
+                                    addressValue = addressValue.trim() + ' Barat';
+                                } else if (addressValue.toLowerCase().includes('timur')) {
+                                    addressValue = addressValue.replace('timur', '');
+                                    addressValue = addressValue.trim() + ' Timur';
+                                } else if (addressValue.toLowerCase().includes('tengah')) {
+                                    addressValue = addressValue.replace('tengah', '');
+                                    addressValue = addressValue.trim() + ' Tengah';
+                                }
+
+                            } catch (error) {
+                                // console.error('Err (post-code):', error);
+                            }
+
+                            // Generate the address component with the updated value
+                            if (label && addressValue.toLowerCase().includes(label.toLowerCase())) {
+                                addressComponents.push(addressValue);
+                            } else {
+                                addressComponents.push(label + ' ' + addressValue);
+                            }
                         }
 
-                        // Generate the address component with the updated value
-                        if (label && addressValue.toLowerCase().includes(label.toLowerCase())) {
-                            addressComponents.push(addressValue);
-                        } else {
-                            addressComponents.push(label + ' ' + addressValue);
-                        }
-                    }
 
 
+                    });
 
+
+                    var fulladdr = addressComponents.join(', ');
+                    processIt(fulladdr);
+                    console.log(fulladdr);
+                })
+                .catch(error => {
+                    console.error('Error (outter):', error.message);
+                    processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
                 });
 
-
-
-                var fulladdr = addressComponents.join(', ');
-                processIt(fulladdr);
-                console.log(fulladdr);
-            })
-            .catch(error => {
-                console.error('Error (outter):', error.message);
-                processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
-            });
+        }
 
 
 
@@ -830,9 +833,9 @@ function addRightClick(map, markersLayer) {
 
             customIconMarker = L.icon({
                 iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-danger.png',
-                iconSize: [21, 38],iconAnchor: [10, 38]
+                iconSize: [21, 38], iconAnchor: [10, 38]
             });
-            const marker = L.marker(new L.latLng([LAT, LNG]), {
+            const marker = L.marker([parseFloat(LAT), parseFloat(LNG)], {
                 icon: customIconMarker
             });
 
@@ -846,8 +849,8 @@ function addRightClick(map, markersLayer) {
 
             marker.on('click', function () {
                 // $('#modalEditMarkID2MAPS').val(mark_id);
-                $('#modalEditLatitudeMAPS2').val(coordinates['lat']);
-                $('#modalEditLongitudeMAPS2').val(coordinates['lng']);
+                $('#modalEditLatitudeMAPS2').val(parseFloat(LAT));
+                $('#modalEditLongitudeMAPS2').val(parseFloat(LNG));
                 $('#modalEditMarkAddressMAPS2').val(institu_addr);
                 openModal(new bootstrap.Modal(document.querySelector('#addMarkModalMAPS')), document.querySelector('#addMarkModalMAPS'));
                 const modaladdMarkUserModalMAPRemoveBtn = $(document.querySelector('#addMarkModalMAPS')).find('#remove_modalviewMarkUserModalMAPS')[0];
