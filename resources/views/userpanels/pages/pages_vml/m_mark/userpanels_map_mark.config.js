@@ -210,38 +210,11 @@ function initLeafletMap() {
         console.log('not fullscreen mode');
     });
 
+
     var appName = "GIS";
-
-    // Create basemap layers
-    var openStreetMapLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: `Map data &copy; <a href="https://demo4.iti-if.my.id/">${appName}</a>`
-    });
-    var esriWorldLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-        attribution: `&copy; <a href="https://demo4.iti-if.my.id/">${appName}</a>`
-    });
-    var stadiaDarkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-        attribution: `&copy; <a href="https://demo4.iti-if.my.id/">${appName}</a>`
-    });
-
-    // Define basemap options
-    var basemaps = {
-        'OpenStreetMap': openStreetMapLayer,
-        'Esri World': esriWorldLayer,
-        'Stadia Dark': stadiaDarkLayer
-    };
-
-    var markersLayer = L.layerGroup();
-    // Define overlay options
-    var overlayers = {
-        'Marker': markersLayer
-    };
-
-    // Add basemap control
-    // L.control.layers(basemaps).addTo(map);
-    L.control.layers(basemaps, overlayers).addTo(map);
-    openStreetMapLayer.addTo(map); // Set OpenStreetMap as the default basemap
-
-
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">${appName}</a>`
+    }).addTo(map);
 
     L.control.mousePosition({
         position: 'bottomright',
@@ -258,6 +231,9 @@ function initLeafletMap() {
             event.stopPropagation();
         }
     }, { passive: false });
+
+
+
 
     function handleViewportChange() {
         const viewportWidth = window.innerWidth;
@@ -278,12 +254,10 @@ function initLeafletMap() {
     handleViewportChange();
 
 
-    var defaultLayer = Object.keys(overlayers)[0]; // Get the first overlay layer name
-    map.addLayer(overlayers[defaultLayer]);
 
-
-    return map, markersLayer;
+    return map;
 }
+
 
 
 function addSchoolnameSearchControlbyMark(map, markersLayer, propertyNamed, txtPHolder) {
@@ -949,8 +923,8 @@ function addResetViewControl(map) {
 
 // ############################################################# MAIN CALLER ############################################################# //
 
-var map, markersLayer = initLeafletMap();
-
+var map = initLeafletMap();
+var markersLayer = L.layerGroup();
 if (populateMarks4romDB(map, markersLayer)) {
     addResetViewControl(map);
     addRightClick(map, markersLayer);
