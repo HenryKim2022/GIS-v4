@@ -227,6 +227,7 @@
             <div class="col-md-6">
                 @include('userpanels.modals.vmm.m_image.vm_addimage_modal_for_tb')
                 @include('userpanels.modals.vmm.m_image.vm_editimage_modal_for_tb')
+                @include('userpanels.modals.vmm.m_image.vm_deleteimage_modal_for_tb')
 
             </div>
         </div>

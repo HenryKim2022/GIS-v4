@@ -1,34 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
+    whichModal = "deleteCatModalTB";
+    const modalSelector = document.querySelector('#' + whichModal);
+    const modalToShow = new bootstrap.Modal(modalSelector);
+
     setTimeout(() => {
         $('.delete-record').on('click', function () {
-            // Delete Record
-            var confirmed = confirm("Are you sure you want to delete this records?");
-            if (confirmed) {
+            var catID = $(this).attr('cat_id_value');
+            $('#' + whichModal + ' #cat_id').val(catID);
+            modalToShow.show();
 
-                // Send AJAX request to delete the mark record
-                var catD = $(this).attr('cat_id_value');
-                $.ajax({
-                    url: '/m-categories/delete-cat',
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        cat_id: catD
-                    },
-                    success: function (response) {
-                        // Handle success response, e.g., reload the table or show a success message
-                        console.log('Mark deleted successfully');
-                        dt_basic.row($(this).parents('tr')).remove().draw();
-                        // location.reload(); // Reload the page to update the table
-                    },
-                    error: function (error) {
-                        // Handle error response, e.g., show an error message
-                        console.log('Error deleting mark:', error);
-                    }
-                });
-            }
-
+            const modalDeleteMarkMAPSCancelBtn = $(document.querySelector('#' + whichModal)).find('#cancel_modaldeleteCatModalTB')[0];
+            modalDeleteMarkMAPSCancelBtn.addEventListener('click', function () {
+                modalToShow.hide();
+            });
 
         });
     }, 200);

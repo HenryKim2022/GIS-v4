@@ -105,8 +105,8 @@ class ImageController extends Controller
         $img = Image_Model::find($request->input('img_id'));
         if ($img) {
             $img->delete();
-            return response()->json(['success' => 'Image deleted successfully']);
-            // return Redirect::back();
+            // return response()->json(['success' => 'Image deleted successfully']);
+            return Redirect::back();
         } else {
             return response()->json(['error' => 'Image not found'], 404);
         }

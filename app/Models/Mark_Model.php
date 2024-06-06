@@ -18,6 +18,11 @@ class Mark_Model extends Model
     protected $dates = ['deleted_at'];
 
 
+    public function tb_institution()
+    {
+        return $this->hasMany(Institution_Model::class, 'mark_id');
+    }
+
 
     // public function into_institution()
     // {

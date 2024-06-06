@@ -17,4 +17,10 @@ class Category_Model extends Model
     protected $fillable = ['cat_id', 'cat_name'];
     public $timestamps = true;
     protected $dates = ['deleted_at'];
+
+
+    public function tb_institution()
+    {
+        return $this->hasMany(Institution_Model::class, 'cat_id');
+    }
 }

@@ -317,7 +317,7 @@ function populateMarks4romDB(map, markersLayer) {
         .then(response => response.json())
         .then(data => {
             const markers = data.features
-                .filter(f => f.properties.institu_name)
+                .filter(f => f.properties.institu_id)
                 .map(f => {
                     const coordinates = f.geometry.coordinates.map(parseFloat).reverse();
                     const createdTimestamp = new Date(f.properties.created_at);

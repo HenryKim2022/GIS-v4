@@ -231,6 +231,7 @@
             <div class="col-md-6">
                 @include('userpanels.modals.vmm.m_institu.vm_addinstitu_modal_for_tb')
                 @include('userpanels.modals.vmm.m_institu.vm_editinstitu_modal_for_tb')
+                @include('userpanels.modals.vmm.m_institu.vm_deleteinstitu_modal_for_tb')
 
             </div>
         </div>

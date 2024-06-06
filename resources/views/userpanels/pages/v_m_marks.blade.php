@@ -199,6 +199,7 @@
                             @include('userpanels.modals.vmm.m_mark.vm_viewmark_modal_for_maps')
                             @include('userpanels.modals.vmm.m_mark.vm_addmark_modal_for_maps')
                             @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_maps')
+                            @include('userpanels.modals.vmm.m_mark.vm_deletemark_modal_for_maps')
                             <script src="{{ asset('resources/views/userpanels/pages/pages_vml/m_mark/userpanels_map_mark.config.js') }}"></script>
 
 
@@ -441,6 +442,7 @@
     {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/add_mark_for_tb.js') }}"></script> --}}
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/add_mark_for_maps.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_maps.js') }}"></script>
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_maps.js') }}"></script> --}}
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>

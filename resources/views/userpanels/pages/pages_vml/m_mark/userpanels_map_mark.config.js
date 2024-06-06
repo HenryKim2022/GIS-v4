@@ -81,14 +81,84 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
 
 
             // Retrieve tooltipData object from marker options
-
             $('#modalViewMarkID').val(mark_id);
             $('#modalViewLatitude').val(mark_lat);
             $('#modalViewLongitude').val(mark_lon);
             $('#modalViewAddress').val(mark_address);
             $('#modalViewLastUpdate').val(updated_at);
-
             openModal(modalToShow, modalSelector);
+
+            $('#delete_modalviewMarkUserModal').on('click', function () {
+                closeModal(modalToShow);
+                $('#mark_id').val(mark_id);
+
+                openModal(new bootstrap.Modal(document.querySelector('#deleteMarkModalMAPS')), document.querySelector('#deleteMarkModalMAPS'));
+                const modaldeleteMarkModalMAPSBtn = $(document.querySelector('#deleteMarkModalMAPS')).find('#confirmDelete')[0];
+                modaldeleteMarkModalMAPSBtn.addEventListener('click', function () {
+                    $.ajax({
+                        url: '/m-mark/delete-mark-maps',
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            mark_id: mark_id
+                        },
+                        success: function (response) {
+                            // Handle success response, e.g., reload the table or show a success message
+                            console.log(response);
+                            console.log('Mark deleted successfully');
+                            markersLayer.removeLayer(layer);
+                            // Close the confirmation modal
+                            closeModal(new bootstrap.Modal(document.querySelector('#deleteMarkModalMAPS')));
+                            location.reload(); // Reload the page to update the table
+                        },
+                        error: function (error) {
+                            // Handle error response, e.g., show an error message
+                            console.log('Error deleting mark:', error);
+                        }
+                    });
+                });
+
+                const modalDeleteMarkMAPSCancelBtn = $(document.querySelector('#deleteMarkModalMAPS')).find('#cancel_modaldeleteMarkModalMAPS')[0];
+                modalDeleteMarkMAPSCancelBtn.addEventListener('click', function () {
+                    closeModal(new bootstrap.Modal(document.querySelector('#deleteMarkModalMAPS')));
+                });
+
+
+
+
+            });
+
+
+            // $('#delete_modalviewMarkUserModal').on('click', function () {
+            //     // Delete Record
+            //     if (confirm("Are you sure you want to delete this records?")) {
+            //         $.ajax({
+            //             url: '/m-mark/delete-mark-maps',
+            //             method: 'POST',
+            //             headers: {
+            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //             },
+            //             data: {
+            //                 mark_id: mark_id
+            //             },
+            //             success: function (response) {
+            //                 // Handle success response, e.g., reload the table or show a success message
+            //                 console.log(response);
+            //                 console.log('Mark deleted successfully');
+            //                 markersLayer.removeLayer(layer);
+            //                 location.reload(); // Reload the page to update the table
+            //             },
+            //             error: function (error) {
+            //                 // Handle error response, e.g., show an error message
+            //                 console.log('Error deleting mark:', error);
+            //             }
+            //         });
+            //     }
+
+            // });
+
             const closeModalBtn = $(modalSelector).find('#close_modalviewMarkUserModal')[0];
             closeModalBtn.addEventListener('click', function () {
                 closeModal(modalToShow);

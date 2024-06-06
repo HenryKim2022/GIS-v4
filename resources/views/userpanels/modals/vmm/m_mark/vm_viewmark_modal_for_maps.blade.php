@@ -71,15 +71,21 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer p-0 pl-4 pt-4 pb-4">
+                    <div class="modal-footer p-0 pt-4 pb-4">
                         <div class="col-12 text-center">
-                            <div class="d-flex flex-col justify-content-end">
-                                <button class="modal-btn modal-view-mark-cancel-btn btn btn-primary me-2"
-                                    {{-- data-bs-dismiss="modal"  --}} id="close_modalviewMarkUserModal">Close</button>
-                                <button class="modal-btn modal-edit-mark-btn btn btn-success" type="submit"
-                                id="edit_modalviewMarkUserModal"
-                                >Edit</button>
+                            <div class="d-flex flex-col justify-content-between">
+                                <button class="modal-btn modal-view-mark-delete-btn btn btn-danger ms-2"
+                                id="delete_modalviewMarkUserModal">Delete</button>
+                                <div class="d-flex flex-col justify-content-end">
+                                    <button class="modal-btn modal-view-mark-cancel-btn btn btn-primary me-2"
+                                        {{-- data-bs-dismiss="modal"  --}} id="close_modalviewMarkUserModal">Close</button>
+                                    <button class="modal-btn modal-edit-mark-btn btn btn-success" type="submit"
+                                    id="edit_modalviewMarkUserModal"
+                                    >Edit</button>
+                                </div>
                             </div>
+
+
                         </div>
                     </div>
 

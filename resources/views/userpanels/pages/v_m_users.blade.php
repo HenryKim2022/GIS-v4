@@ -274,6 +274,7 @@
             <div class="col-md-6">
                 @include('userpanels.modals.vmm.m_user.vm_adduser_modal_for_tb')
                 @include('userpanels.modals.vmm.m_user.vm_edituser_modal_for_tb')
+                @include('userpanels.modals.vmm.m_user.vm_deleteuser_modal_for_tb')
 
             </div>
         </div>

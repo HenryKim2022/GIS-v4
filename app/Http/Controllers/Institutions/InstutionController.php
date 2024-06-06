@@ -102,17 +102,27 @@ class InstutionController extends Controller
     }
 
 
+
+
     public function delete_inst(Request $request)
     {
         $inst = Institution_Model::find($request->input('institu_id'));
         if ($inst) {
-            $inst->delete();
-            return response()->json(['success' => 'Institution deleted successfully']);
-            // return Redirect::back();
+            $images = $inst->tb_image;
+            if ($images->isNotEmpty()) {
+                $imageIds = $images->pluck('img_id')->toArray();
+                $imageIdsString = implode(', ', $imageIds);
+                return response()->json(['error' => "Institution is used by tb_image (img_ids: ${imageIdsString}) and cannot be deleted"], 400);
+            } else {
+                $inst->delete();
+                // return response()->json(['success' => 'Institution deleted successfully']);
+                return redirect()->back();
+            }
         } else {
             return response()->json(['error' => 'Institution not found'], 404);
         }
     }
+
 
 
     public function get_inst(Request $request)

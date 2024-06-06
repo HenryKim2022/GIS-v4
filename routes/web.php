@@ -97,11 +97,12 @@ if (env('APP_INSTALL', false)) {    // Not False
 
     Route::get('/m-mark', [MarkController::class, 'index'])->name('m-markings.index');
     Route::get('/m-mark/loadmark', [MarkController::class, 'load_marks_into_map'])->name('l-mark.m-mark.page');
-    Route::post('/m-mark/add-mark', [MarkController::class, 'add_marking'])->name('m-markings.post');
     Route::post('/m-mark/add-mark-maps', [MarkController::class, 'add_marking_from_maps'])->name('m-mark-maps-data.post');
-    Route::post('/m-mark/get-mark', [MarkController::class, 'get_marking'])->name('m-mark-data.get');
-    Route::post('/m-mark/edit-mark', [MarkController::class, 'edit_marking'])->name('m-mark-data.edit');
     Route::post('/m-mark/edit-mark-maps', [MarkController::class, 'edit_marking_from_maps'])->name('m-mark-maps-data.edit');
+    Route::post('/m-mark/delete-mark-maps', [MarkController::class, 'delete_marking_from_maps'])->name('m-mark-maps-data.delete');
+    Route::post('/m-mark/add-mark', [MarkController::class, 'add_marking'])->name('m-markings.post');
+    Route::post('/m-mark/edit-mark', [MarkController::class, 'edit_marking'])->name('m-mark-data.edit');
+    Route::post('/m-mark/get-mark', [MarkController::class, 'get_marking'])->name('m-mark-data.get');
     Route::post('/m-mark/update-mark', [MarkController::class, 'update_marking'])->name('m-mark-data.update');
     Route::post('/m-mark/delete-mark', [MarkController::class, 'delete_marking'])->name('m-mark-data.delete');
     Route::post('/m-mark/reset', [MarkController::class, 'reset_marking'])->name('m-mark-data.reset');

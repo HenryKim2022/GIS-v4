@@ -93,6 +93,24 @@ class MarkController extends Controller
 
 
 
+    public function delete_marking_from_maps(Request $request)
+    {
+        $mark = Mark_Model::find($request->input('mark_id'));
+        if ($mark) {
+            // Check if the mark is used by tb_institution
+            $isUsed = $mark->tb_institution()->exists();
+            if ($isUsed) {
+                return response()->json(['error' => 'Mark is used by tb_institution and cannot be deleted'], 400);
+            } else {
+                $mark->delete();
+                return response()->json(['success' => 'Mark deleted successfully']);
+            }
+        } else {
+            return response()->json(['error' => 'Mark not found'], 404);
+        }
+    }
+
+
 
     public function delete_marking(Request $request)
     {

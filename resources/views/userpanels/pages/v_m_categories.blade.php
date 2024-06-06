@@ -214,6 +214,7 @@
             <div class="col-md-6">
                 @include('userpanels.modals.vmm.m_cat.vm_addcat_modal_for_tb')
                 @include('userpanels.modals.vmm.m_cat.vm_editcat_modal_for_tb')
+                @include('userpanels.modals.vmm.m_cat.vm_deletecat_modal_for_tb')
 
             </div>
         </div>

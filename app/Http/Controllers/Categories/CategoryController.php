@@ -67,13 +67,21 @@ class CategoryController extends Controller
     {
         $cat = Category_Model::find($request->input('cat_id'));
         if ($cat) {
-            $cat->delete();
-            return response()->json(['success' => 'Category deleted successfully']);
-            // return Redirect::back();
+            $isUsed = $cat->tb_institution()->exists();
+            if ($isUsed) {
+                return response()->json(['error' => 'Category is used by tb_institution and cannot be deleted'], 400);
+            } else {
+                $cat->delete();
+                // return response()->json(['success' => 'Category deleted successfully']);
+                return redirect()->back();
+            }
         } else {
             return response()->json(['error' => 'Category not found'], 404);
         }
     }
+
+
+
 
 
     public function get_categories(Request $request)

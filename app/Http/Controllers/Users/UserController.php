@@ -85,8 +85,8 @@ class UserController extends Controller
         $user = User_Model::find($request->input('user_id'));
         if ($user) {
             $user->delete();
-            return response()->json(['success' => 'User deleted successfully']);
-            // return Redirect::back();
+            // return response()->json(['success' => 'User deleted successfully']);
+            return Redirect::back();
         } else {
             return response()->json(['error' => 'User not found'], 404);
         }
