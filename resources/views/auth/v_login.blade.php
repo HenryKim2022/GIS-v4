@@ -180,7 +180,7 @@
                   <input class="form-check-input" type="checkbox" id="remember-me" />
                   <label class="form-check-label" for="remember-me"> Remember Me </label>
                 </div>
-                <a href="{{ base_url('forgot') }}" class="float-end mb-1" target="_self">
+                <a class="d-none" href="{{ base_url('forgot') }}" class="float-end mb-1" target="_self">
                   <span>Forgot Password?</span>
                 </a>
               </div>
