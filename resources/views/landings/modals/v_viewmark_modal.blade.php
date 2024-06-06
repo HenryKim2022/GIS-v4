@@ -210,7 +210,8 @@
                         <div class="col-12 text-center">
                             <div class="d-flex flex-col justify-content-end">
                                 <button class="modal-btn modal-view-mark-cancel-btn btn btn-primary"
-                                    {{-- data-bs-dismiss="modal"  --}} id="close_modalviewMarkVisitorModal">Close</button>
+                                    {{-- data-bs-dismiss="modal"  --}}
+                                    id="close_modalviewMarkVisitorModal">Close</button>
 
                             </div>
                         </div>

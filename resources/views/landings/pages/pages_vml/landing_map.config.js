@@ -32,8 +32,9 @@ function openModal(modalToShow, modalSelector) {
     modalToShow.show();
     modalSelector.scrollIntoView();
 
-    $('body').on('click', modalSelector, function(oEvt) {
-        oEvt.preventDefault(); // Prevents the default behavior of the click event
+    $('body').on('click', modalSelector, function (oEvt) {
+        // oEvt.preventDefault(); // Prevents the default behavior of the click event
+        oEvt.stopPropagation();     //<--- this is important, for checkbox on leaflet + other
     });
 
     $(modalToShow).on('hidden.bs.modal', function () {
@@ -192,13 +193,12 @@ function setDataModal(map, markersLayer, selectedMarkerData = []) {
 
 
             openModal(modalToShow, modalSelector);
-            const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
-            closeModalBtn.addEventListener('click', function () {
-                closeModal(modalToShow);
-            });
 
 
-
+        });
+        const closeModalBtn = $(modalSelector).find('#close_modalviewMarkVisitorModal')[0];
+        closeModalBtn.addEventListener('click', function () {
+            closeModal(modalToShow);
         });
     });
 
