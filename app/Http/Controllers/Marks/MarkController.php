@@ -116,9 +116,15 @@ class MarkController extends Controller
     {
         $mark = Mark_Model::find($request->input('mark_id'));
         if ($mark) {
-            $mark->delete();
-            return response()->json(['success' => 'Mark deleted successfully']);
-            // return Redirect::back();
+            // Check if the mark is used by tb_institution
+            $isUsed = $mark->tb_institution()->exists();
+            if ($isUsed) {
+                return response()->json(['error' => 'Mark is used by tb_institution and cannot be deleted'], 400);
+            } else {
+                $mark->delete();
+                return Redirect::back();
+                // return response()->json(['success' => 'Mark deleted successfully']);
+            }
         } else {
             return response()->json(['error' => 'Mark not found'], 404);
         }

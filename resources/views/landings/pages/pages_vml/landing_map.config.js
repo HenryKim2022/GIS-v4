@@ -640,7 +640,7 @@ function setDataModalAfterSearch(selectedMarkerData = []) {
                     imgElement.src = 'public/img/noimage.png'; // Use the default image URL
                     imgElement.alt = 'No Image';
                     imgElement.style.height = '40px'; // Set the height directly
-                    imgElement.id = 'image1'; // Assign an ID to the image element
+                    imgElement.id = 'image0; // Assign an ID to the image element
 
                     slide.appendChild(imgElement);
                     swiperWrapper.appendChild(slide);

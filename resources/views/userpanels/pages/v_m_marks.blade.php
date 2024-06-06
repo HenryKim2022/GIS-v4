@@ -361,6 +361,7 @@
     <!-- Tab2 -->
     @include('userpanels.modals.vmm.m_mark.vm_addmark_modal_for_tb')
     @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_tb')
+    @include('userpanels.modals.vmm.m_mark.vm_deletemark_modal_for_tb')
 @endsection
 
 

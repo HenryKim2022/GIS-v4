@@ -543,19 +543,86 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
     const modalToShow = new bootstrap.Modal(modalSelector);
     const targetedModalForm = document.querySelector('#' + whichModal + ' #viewMarkForm');
 
-    $('#modalViewMarkID').val(selectedMarkerData.mark_id);
-    $('#modalViewLatitude').val(selectedMarkerData.mark_lat);
-    $('#modalViewLongitude').val(selectedMarkerData.mark_lon);
-    $('#modalViewAddress').val(selectedMarkerData.mark_address);
-    $('#modalViewLastUpdate').val(selectedMarkerData.mark_updated);
+    // Retrieve data for the clicked marker
+    const mark_id = selectedMarkerData.mark_id;
+    const mark_lat = selectedMarkerData.mark_lat;
+    const mark_lon = selectedMarkerData.mark_lon;
+    const mark_address = selectedMarkerData.mark_address;
+    // const created_at = selectedMarkerData.mark_created;
+    const updated_at = selectedMarkerData.mark_updated;
 
+
+    // Retrieve tooltipData object from marker options
+    $('#modalViewMarkID').val(mark_id);
+    $('#modalViewLatitude').val(mark_lat);
+    $('#modalViewLongitude').val(mark_lon);
+    $('#modalViewAddress').val(mark_address);
+    $('#modalViewLastUpdate').val(updated_at);
     openModal(modalToShow, modalSelector);
+
+    $('#delete_modalviewMarkUserModal').on('click', function () {
+        closeModal(modalToShow);
+        $('#mark_id').val(mark_id);
+
+        openModal(new bootstrap.Modal(document.querySelector('#deleteMarkModalMAPS')), document.querySelector('#deleteMarkModalMAPS'));
+        const modaldeleteMarkModalMAPSBtn = $(document.querySelector('#deleteMarkModalMAPS')).find('#confirmDelete')[0];
+        modaldeleteMarkModalMAPSBtn.addEventListener('click', function () {
+            $.ajax({
+                url: '/m-mark/delete-mark-maps',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    mark_id: mark_id
+                },
+                success: function (response) {
+                    // Handle success response, e.g., reload the table or show a success message
+                    console.log(response);
+                    console.log('Mark deleted successfully');
+                    markersLayer.removeLayer(layer);
+                    // Close the confirmation modal
+                    closeModal(new bootstrap.Modal(document.querySelector('#deleteMarkModalMAPS')));
+                    location.reload(); // Reload the page to update the table
+                },
+                error: function (error) {
+                    // Handle error response, e.g., show an error message
+                    console.log('Error deleting mark:', error);
+                }
+            });
+        });
+
+        const modalDeleteMarkMAPSCancelBtn = $(document.querySelector('#deleteMarkModalMAPS')).find('#cancel_modaldeleteMarkModalMAPS')[0];
+        modalDeleteMarkMAPSCancelBtn.addEventListener('click', function () {
+            closeModal(new bootstrap.Modal(document.querySelector('#deleteMarkModalMAPS')));
+        });
+
+
+
+
+    });
     const closeModalBtn = $(modalSelector).find('#close_modalviewMarkUserModal')[0];
     closeModalBtn.addEventListener('click', function () {
         closeModal(modalToShow);
     });
+
+    const editModalBtn = $(modalSelector).find('#edit_modalviewMarkUserModal')[0];
+    editModalBtn.addEventListener('click', function () {
+        closeModal(modalToShow);
+        $('#modalEditMarkID2MAPS').val(mark_id);
+        $('#modalEditLatitudeMAPS').val(mark_lat);
+        $('#modalEditLongitudeMAPS').val(mark_lon);
+        $('#modalEditMarkAddressMAPS').val(mark_address);
+        openModal(new bootstrap.Modal(document.querySelector('#editMarkModalMAPS')), document.querySelector('#editMarkModalMAPS'));
+        const modalviewMarkUserModalMAPCancelModalBtn = $(document.querySelector('#editMarkModalMAPS')).find('#cancel_modalviewMarkUserModalMAPS')[0];
+        modalviewMarkUserModalMAPCancelModalBtn.addEventListener('click', function () {
+            closeModal(modalToShow);
+        });
+
+    });
 }
 // ############################################################# END VIEW ############################################################# //
+
 
 // ############################################################# START ADD ############################################################# //
 function addRightClick(map, markersLayer) {
