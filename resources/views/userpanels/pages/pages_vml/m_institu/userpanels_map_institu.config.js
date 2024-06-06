@@ -715,6 +715,7 @@ function addRightClick(map, markersLayer) {
             lng: LNG
         };
 
+        // GET ADDRESS FROM NOMINATING DOMAIN
         getAddressFromCoordinates(coordinates)
             .then(address => {
                 // Define the addr components
@@ -840,13 +841,129 @@ function addRightClick(map, markersLayer) {
 
 
                 var fulladdr = addressComponents.join(', ');
-                // processIt(fulladdr);
+                processIt(fulladdr);
                 console.log(fulladdr);
             })
             .catch(error => {
                 console.error('Error (outter):', error.message);
-                // processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
+                processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
             });
+
+
+
+        // NOW
+        function processIt(institu_addr) {
+            const institu_name = "Untitled Marker";
+            const institu_npsn = "fill data!";
+            const imgLogo = imgu; // Corrected variable name
+            const institu_images = [
+                imgu,
+                imgu,
+                imgu
+            ];
+            const last_update = "never";
+
+            const tooltipData = {
+                tobesearch: institu_name
+            };
+
+
+            const marker = L.marker(new L.latLng([LAT, LNG]), tooltipData);
+
+            // var markModalID = "editMarkModal";
+            marker.bindTooltip(institu_name + "  ➟  " + institu_addr);
+            marker.on('click', function () {
+                // $('#modalEditMarkID2MAPS').val(institution_mark_id);
+                $('#modalEditLatitudeMAPS2').val(coordinates['lat']);
+                $('#modalEditLongitudeMAPS2').val(coordinates['lng']);
+                $('#modalEditMarkAddressMAPS2').val(institu_addr);
+                openModal(new bootstrap.Modal(document.querySelector('#addMarkModalMAPS')), document.querySelector('#addMarkModalMAPS'));
+                const modaladdMarkUserModalMAPCancelModalBtn = $(document.querySelector('#addMarkModalMAPS')).find('#cancel_modaladdMarkUserModalMAPS')[0];
+                modaladdMarkUserModalMAPCancelModalBtn.addEventListener('click', function () {
+                    closeModal(new bootstrap.Modal(document.querySelector('#addMarkModalMAPS')));
+                    markersLayer.removeLayer(marker);
+                });
+
+                // var markModal = document.getElementById(markModalID);
+                // $(markModal).modal("show");
+                // openModal();
+
+                // var modalViewLatitude = document.getElementById('modalEditLatitude');
+                // modalViewLatitude.value = coordinates['lat'];
+                // var modalViewLongitude = document.getElementById('modalEditLongitude');
+                // modalViewLongitude.value = coordinates['lng'];
+                // var modalViewInstitutionName = document.getElementById('modalEditInstitutionName');
+                // modalViewInstitutionName.value = institu_name;
+                // var modalViewNPSN = document.getElementById('modalEditNPSN');
+                // modalViewNPSN.value = institu_npsn;
+                // var modalViewAddress = document.getElementById('modalEditAddress');
+                // modalViewAddress.value = institu_addr;
+                // var modalViewLastUpdate = document.getElementById('modalEditLastUpdate');
+                // modalViewLastUpdate.value = last_update;
+
+                // addLogo2Modal(LogoPreviewId = "modalEditLogoPreview");
+                // addImages2Modal();
+
+
+                // var modalSaveButton = document.querySelector('.modal-mark-save-btn');
+                // if (modalSaveButton) {
+                //     modalSaveButton.addEventListener('click', function () {
+                //         // $('#editMarkModal').modal('hide');
+                //         // newMarker.setPopupContent(updatedPopupContent);
+                //         // $(markModal).modal("hide");
+                //         closeModal();
+                //     });
+                // }
+                // var modalRemoveButton = document.querySelector('.modal-mark-remove-btn');
+                // if (modalRemoveButton) {
+                //     modalRemoveButton.addEventListener('click', function () {
+                //         markersLayer.removeLayer(marker);
+                //         $(markModal).modal("hide");
+                //         closeModal();
+                //     });
+                // }
+                // var modalCancelButton = document.querySelector('.modal-mark-cancel-btn');
+                // if (modalCancelButton) {
+                //     modalCancelButton.addEventListener('click', function () {
+                //         // $('#editMarkModal').modal('hide');
+                //         $(markModal).modal("hide");
+                //         closeModal();
+                //     });
+                // }
+
+                // function addLogo2Modal(LogoPreviewId = "") {
+                //     setLogo();
+                //     function setLogo() {
+                //         var modalLogoPreview = document.getElementById(LogoPreviewId);
+                //         // Check if logo already exists
+                //         if (modalLogoPreview.childElementCount === 0) {
+                //             updateLogoPreview(imgLogo);
+                //         }
+                //         function updateLogoPreview(imageSrc) {
+                //             var logoImage = document.createElement('img');
+                //             logoImage.src = imageSrc;
+                //             logoImage.classList.add('logo-preview');
+                //             logoImage.style.width = '96px';
+                //             logoImage.style.height = '96px';
+
+                //             modalLogoPreview.appendChild(logoImage);
+                //         }
+                //     }
+                // }
+
+                // function addImages2Modal() {
+                //     setImages()
+                //     function setImages() {
+                //     }
+                // }
+
+
+
+            });
+
+            markersLayer.addLayer(marker);
+        }
+
 
 
 

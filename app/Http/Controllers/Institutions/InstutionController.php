@@ -184,6 +184,94 @@ class InstutionController extends Controller
 
 
 
+
+    // public function load_institutions_into_map()
+    // {
+    //     $institutions = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get();
+
+    //     $featureCollection = [
+    //         "type" => "FeatureCollection",
+    //         "generator" => "overpass-turbo",
+    //         "copyright" => "The data included in this document is own by " . env(key: 'APP_NAME') . ". The data is made available when we are active.",
+    //         "timestamp" => date('Y-m-d\TH:i:s\Z'),
+    //         "features" => []
+    //     ];
+
+    //     foreach ($institutions as $inst) {
+    //         $feature = [
+    //             "type" => "Feature",
+    //             "properties" => [
+    //                 "institu_id" => $inst->institu_id,
+    //                 "institu_name" => $inst->institu_name,
+    //                 "institu_category" => $inst->tb_category->cat_name,
+    //                 "institu_npsn" => $inst->institu_npsn,
+    //                 "institu_logo" => $inst->institu_logo,
+    //                 "institu_address" => $inst->tb_mark->mark_address,
+    //                 "institu_images" => $inst->tb_image->map(function ($image) {
+    //                     return [
+    //                         "title" => $image->img_title,
+    //                         "src" => $image->img_src,
+    //                         "alt" => $image->img_alt,
+    //                         "description" => $image->img_descb
+    //                     ];
+    //                 })->all(),
+    //                 "institu_mark_id" => $inst->tb_mark->mark_id,
+    //                 "created_at" => $inst->tb_mark->created_at,
+    //                 "updated_at" => max($inst->updated_at, $inst->tb_mark->updated_at, $inst->tb_category->updated_at, $inst->tb_image->max('updated_at'))
+    //             ],
+    //             "geometry" => [
+    //                 "type" => "Point",
+    //                 "coordinates" => [
+    //                     $inst->tb_mark->mark_lon,
+    //                     $inst->tb_mark->mark_lat
+    //                 ]
+    //             ]
+    //         ];
+
+    //         $featureCollection["features"][] = $feature;
+    //     }
+
+    //     $response = response()->json($featureCollection);
+    //     // Append a query parameter to the logo and image URLs (avoid image not updated in browser cache).
+    //     $queryParam = 'v=' . time(); // Unique value, such as a timestamp
+    //     $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    //     $response->header('Pragma', 'no-cache');
+    //     $response->header('Expires', '0');
+    //     $response->header('Content-Type', 'application/json');
+    //     $response->header('Vary', 'Accept-Encoding');
+    //     $response->header('X-Powered-By', 'Laravel');
+    //     $response->header('Access-Control-Allow-Origin', '*');
+
+    //     // Modify the logo and image URLs in the feature collection
+    //     $response->setData($this->modifyAssetUrls($response->getData(), $queryParam));
+
+    //     return $response;
+    // }
+
+
+    // private function modifyAssetUrls($data, $queryParam)
+    // {
+    //     if (!isset($data->features) || !is_array($data->features)) {
+    //         return $data;
+    //     }
+    //     foreach ($data->features as $feature) {
+    //         if (isset($feature->properties->institu_logo)) {
+    //             $feature->properties->institu_logo .= '?' . $queryParam;
+    //         }
+    //         if (isset($feature->properties->institu_images) && is_array($feature->properties->institu_images)) {
+    //             foreach ($feature->properties->institu_images as $image) {
+    //                 if (isset($image->src)) {
+    //                     $image->src .= '?' . $queryParam;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return $data;
+    // }
+
+
+
     public function reset_inst(Request $request)
     {
         // Delete all records from the tb_mark table

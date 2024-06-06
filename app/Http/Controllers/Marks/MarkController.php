@@ -50,6 +50,16 @@ class MarkController extends Controller
         return Redirect::back();
     }
 
+    public function add_marking_from_maps(Request $request)
+    {
+        $mark = new Mark_Model();
+        $mark->mark_lat = $request->input('modalEditLatitudeMAPS2');
+        $mark->mark_lon = $request->input('modalEditLongitudeMAPS2');
+        $mark->mark_address = $request->input('modalEditMarkAddressMAPS2');
+        $mark->save();
+        return Redirect::back();
+    }
+
 
     public function edit_marking(Request $request)
     {
@@ -119,7 +129,7 @@ class MarkController extends Controller
 
     public function load_marks_into_map()
     {
-        $institutions = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get();
+        $marks = Mark_Model::withoutTrashed()->get();
 
         $featureCollection = [
             "type" => "FeatureCollection",
@@ -129,33 +139,20 @@ class MarkController extends Controller
             "features" => []
         ];
 
-        foreach ($institutions as $inst) {
+        foreach ($marks as $mark) {
             $feature = [
                 "type" => "Feature",
                 "properties" => [
-                    "institu_id" => $inst->institu_id,
-                    "institu_name" => $inst->institu_name,
-                    "institu_category" => $inst->tb_category->cat_name,
-                    "institu_npsn" => $inst->institu_npsn,
-                    "institu_logo" => $inst->institu_logo,
-                    "institu_address" => $inst->tb_mark->mark_address,
-                    "institu_images" => $inst->tb_image->map(function ($image) {
-                        return [
-                            "title" => $image->img_title,
-                            "src" => $image->img_src,
-                            "alt" => $image->img_alt,
-                            "description" => $image->img_descb
-                        ];
-                    })->all(),
-                    "institu_mark_id" => $inst->tb_mark->mark_id,
-                    "created_at" => $inst->tb_mark->created_at,
-                    "updated_at" => max($inst->updated_at, $inst->tb_mark->updated_at, $inst->tb_category->updated_at, $inst->tb_image->max('updated_at'))
+                    "mark_id" => $mark->mark_id,
+                    "mark_address" => $mark->mark_address,
+                    "created_at" => $mark->created_at,
+                    "updated_at" => $mark->updated_at
                 ],
                 "geometry" => [
                     "type" => "Point",
                     "coordinates" => [
-                        $inst->tb_mark->mark_lon,
-                        $inst->tb_mark->mark_lat
+                        $mark->mark_lon,
+                        $mark->mark_lat
                     ]
                 ]
             ];
@@ -183,25 +180,19 @@ class MarkController extends Controller
 
     private function modifyAssetUrls($data, $queryParam)
     {
-        if (!isset($data->features) || !is_array($data->features)) {
+        if ($data === null || !isset($data->features) || !is_array($data->features)) {
             return $data;
         }
+
         foreach ($data->features as $feature) {
-            if (isset($feature->properties->institu_logo)) {
-                $feature->properties->institu_logo .= '?' . $queryParam;
-            }
-            if (isset($feature->properties->institu_images) && is_array($feature->properties->institu_images)) {
-                foreach ($feature->properties->institu_images as $image) {
-                    if (isset($image->src)) {
-                        $image->src .= '?' . $queryParam;
-                    }
-                }
-            }
+            // Modify the logo and image URLs in each feature
+            // Assuming the URLs are stored in the `properties` object
+            // $feature->properties->logo_url .= '?' . $queryParam;
+            // $feature->properties->image_url .= '?' . $queryParam;
         }
 
         return $data;
     }
-
 
     public function reset_marking(Request $request)
     {

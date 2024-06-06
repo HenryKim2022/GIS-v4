@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Edit button clicked for mark_id:', markID);
 
         setTimeout(() => {
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             $.ajax({
                 url: '/m-mark/get-mark',
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Update the CSRF token here
+                    'X-CSRF-TOKEN': csrfToken // Update the CSRF token here
                 },
-                // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 data: {
                     markID: markID
                 },
