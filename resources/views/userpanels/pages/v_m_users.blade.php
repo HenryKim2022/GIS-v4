@@ -100,7 +100,7 @@
                             <th style="width: 18px;">NO.</th>
                             <th>FULLNAME</th>
                             <th>USERNAME</th>
-                            <th>PASSWORD</th>
+                            <th class="d-none">PASSWORD</th>
                             <th>IMAGE</th>
                             <th>CREATED</th>
                             <th>LAST-UPDATE</th>
@@ -137,7 +137,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $user->user_name }}</td>
-                                <td>
+                                <td class="d-none">
                                     <form class="browser-default-validation">
                                         <div class="form-password-toggle">
                                             <div class="input-group input-group-merge">

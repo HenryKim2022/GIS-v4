@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Setup_Default_Users;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class Setup_Default_Users_Seeder extends Seeder
 {
@@ -19,7 +20,9 @@ class Setup_Default_Users_Seeder extends Seeder
             'firstname' => 'Henry',
             'lastname' => '.K',
             'user_name' => 'admin',
-            'user_pwd' => Crypt::encryptString('123456'),
+            'user_email' => 'admin1@mail.com',
+            'user_pwd' => Hash::make('123456'),
+            'type' => 1,
             'user_image' => '',
         ]);
 
@@ -27,7 +30,9 @@ class Setup_Default_Users_Seeder extends Seeder
             'firstname' => 'M. Ramdan',
             'lastname' => 'Pujianto',
             'user_name' => 'madan',
-            'user_pwd' => Crypt::encryptString('123456'),
+            'user_email' => 'admin2@mail.com',
+            'user_pwd' => Hash::make('123456'),
+            'type' => 1,
             'user_image' => '',
         ]);
 
@@ -35,7 +40,9 @@ class Setup_Default_Users_Seeder extends Seeder
             'firstname' => 'Yopi Okta',
             'lastname' => 'R.W',
             'user_name' => 'shoppe',
-            'user_pwd' => Crypt::encryptString('123456'),
+            'user_email' => 'admin3@mail.com',
+            'user_pwd' => Hash::make('123456'),
+            'type' => 1,
             'user_image' => '',
         ]);
 
@@ -43,7 +50,9 @@ class Setup_Default_Users_Seeder extends Seeder
             'firstname' => 'M. Haffizh',
             'lastname' => 'Dzulfikar',
             'user_name' => 'haffizh',
-            'user_pwd' => Crypt::encryptString('123456'),
+            'user_email' => 'admin4@mail.com',
+            'user_pwd' => Hash::make('123456'),
+            'type' => 1,
             'user_image' => '',
         ]);
     }

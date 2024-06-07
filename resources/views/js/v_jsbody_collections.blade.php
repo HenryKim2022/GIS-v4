@@ -20,6 +20,7 @@
 <script src="{{ asset('public/materialize/assets/vendor/libs/leaflet/leaflet.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
 
+<script src="{{ asset('public/materialize/assets/vendor/libs/toastr/toastr.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
 <script src="{{ asset('public/materialize/assets/vendor/libs/moment/moment.js') }}"></script>

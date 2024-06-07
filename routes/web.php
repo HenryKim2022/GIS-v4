@@ -81,12 +81,24 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     //////////// AUTH: LOGIN & RESET-PASS & REGISTER
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::get('/login', [LoginController::class, 'index'])->name('login.show');
-    Route::post('/login', [LoginController::class, 'doLogin'])->name('login.submit');
-    Route::get('/forgot', [LoginController::class, 'forgotPassword'])->name('forgotpasspage');
-    Route::get('/register', [RegisterController::class, 'index'])->name('registerpage');
+    // Route::get('/login', [LoginController::class, 'index'])->name('login');
+    // Route::get('/login', [LoginController::class, 'index'])->name('login.show');
+    // Route::post('/login', [LoginController::class, 'doLogin'])->name('login.submit');
+    // Route::get('/forgot', [LoginController::class, 'forgotPassword'])->name('forgotpasspage');
+    // // Route::get('/register', [RegisterController::class, 'index'])->name('registerpage');
 
+
+    Route::controller(LoginController::class)->group(function(){
+        // Route::get('/login', 'index')->name('login');
+        Route::get('/login', 'index')->name('login.show');
+        Route::post('/login', 'doLogin')->name('login.submit');
+    });
+
+
+    Route::controller(RegisterController::class)->group(function(){
+        Route::get('/register', 'index')->name('register.show');
+        Route::post('/register', 'doRegister')->name('register.submit');
+    });
 
 
     //////////// USERPANEL: DASHBOARD DKK

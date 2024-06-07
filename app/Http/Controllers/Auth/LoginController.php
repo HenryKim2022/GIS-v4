@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+
+
+
 
 
 class LoginController extends Controller
@@ -35,12 +42,42 @@ class LoginController extends Controller
 
     public function doLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
+        $validator = Validator::make($request->all(), [
+            // 'username-email' => 'required',
             'password' => 'required',
         ]);
+        $validator->after(function ($validator) use ($request) {        // Custom Validation: Check username/email exist
+            $usernameEmail = $request->input('username-email');
+            $user = User_Model::where(function ($query) use ($usernameEmail) {
+                $query->where('user_name', $usernameEmail)
+                    ->orWhere('user_email', $usernameEmail);
+            })->first();
+            if (!$user) {
+                $validator->errors()->add('username-email', 'The username or email not registered.');
+            }
+        });
+        $validator->validate();
 
-        $credentials = $request->only('email', 'password');
+        // Get Field Value
+        $credentials = $request->only('username-email', 'password');
+        $usernameEmail = $credentials['username-email'];
+        $password = $credentials['password'];
+
+        // Check Logins
+        $user = User_Model::where(function ($query) use ($usernameEmail) {
+            $query->where('user_name', $usernameEmail)
+                ->orWhere('user_email', $usernameEmail);
+        })->first();
+        if ($user && Hash::check($password, $user->user_pwd)) {
+            // Authentication successful
+            // You can perform further actions here, such as setting session variables or redirecting to a dashboard page
+            return redirect()->route('dashboard.page')->with('success', 'Login successful!');
+        } else {
+            // Authentication failed
+            // You may return an error message or redirect back to the login page with an error
+            // return redirect()->route('login.show')->with('error', 'Login failed!');
+            return redirect()->route('login.show')->withErrors(['error' => 'Login failed!']);
+        }
     }
 
 

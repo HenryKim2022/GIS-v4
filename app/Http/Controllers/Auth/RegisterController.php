@@ -3,10 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Validated;
+use App\Models\User_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+
+
 
 
 class RegisterController extends Controller
@@ -21,7 +29,6 @@ class RegisterController extends Controller
         Session::put('page', $this->pageData);
     }
 
-
     //
     public function index(){
         $process = $this->setPageSession("Register Page", "register");
@@ -31,6 +38,50 @@ class RegisterController extends Controller
     }
 
 
+
+//
+public function doRegister(Request $request){
+    $validator = Validator::make($request->all(), [
+        'firstname'         => 'required|string',
+        'username'          => 'required|string|unique:tb_users,user_name',
+        'email'             => 'required|email|unique:tb_users,user_email',
+        'password'          => 'required|min:6',
+        'confirm-password'  => 'required|same:password',
+        'terms'             => 'required|accepted',
+    ],
+    [
+        'firstname.required' => 'The firstname field is required.',
+        'username.required' => 'The username field is required.',
+        'email.required' => 'The email field is required.',
+        'password.required' => 'The password field is required.',
+        'confirm-password.required' => 'The confirm password field is required.',
+        'terms.required' => 'You must accept the terms and conditions.',
+        'email.email' => 'The email must be a valid email address.',
+        'password.min' => 'The password must be at least :min characters.',
+        'confirm-password.same' => 'The confirm password must match the password.',
+    ]);
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+
+
+
+    User_Model::create([
+        'firstname'     => $request->input('firstname'),
+        'lastname'      => $request->input('lastname'),
+        'user_name'     => $request->input('username'),
+        'user_email'    => $request->input('email'),
+        'user_pwd'      => Hash::make($request->input('password')),
+        'type'          => "2"
+    ]);
+    return redirect()->route('login.show')->with('success', 'Registration successful!');
+
+    // $process = $this->setPageSession("Register Page", "register");
+    // if ($process){
+    //     return view('auth/v_register');
+    // }
+}
 
 
 
@@ -46,8 +97,10 @@ class RegisterController extends Controller
         Session::put('page', $pageData);
         return true;
     }
-    public function setReturnView($viewurl){
+    public function setReturnView($viewurl, $lastValidationData = [])
+    {
         $pageData = Session::get('page');
-        return view($viewurl, ['pageData' => $pageData]);
+        $mergedData = array_merge($lastValidationData, ['pageData' => $pageData]);
+        return view($viewurl, $mergedData);
     }
 }

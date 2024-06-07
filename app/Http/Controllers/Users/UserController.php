@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -33,7 +34,8 @@ class UserController extends Controller
 
         // Decrypt passwords
         $decryptedUsers = $loadUsersFromDB->map(function ($user) {
-            $user->user_pwd = Crypt::decryptString($user->user_pwd);
+            // $user->user_pwd = Crypt::decryptString($user->user_pwd);
+            $user->user_pwd = $user->user_pwd;
             return $user;
         });
 
@@ -48,7 +50,8 @@ class UserController extends Controller
         $firstName = $request->input('modalEditUserFirstname1');
         $lastName = $request->input('modalEditUserLastname1');
         $userName = $request->input('modalEditUsername1');
-        $userPwd = Crypt::encryptString($request->input('modalEditUserPassword1'));
+        // $userPwd = Crypt::encryptString($request->input('modalEditUserPassword1'));
+        $userPwd = Hash::make($request->input('modalEditUserPassword1'));
 
         $user = new User_Model();
         $user->firstname = $firstName;
@@ -70,7 +73,8 @@ class UserController extends Controller
             $user->firstname = $request->input('modalEditUserFirstname2');
             $user->lastname = $request->input('modalEditUserLastname2');
             $user->user_name = $request->input('modalEditUsername2');
-            $user->user_pwd = Crypt::encryptString($request->input('modalEditUserPassword2'));
+            // $user->user_pwd = Crypt::encryptString($request->input('modalEditUserPassword2'));
+            $user->user_pwd = Hash::make($request->input('modalEditUserPassword2'));
             $user->save();
             return Redirect::back();
         } else {
@@ -98,7 +102,8 @@ class UserController extends Controller
         $userID = $request->input('userID');
         $user = User_Model::find($userID);
 
-        $decryptedUserPwd = Crypt::decryptString($user->user_pwd);
+        // $encryptedUserPwd = Crypt::decryptString($user->user_pwd);
+        $encryptedUserPwd = $user->user_pwd;
         if ($user) {
             // Return the latitude and longitude as a JSON response
             return response()->json([
@@ -106,7 +111,7 @@ class UserController extends Controller
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
                 'user_name' => $user->user_name,
-                'user_password' => $decryptedUserPwd,
+                'user_password' => $encryptedUserPwd,
                 'user_image' => $user->user_image
             ]);
         } else {

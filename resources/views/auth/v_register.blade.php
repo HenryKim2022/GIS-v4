@@ -1,4 +1,3 @@
-
 @php
     $page = Session::get('page');
     $page_title = $page['page_title'];
@@ -16,6 +15,7 @@
     <title>{{ env('APP_NAME') }} | {{ $page_title }}</title>
 
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('public/materialize/assets/img/favicon/favicon.ico') }}" />
@@ -51,6 +51,8 @@
         href="{{ asset('public/materialize/assets/vendor/libs/@form-validation/form-validation.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/toastr/toastr.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/materialize/assets/vendor/libs/animate-css/animate.css') }}" />
 
     <!-- Page CSS -->
     <!-- Page -->
@@ -120,8 +122,7 @@
             <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-5 pb-2">
                 {{-- <img src="{{ asset('public/materialize/assets/img/illustrations/auth-register-illustration-light.png') }}" --}}
                 <img src="{{ asset('public/materialize/assets/img/illustrations/auth-register-illustration-dark-v2.png') }}"
-                    class="auth-cover-illustration w-100" alt="auth-illustration"
-                    {{-- data-app-light-img="illustrations/auth-register-illustration-light.png" --}}
+                    class="auth-cover-illustration w-100" alt="auth-illustration" {{-- data-app-light-img="illustrations/auth-register-illustration-light.png" --}}
                     data-app-light-img="illustrations/auth-register-illustration-dark-v2.png"
                     data-app-dark-img="illustrations/auth-register-illustration-dark-v2.png" />
                 <img src="{{ asset('public/materialize/assets/img/illustrations/auth-cover-register-mask-light.png') }}"
@@ -138,33 +139,78 @@
                     <h4 class="mb-2">Adventure starts here 🚀</h4>
                     <p class="mb-4">Make your app management easy and fun!</p>
 
-                    <form id="formAuthentication" class="mb-3" action="index.html" method="GET">
+                    <form id="formAuthentication" class="mb-3" action="{{ route('register.submit') }}"
+                        method="POST">
+                        @csrf
                         <div class="form-floating form-floating-outline mb-3">
-                            <input type="text" class="form-control" id="username" name="username"
-                                placeholder="Enter your username" autofocus />
-                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                placeholder="Enter your firstname"
+                                value="{{ old('firstname', $inputs['firstname'] ?? '') }}" autofocus />
+                            <label for="firstname">Firstname</label>
+                            {{-- @error('firstname')
+                                <span class="text-danger fs-tiny">{{ $message }}</span>
+                            @enderror --}}
                         </div>
                         <div class="form-floating form-floating-outline mb-3">
-                            <input type="text" class="form-control" id="email" name="email"
-                                placeholder="Enter your email" />
+                            <input type="text" class="form-control" id="lastname" name="lastname"
+                                placeholder="Enter your lastname"
+                                value="{{ old('lastname', $inputs['lastname'] ?? '') }}" />
+                            <label for="lastname">Lastname</label>
+                        </div>
+                        <div class="form-floating form-floating-outline mb-3">
+                            <input type="username" class="form-control" id="username" name="username"
+                                placeholder="Enter your username"
+                                value="{{ old('username', $inputs['username'] ?? '') }}" />
+                            <label for="username">Username</label>
+                            {{-- @error('username')
+                                <span class="text-danger fs-tiny">{{ $message }}</span>
+                            @enderror --}}
+                        </div>
+                        <div class="form-floating form-floating-outline mb-3">
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Enter your email" value="{{ old('email', $inputs['email'] ?? '') }}" />
                             <label for="email">Email</label>
+                            {{-- @error('email')
+                                <span class="text-danger fs-tiny">{{ $message }}</span>
+                            @enderror --}}
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="input-group input-group-merge">
                                 <div class="form-floating form-floating-outline">
                                     <input type="password" id="password" class="form-control" name="password"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
+                                        aria-describedby="password"
+                                        value="{{ old('password', $inputs['password'] ?? '') }}" />
                                     <label for="password">Password</label>
                                 </div>
                                 <span class="input-group-text cursor-pointer"><i
                                         class="mdi mdi-eye-off-outline"></i></span>
                             </div>
+                            {{-- @error('password')
+                                        <span class="text-danger fs-tiny">{{ $message }}</span>
+                                    @enderror --}}
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <div class="input-group input-group-merge">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="password" id="confirm-password" class="form-control"
+                                        name="confirm-password"
+                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        aria-describedby="confirm-password"
+                                        value="{{ old('confirm-password', $inputs['confirm-password'] ?? '') }}" />
+                                    <label for="confirm-password">Confirm Password</label>
+                                </div>
+                                <span class="input-group-text cursor-pointer"><i
+                                        class="mdi mdi-eye-off-outline"></i></span>
+                            </div>
+                            {{-- @error('confirm-password')
+                                        <span class="text-danger fs-tiny">{{ $message }}</span>
+                                    @enderror --}}
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="terms-conditions"
-                                    name="terms" />
+                                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms"
+                                    value="1" {{ old('terms') ? 'checked' : '' }} />
                                 <label class="form-check-label" for="terms-conditions" data-bs-toggle="modal"
                                     data-bs-target="#modalPrivacyPolicy">
                                     I agree to
@@ -354,16 +400,58 @@
         <script src="{{ asset('public/materialize/assets/vendor/libs/@form-validation/popular.js') }}"></script>
         <script src="{{ asset('public/materialize/assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
         <script src="{{ asset('public/materialize/assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
+        <script src="{{ asset('public/materialize/assets/vendor/libs/toastr/toastr.js') }}"></script>
+
 
         <!-- Main JS -->
         <script src="{{ asset('public/materialize/assets/js/main.js') }}"></script>
 
         <!-- Page JS -->
-        <script src="{{ asset('public/materialize/assets/js/pages-auth.js') }}"></script>
+        {{-- <script src="{{ asset('public/materialize/assets/js/pages-auth.js') }}"></script> --}}
         <script src="{{ asset('public/materialize/assets/js/ui-modals.js') }}"></script>
 
 
         <div class="content-backdrop fade"></div>
+
+
+        @foreach ($errors->all() as $index => $error)
+            @if ($index == 0)
+                <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 0 }}"
+                    value="{{ $error }}">
+            @else
+                <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 1000 }}"
+                    value="{{ $error }}">
+            @endif
+        @endforeach
+        <script>
+            $(document).ready(function() {
+                $('.error-message').each(function() {
+                    var error = $(this).val();
+                    var delay = $(this).data('delay');
+
+                    setTimeout(function() {
+                        toastr.error(error, '', {
+                            closeButton: false,
+                            debug: false,
+                            newestOnTop: false,
+                            progressBar: true,
+                            positionClass: 'toast-top-right',
+                            preventDuplicates: false,
+                            onclick: null,
+                            showDuration: '300',
+                            hideDuration: '1000',
+                            timeOut: '5000',
+                            extendedTimeOut: '1000',
+                            showEasing: 'swing',
+                            hideEasing: 'linear',
+                            showMethod: 'fadeIn',
+                            hideMethod: 'fadeOut'
+                        });
+                    }, delay);
+                });
+            });
+        </script>
+
 </body>
 
 </html>
