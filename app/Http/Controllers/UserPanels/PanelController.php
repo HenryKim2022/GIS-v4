@@ -41,16 +41,27 @@ class PanelController extends Controller
         }
     }
 
-    public function logout()
+    // public function logout()
+    // {
+    //     $process = $this->setPageSession("Login Page", "login");
+    //     if ($process) {
+    //         $toast_message = [
+    //             'Logged Out :)'
+    //         ];
+    //         Session::flash('success', $toast_message);
+    //         return Redirect::to('/login');
+    //     }
+    // }
+
+    public function logout(Request $request)
     {
-        $process = $this->setPageSession("Login Page", "login");
-        if ($process) {
-            $toast_message = [
-                'Logged Out :)'
-            ];
-            Session::flash('success', $toast_message);
-            return Redirect::to('/login');
-        }
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $toast_message = [
+            'Logged Out :)'
+        ];
+        Session::flash('success', $toast_message);
+        return Redirect::to('/login');
     }
 
     public function manage_institutions()
