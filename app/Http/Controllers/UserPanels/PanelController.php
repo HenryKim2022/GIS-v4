@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Auth;
+
 class PanelController extends Controller
 {
     protected $pageData;
@@ -43,6 +45,10 @@ class PanelController extends Controller
     {
         $process = $this->setPageSession("Login Page", "login");
         if ($process) {
+            $toast_message = [
+                'Logged Out :)'
+            ];
+            Session::flash('success', $toast_message);
             return Redirect::to('/login');
         }
     }

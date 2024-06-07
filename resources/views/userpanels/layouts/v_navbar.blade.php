@@ -180,6 +180,7 @@
                             <span class="align-middle">Log Out</span>
                         </a>
                     </li>
+
                 </ul>
             </li>
             <!--/ User -->

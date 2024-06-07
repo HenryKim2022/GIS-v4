@@ -60,7 +60,13 @@ public function doRegister(Request $request){
         'password.min' => 'The password must be at least :min characters.',
         'confirm-password.same' => 'The confirm password must match the password.',
     ]);
+    // if ($validator->fails()) {
+    //     return redirect()->back()->withErrors($validator)->withInput();
+    // }
     if ($validator->fails()) {
+        $toast_message = $validator->errors()->all();
+        Session::flash('errors', $toast_message);
+
         return redirect()->back()->withErrors($validator)->withInput();
     }
 
@@ -75,12 +81,24 @@ public function doRegister(Request $request){
         'user_pwd'      => Hash::make($request->input('password')),
         'type'          => "2"
     ]);
-    return redirect()->route('login.show')->with('success', 'Registration successful!');
+    // return redirect()->route('login.show')->with('success', 'Registration successful!');
 
-    // $process = $this->setPageSession("Register Page", "register");
-    // if ($process){
-    //     return view('auth/v_register');
-    // }
+
+    // // $process = $this->setPageSession("Register Page", "register");
+    // // if ($process){
+    // //     return view('auth/v_register');
+    // // }
+
+
+
+    $toast_message = [
+        'Registration successful!'
+    ];
+    Session::flash('success', $toast_message);
+
+
+    // $request->session()->flash('success', 'Registration successful!');
+    return redirect()->route('login.show');
 }
 
 

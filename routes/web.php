@@ -4,6 +4,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Samples\SampleController;
+use App\Http\Controllers\Sessions\SessionController;
 use App\Http\Controllers\Landings\LandingPageController;
 use App\Http\Controllers\Setups\ConfigurationController;
 use App\Http\Controllers\Auth\LoginController;
@@ -53,6 +54,11 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::get('/', [LandingPageController::class, 'index'])->name('landing.page');                          // CHANGE IT LATER (IF NEDDED)
 
 
+    Route::controller(SessionController::class)->group(function(){
+        Route::get('/clr-success-msg', 'clearSuccessMessages')->name('clr.success.sess');
+        Route::post('/clr-errors-msg', 'clearErrorMessages')->name('clr.errors.sess');
+    });
+
 
     //////////// SAMPLES-PAGE
     Route::get('/viewport', [SampleController::class, 'myviewport'])->name('showMyViewport');
@@ -88,13 +94,17 @@ if (env('APP_INSTALL', false)) {    // Not False
     // // Route::get('/register', [RegisterController::class, 'index'])->name('registerpage');
 
 
-    Route::controller(LoginController::class)->group(function(){
-        // Route::get('/login', 'index')->name('login');
-        Route::get('/login', 'index')->name('login.show');
-        Route::post('/login', 'doLogin')->name('login.submit');
+    // Route::controller(LoginController::class)->group(function(){
+    //     // Route::get('/login', 'index')->name('login');
+    //     Route::get('/login', 'index')->name('login.show');
+    //     Route::post('/login', 'doLogin')->name('login.submit');
+    // });
+
+
+    Route::prefix('login')->name('login.')->group(function () {
+        Route::get('/', [LoginController::class, 'index'])->name('show');
+        Route::post('/', [LoginController::class, 'doLogin'])->name('submit');
     });
-
-
     Route::controller(RegisterController::class)->group(function(){
         Route::get('/register', 'index')->name('register.show');
         Route::post('/register', 'doRegister')->name('register.submit');

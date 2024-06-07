@@ -14,9 +14,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 
-class User_Model extends Model
+class User_Model extends Authenticatable
 {
-    use HasFactory;
     use SoftDeletes;
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -44,6 +43,13 @@ class User_Model extends Model
     // protected function type($value){
     //     return ["admin", "institution"][$value];
     // }
+
+
+    public function getAuthPassword()
+    {
+        return $this->user_pwd;
+    }
+
 
     public $timestamps = true;
     protected $dates = ['deleted_at'];

@@ -61,9 +61,13 @@ return [
     */
 
     'providers' => [
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\User::class,
+        // ],
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\User_Model::class,
         ],
 
         // 'users' => [
@@ -93,11 +97,15 @@ return [
     */
 
     'passwords' => [
+        // 'users' => [
+        //     'provider' => 'users',
+        //     'table' => 'password_reset_tokens',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
         'users' => [
-            'provider' => 'users',
-            'table' => 'password_reset_tokens',
-            'expire' => 60,
-            'throttle' => 60,
+            'driver' => 'eloquent',
+            'model' => App\Models\User_Model::class,
         ],
     ],
 

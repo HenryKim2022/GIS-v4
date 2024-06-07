@@ -1,4 +1,3 @@
-
 @php
     $page = Session::get('page');
     $page_title = $page['page_title'];
@@ -11,8 +10,8 @@
         <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
             <!-- Mobile menu toggle: Start-->
             <button class="navbar-toggler border-0 px-0 me-2" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <i class="tf-icons mdi mdi-menu mdi-24px align-middle"></i>
             </button>
             <!-- Mobile menu toggle: End-->
@@ -75,9 +74,16 @@
                 <li class="nav-item">
                     <a class="nav-link fw-medium" href="#team">Team</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-medium" href="{{ base_url('dashboard') }}" target="_self">Dashboard</a>
-                </li>
+
+                @if (Route::has('dashboard.page'))
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('dashboard.page') }}" target="_self">Dashboard</a>
+                        </li>
+                    @endauth
+                @endif
+
+
             </ul>
         </div>
         <div class="landing-menu-overlay d-lg-none"></div>
@@ -110,11 +116,29 @@
             <!-- / Style Switcher-->
 
             <!-- navbar button: Start -->
-            <li>
-                <a href="{{ base_url('login') }}" class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
-                    target="_self"><span class="tf-icons mdi mdi-account me-md-1"></span><span
-                        class="d-none d-md-block"></span></a>
-            </li>
+            @if (Route::has('login.show'))
+                @guest
+                    <li>
+                        <a href="{{ route('login.show') }}" class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
+                            target="_self">
+                            <span class="tf-icons mdi mdi-account me-md-1"></span>
+                            <span class="d-none d-md-block"></span>
+                        </a>
+                    </li>
+                @endguest
+            @endif
+
+            {{-- @if (!Auth::check())
+                <li>
+                    <a href="{{ base_url('login') }}" class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
+                        target="_self">
+                        <span class="tf-icons mdi mdi-account me-md-1"></span>
+                        <span class="d-none d-md-block"></span>
+                    </a>
+                </li>
+            @endif --}}
+
+
             <!-- navbar button: End -->
         </ul>
         <!-- Toolbar: End -->

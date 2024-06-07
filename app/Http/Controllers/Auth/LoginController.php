@@ -42,43 +42,56 @@ class LoginController extends Controller
 
     public function doLogin(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            // 'username-email' => 'required',
-            'password' => 'required',
-        ]);
+        $validator = Validator::make($request->all(), []);
         $validator->after(function ($validator) use ($request) {        // Custom Validation: Check username/email exist
             $usernameEmail = $request->input('username-email');
+            $password = $request->input('password');
             $user = User_Model::where(function ($query) use ($usernameEmail) {
                 $query->where('user_name', $usernameEmail)
                     ->orWhere('user_email', $usernameEmail);
             })->first();
-            if (!$user) {
-                $validator->errors()->add('username-email', 'The username or email not registered.');
+
+            if ($usernameEmail && $password) {
+                if (!$user) {
+                    $validator->errors()->add('username-email', 'The username or email not registered.');
+                } elseif (!Hash::check($password, $user->user_pwd)) {
+                    $validator->errors()->add('password', 'The password is incorrect.');
+                }
+            } else if ($usernameEmail) {
+                $validator->errors()->add('password-email', 'The password required.');
+            } else if ($password) {
+                $validator->errors()->add('username-email', 'The username/email required.');
+            } else {
+                $validator->errors()->add('username-email', 'The username/email required.');
+                $validator->errors()->add('password-email', 'The password required.');
             }
         });
         $validator->validate();
+
 
         // Get Field Value
         $credentials = $request->only('username-email', 'password');
         $usernameEmail = $credentials['username-email'];
         $password = $credentials['password'];
+        $rememberMe = $request->boolean('remember-me');
 
-        // Check Logins
-        $user = User_Model::where(function ($query) use ($usernameEmail) {
-            $query->where('user_name', $usernameEmail)
-                ->orWhere('user_email', $usernameEmail);
-        })->first();
-        if ($user && Hash::check($password, $user->user_pwd)) {
+        // Attempt Authentication
+        if (
+            Auth::attempt(['user_name' => $usernameEmail, 'password' => $password])
+            || Auth::attempt(['user_email' => $usernameEmail, 'password' => $password], $rememberMe)
+        ) {
             // Authentication successful
-            // You can perform further actions here, such as setting session variables or redirecting to a dashboard page
-            return redirect()->route('dashboard.page')->with('success', 'Login successful!');
+            $request->session()->regenerate();
+            Session::flash('success', ['Welcome back :)']);
+            return redirect()->route('dashboard.page');
         } else {
             // Authentication failed
-            // You may return an error message or redirect back to the login page with an error
-            // return redirect()->route('login.show')->with('error', 'Login failed!');
-            return redirect()->route('login.show')->withErrors(['error' => 'Login failed!']);
+            Session::flash('errors', ['Invalid credentials.']);
+            return redirect()->back();
         }
     }
+
+
 
 
 

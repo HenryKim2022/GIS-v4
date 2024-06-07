@@ -414,43 +414,106 @@
         <div class="content-backdrop fade"></div>
 
 
-        @foreach ($errors->all() as $index => $error)
-            @if ($index == 0)
-                <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 0 }}"
-                    value="{{ $error }}">
-            @else
-                <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 1000 }}"
-                    value="{{ $error }}">
-            @endif
-        @endforeach
+
+
+
+
+        {{-- ////////////////////////////////////////////////////////////////////// TOAST //////////////////////////////////////////////////////////////////////  --}}
+        {{-- TOAST: ERROR/FAILED --}}
+        @if ($errors->any())
+            @php
+                $errorMessages = $errors->all();
+            @endphp
+
+            @foreach ($errorMessages as $index => $message)
+                @if ($index == 0)
+                    <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 0 }}"
+                        value="{{ $message }}">
+                @else
+                    <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 1000 }}"
+                        value="{{ $message }}">
+                @endif
+            @endforeach
+        @endif
         <script>
             $(document).ready(function() {
-                $('.error-message').each(function() {
-                    var error = $(this).val();
-                    var delay = $(this).data('delay');
+                @if ($errors->any())
+                    @php
+                        $errorMessages = $errors->all();
+                    @endphp
 
-                    setTimeout(function() {
-                        toastr.error(error, '', {
-                            closeButton: false,
-                            debug: false,
-                            newestOnTop: false,
-                            progressBar: true,
-                            positionClass: 'toast-top-right',
-                            preventDuplicates: false,
-                            onclick: null,
-                            showDuration: '300',
-                            hideDuration: '1000',
-                            timeOut: '5000',
-                            extendedTimeOut: '1000',
-                            showEasing: 'swing',
-                            hideEasing: 'linear',
-                            showMethod: 'fadeIn',
-                            hideMethod: 'fadeOut'
-                        });
-                    }, delay);
-                });
+                    @foreach ($errorMessages as $index => $message)
+                        var toastErrorMsg_{{ $index }} = "{{ $message }}";
+                        var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+
+                        setTimeout(function() {
+                            toastr.error(toastErrorMsg_{{ $index }}, '', {
+                                closeButton: false,
+                                debug: false,
+                                newestOnTop: false,
+                                progressBar: true,
+                                positionClass: 'toast-top-right',
+                                preventDuplicates: false,
+                                onclick: null,
+                                showDuration: '300',
+                                hideDuration: '1000',
+                                timeOut: '5000',
+                                extendedTimeOut: '1000',
+                                showEasing: 'swing',
+                                hideEasing: 'linear',
+                                showMethod: 'fadeIn',
+                                hideMethod: 'fadeOut'
+                            });
+                        }, delay_{{ $index }});
+                    @endforeach
+                @endif
             });
         </script>
+
+
+        {{-- TOAST: SUCCESS --}}
+        @if (Session::has('success'))
+            @foreach (Session::get('success') as $index => $message)
+                @if ($index == 1)
+                    <input type="hidden" class="success-message" data-delay="{{ ($index + 1) * 0 }}"
+                        value="{{ $message }}">
+                @else
+                    <input type="hidden" class="success-message" data-delay="{{ ($index + 1) * 1000 }}"
+                        value="{{ $message }}">
+                @endif
+            @endforeach
+        @endif
+        <script>
+            $(document).ready(function() {
+                @if (Session::has('success'))
+                    @foreach (Session::get('success') as $index => $message)
+                        var toastSuccessMsg_{{ $index }} = "{{ $message }}";
+                        var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+
+                        setTimeout(function() {
+                            toastr.success(toastSuccessMsg_{{ $index }}, '', {
+                                closeButton: false,
+                                debug: false,
+                                newestOnTop: false,
+                                progressBar: true,
+                                positionClass: 'toast-top-right',
+                                preventDuplicates: false,
+                                onclick: null,
+                                showDuration: '300',
+                                hideDuration: '1000',
+                                timeOut: '5000',
+                                extendedTimeOut: '1000',
+                                showEasing: 'swing',
+                                hideEasing: 'linear',
+                                showMethod: 'fadeIn',
+                                hideMethod: 'fadeOut'
+                            });
+                        }, delay_{{ $index }});
+                    @endforeach
+                @endif
+            });
+        </script>
+        {{-- ////////////////////////////////////////////////////////////////////// ./TOAST //////////////////////////////////////////////////////////////////////  --}}
 
 </body>
 
