@@ -86,7 +86,13 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             Session::flash('success', ['Welcome back :)']);
-            return redirect()->route('dashboard.page');
+
+            $user = auth()->user(); // Retrieve the authenticated user
+            if ($user->type == "admin") {
+                return redirect()->route('dashboard.page'); // Redirect to admin dashboard
+            } elseif ($user->type == "institution") {
+                return redirect()->route('dashboard.page'); // Redirect to institution dashboard
+            }
         } else {
             // Authentication failed
             Session::flash('errors', ['Invalid credentials.']);

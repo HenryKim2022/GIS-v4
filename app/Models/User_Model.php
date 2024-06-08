@@ -31,14 +31,22 @@ class User_Model extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'user_pwd' => 'hashed',
+        'type' => 'integer', // Cast the 'type' attribute to integer
     ];
 
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ["admin", "institutions"][$value],
+            get: fn ($value) => ["guest", "admin", "institutions"][$value],
         );
     }
+
+
+    protected function getTypeAttribute($value)
+    {
+        return ["guest", "admin", "institution"][$value];
+    }
+
 
     // protected function type($value){
     //     return ["admin", "institution"][$value];
