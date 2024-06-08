@@ -1,7 +1,8 @@
-
 @php
     $page = Session::get('page');
     $page_title = $page['page_title'];
+
+    $authenticated_user_data = Session::get('authenticated_user_data');
 @endphp
 
 <!-- Navbar -->
@@ -111,8 +112,8 @@
                                 <div class="d-flex gap-2">
                                     <div class="flex-shrink-0">
                                         <div class="avatar me-1">
-                                            <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}"
-                                                alt class="w-px-40 h-auto rounded-circle" />
+                                            <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt
+                                                class="w-px-40 h-auto rounded-circle" />
                                         </div>
                                     </div>
                                     <div class="d-flex flex-column flex-grow-1 overflow-hidden w-px-200">
@@ -141,8 +142,9 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt
-                            class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt
+                            {{-- class="w-px-40 h-auto rounded-circle" /> --}}
+                            class="w-px-40 h-px-40 rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -151,13 +153,16 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt
-                                            class="w-px-40 h-auto rounded-circle" />
+                                        <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt
+                                            class="w-px-40 h-px-40 rounded-circle" />
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">John Doe</span>
-                                    <small class="text-muted">Admin</small>
+                                    {{-- <span class="fw-medium d-block">John Doe</span> --}}
+                                    <span class="fw-medium d-block">
+                                        {{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}
+                                    </span>
+                                    <small class="text-muted">{{ $authenticated_user_data->type }}</small>
                                 </div>
                             </div>
                         </a>
@@ -190,7 +195,7 @@
     <!-- Search Small Screens -->
     <div class="navbar-search-wrapper search-input-wrapper d-none">
         <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
-        aria-label="Search..." />
+            aria-label="Search..." />
         <i class="mdi mdi-close search-toggler cursor-pointer"></i>
     </div>
 </nav>

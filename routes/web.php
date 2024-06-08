@@ -112,9 +112,19 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     //////////// USERPANEL: DASHBOARD DKK
-    Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard.page');
-    Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
-    Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
+    // Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard.page');
+    // Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
+    // Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
+    Route::controller(PanelController::class)->group(function(){
+        Route::get('/dashboard', 'index')->name('dashboard.page');
+        Route::get('/logout', 'logout')->name('logout.redirect');
+        Route::get('/myprofile', 'myprofile')->name('myprofile.page');
+        Route::post('/myprofile/edit-img', 'edit_myprofile_img')->name('myprofile.img.edit');
+        Route::post('/myprofile/edit-bio', 'edit_myprofile_bio')->name('myprofile.bio.edit');
+        Route::post('/myprofile/edit-pass', 'edit_myprofile_pass')->name('myprofile.pass.edit');
+    });
+
+
 
 
     Route::get('/m-mark', [MarkController::class, 'index'])->name('m-markings.index');

@@ -287,8 +287,9 @@
                                                     <td>{{ $mark->mark_lat }}</td>
                                                     <td>{{ $mark->mark_lon }}</td>
                                                     <td>{{ $mark->mark_address }}</td>
-                                                    <td>{{ $mark->created_at }}</td>
-                                                    <td>{{ $mark->updated_at }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($mark->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($mark->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+
                                                 </tr>
                                             @endforeach
                                         </tbody>

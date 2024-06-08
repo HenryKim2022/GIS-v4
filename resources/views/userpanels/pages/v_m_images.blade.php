@@ -148,7 +148,8 @@
                                                     class="hover-image">
                                             </div>
                                         </td>
-                                        <td>{{ $instituImage->updated_at }}</td>
+                                        {{-- <td>{{ \Carbon\Carbon::parse($instituImage->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td> --}}
+                                        <td>{{ \Carbon\Carbon::parse($instituImage->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

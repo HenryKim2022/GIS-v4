@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\UserPanels;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mark_Model;
+use App\Models\User_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Session;
 
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 
 class PanelController extends Controller
@@ -45,6 +47,40 @@ class PanelController extends Controller
             return $this->setReturnView('userpanels/pages/v_userprofile');
         }
     }
+
+    public function edit_myprofile_img(Request $request)
+    {
+    }
+
+    public function edit_myprofile_bio(Request $request)
+    {
+        $user = User_Model::where('user_id', $request->input('user_id'))->first();
+        if ($user) {
+            $user->firstname = $request->input('firstName');
+            $user->lastname = $request->input('lastName');
+            $user->user_name = $request->input('userName');
+            $user->save();
+            Session::flash('success', ['Logged Out! Your data account was updated, Please relogin :)']);
+            return redirect()->route('logout.redirect');
+            //  return Redirect::back();
+        } else {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
+    public function edit_myprofile_pass(Request $request)
+    {
+        $user = User_Model::where('user_id', $request->input('user_id'))->first();
+        if ($user) {
+            $user->user_pwd = Hash::make($request->input('newPassword'));
+            $user->save();
+            Session::flash('success', ['Logged Out! Your data account was updated, Please relogin :)']);
+            return redirect()->route('logout.redirect');
+            // return Redirect::back();
+        } else {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
+
 
 
     public function logout(Request $request)

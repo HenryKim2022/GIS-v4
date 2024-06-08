@@ -47,6 +47,7 @@ class UserController extends Controller
         }
     }
 
+
     public function add_user(Request $request)
     {
         $firstName = $request->input('modalEditUserFirstname1');
@@ -68,7 +69,6 @@ class UserController extends Controller
 
     public function edit_user(Request $request)
     {
-
         // $user = User_Model::find($request->input('modalEdituserID2'));
         $user = User_Model::where('user_id', $request->input('modalEditUserID2'))->first();
         if ($user) {
@@ -78,10 +78,12 @@ class UserController extends Controller
             // $user->user_pwd = Crypt::encryptString($request->input('modalEditUserPassword2'));
             $user->user_pwd = Hash::make($request->input('modalEditUserPassword2'));
             $user->save();
+            Session::flash('success', ['User data update successfully']);
             return Redirect::back();
         } else {
-            // Handle the case when the category is not found
-            return response()->json(['error' => 'User not found'], 404);
+            Session::flash('errors', ['User not found']);
+            return Redirect::back();
+            // return response()->json(['error' => 'User not found'], 404);
         }
     }
 
@@ -91,10 +93,13 @@ class UserController extends Controller
         $user = User_Model::find($request->input('user_id'));
         if ($user) {
             $user->delete();
-            // return response()->json(['success' => 'User deleted successfully']);
+            Session::flash('success', ['User deleted successfully']);
             return Redirect::back();
+            // return response()->json(['success' => 'User deleted successfully']);
         } else {
-            return response()->json(['error' => 'User not found'], 404);
+            Session::flash('errors', ['User not found']);
+            return Redirect::back();
+            // return response()->json(['error' => 'User not found'], 404);
         }
     }
 
@@ -129,12 +134,11 @@ class UserController extends Controller
     {
         // Delete all records from the tb_mark table
         User_Model::query()->delete();
-
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_users AUTO_INCREMENT = 1');
-
         // Redirect back to the previous page
-        return redirect()->back();
+        Session::flash('success', ['All user data reset successfully']);
+        return Redirect::back();
     }
 
 

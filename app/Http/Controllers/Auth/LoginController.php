@@ -88,10 +88,15 @@ class LoginController extends Controller
             Session::flash('success', ['Welcome back :)']);
 
             $user = auth()->user(); // Retrieve the authenticated user
+            session()->put('authenticated_user_data', $user);
+
+
             if ($user->type == "admin") {
                 return redirect()->route('dashboard.page'); // Redirect to admin dashboard
             } elseif ($user->type == "institution") {
                 return redirect()->route('dashboard.page'); // Redirect to institution dashboard
+            }else{
+                return redirect()->route('login.show'); // Redirect to institution dashboard
             }
         } else {
             // Authentication failed

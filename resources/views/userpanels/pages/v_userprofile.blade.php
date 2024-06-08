@@ -26,6 +26,8 @@
         $page = Session::get('page');
         $page_title = $page['page_title'];
         $page_url = $page['page_url'];
+
+        $authenticated_user_data = Session::get('authenticated_user_data');
     @endphp
 
 
@@ -44,23 +46,26 @@
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                            <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt="user image"
+                            {{-- <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt="user image"
+                                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" /> --}}
+                            <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt="user image"
                                 class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
                             <div
                                 class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                 <div class="user-profile-info">
-                                    <h4>John Doe</h4>
+                                    <h4>{{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}</h4>
                                     <ul
                                         class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                         <li class="list-inline-item">
-                                            <i class="mdi mdi-invert-colors me-1 mdi-20px"></i><span class="fw-medium">UX
-                                                Designer</span>
+                                            <i class="mdi mdi-invert-colors me-1 mdi-20px"></i><span class="fw-medium">{{ $authenticated_user_data->type }}</span>
                                         </li>
                                         <li class="list-inline-item">
-                                            <i class="mdi mdi-calendar-blank-outline me-1 mdi-20px"></i><span
-                                                class="fw-medium"> LastUpdate: April 2021</span>
+                                            <i class="mdi mdi-calendar-blank-outline me-1 mdi-20px"></i>
+                                            <span
+                                                class="fw-medium"> LastUpdate: {{ \Carbon\Carbon::parse($authenticated_user_data->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -130,16 +135,22 @@
                                 <ul class="list-unstyled my-3 pt-1">
                                     <li class="d-flex align-items-center mb-3">
                                         <i class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Full
-                                            Name:</span> <span>John Doe</span>
+                                            Name:</span> <span>{{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}</span>
                                     </li>
                                     <li class="d-flex align-items-center mb-3">
                                         <i class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">
-                                            Username:</span> <span>johndoe2024</span>
+                                            Username:</span> <span>{{ $authenticated_user_data->user_name }}</span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3">
+                                        <i class="mdi mdi-email-outline mdi-24px"></i><span class="fw-medium mx-2">
+                                            Email:</span> <span>{{ $authenticated_user_data->user_email }}</span>
                                     </li>
                                     <li class="d-flex align-items-center mb-3">
                                         <i class="mdi mdi-calendar-outline mdi-24px"></i><span
                                             class="fw-medium mx-2">Created:</span>
-                                        <span>24 Oct 2024</span>
+                                        <span>
+                                            {{ \Carbon\Carbon::parse($authenticated_user_data->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                        </span>
                                     </li>
                                 </ul>
                                 <small class="card-text text-uppercase d-none">Contacts</small>
@@ -161,7 +172,7 @@
                             <div class="tab-pane fade" id="navs-pills-justified-editprofile" role="tabpanel">
                                 <!-- Edit Profile -->
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}"
+                                    <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}"
                                         alt="user-avatar" class="d-block w-px-120 h-px-120 rounded"
                                         id="uploadedAvatar" />
                                     <div class="button-wrapper">
@@ -180,26 +191,30 @@
                                     </div>
                                 </div>
                                 <div class="card-body pt-2 px-0 mt-1">
-                                    <form id="formAccountSettings" method="GET" onsubmit="return false">
+                                    {{-- <form id="formAccountSettings" method="POST" action="{{ route('myprofile.bio.edit') }}" onsubmit="return false"> --}}
+                                    <form id="formAccountSettings" method="POST" action="{{ route('myprofile.bio.edit') }}">
+                                        @csrf
                                         <div class="row mt-2 gy-4">
                                             <div class="col-12 col-md-4">
                                                 <div class="form-floating form-floating-outline">
+                                                    <input class="form-control" type="hidden" id="user_id"
+                                                        name="user_id" value="{{ $authenticated_user_data->user_id }}" />
                                                     <input class="form-control" type="text" id="firstName"
-                                                        name="firstName" value="John" autofocus />
+                                                        name="firstName" value="{{ $authenticated_user_data->firstname }}" autofocus />
                                                     <label for="firstName">First Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <div class="form-floating form-floating-outline">
                                                     <input class="form-control" type="text" name="lastName"
-                                                        id="lastName" value="Doe" />
+                                                        id="lastName" value="{{ $authenticated_user_data->lastname }}" />
                                                     <label for="lastName">Last Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <div class="form-floating form-floating-outline">
                                                     <input class="form-control" type="text" id="userName"
-                                                        name="userName" value="johndoe2024" placeholder="johndoe2024" />
+                                                        name="userName" value="{{ $authenticated_user_data->user_name }}" placeholder="{{ $authenticated_user_data->user_name }}" />
                                                     <label for="userName">Username</label>
                                                 </div>
                                             </div>
@@ -207,7 +222,7 @@
                                         </div>
                                         <div class="mt-4">
                                             <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                                            <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                            <button type="reset" class="btn btn-outline-secondary" id="cancelBtn">Cancel</button>
                                         </div>
                                     </form>
                                 </div>
@@ -228,7 +243,7 @@
 
                                     var resetButton = document.querySelector('.account-image-reset');
                                     resetButton.addEventListener('click', function() {
-                                        userProfilePhotoPreview.src = '{{ asset('public/materialize/assets/img/avatars/1.png') }}';
+                                        userProfilePhotoPreview.src = '{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}';
                                         userProfilePhotoInput.value = null;
                                     });
                                 </script>
@@ -239,11 +254,15 @@
                                 <!-- Edit Security -->
                                 <div class="mb-4">
                                     <h5>Change Password</h5>
-                                    <form id="formAccountChangePassSettings" method="GET" onsubmit="return false">
+                                    {{-- <form id="formAccountChangePassSettings" action="{{ route('myprofile.pass.edit') }}" method="GET" onsubmit="return false"> --}}
+                                    <form id="formAccountChangePassSettings" action="{{ route('myprofile.pass.edit') }}" method="POST">
+                                        @csrf
                                         <div class="row g-3 mb-4">
-                                            <div class="col-12 col-md-4 form-password-toggle">
+                                            <div class="col-12 col-md-4 form-password-toggle d-none">
                                                 <div class="input-group input-group-merge">
                                                     <div class="form-floating form-floating-outline">
+                                                        <input class="form-control" type="hidden" id="user_id"
+                                                        name="user_id" value="{{ $authenticated_user_data->user_id }}" />
                                                         <input class="form-control" type="password"
                                                             name="currentPassword" id="currentPassword"
                                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
@@ -253,7 +272,7 @@
                                                             class="mdi mdi-eye-off-outline"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-4 form-password-toggle">
+                                            <div class="col-12 col-md-6 form-password-toggle">
                                                 <div class="input-group input-group-merge">
                                                     <div class="form-floating form-floating-outline">
                                                         <input class="form-control" type="password" id="newPassword"
@@ -265,7 +284,7 @@
                                                             class="mdi mdi-eye-off-outline"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-4 form-password-toggle">
+                                            <div class="col-12 col-md-6 form-password-toggle">
                                                 <div class="input-group input-group-merge">
                                                     <div class="form-floating form-floating-outline">
                                                         <input class="form-control" type="password"
@@ -339,7 +358,7 @@
                 if (formChangePass) {
                     const fv = FormValidation.formValidation(formChangePass, {
                         fields: {
-                            currentPassword: {
+                            'currentPassword': {
                                 validators: {
                                     notEmpty: {
                                         message: 'Please current password'

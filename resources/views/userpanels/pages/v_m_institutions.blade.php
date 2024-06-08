@@ -148,7 +148,8 @@
                                                     alt="Logo 1" style="height: 24px; width: 24px;" class="hover-image">
                                             </div>
                                         </td>
-                                        <td>{{ $institu->updated_at }}</td>
+                                        {{-- <td>{{ \Carbon\Carbon::parse($institu->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td> --}}
+                                        <td>{{ \Carbon\Carbon::parse($institu->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

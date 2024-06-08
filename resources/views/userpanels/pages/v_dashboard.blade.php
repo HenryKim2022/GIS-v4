@@ -52,6 +52,8 @@
         $page = Session::get('page');
         $page_title = $page['page_title'];
         $page_url = $page['page_url'];
+
+        $authenticated_user_data = Session::get('authenticated_user_data');
     @endphp
 
     @if (Route::has('login.show'))

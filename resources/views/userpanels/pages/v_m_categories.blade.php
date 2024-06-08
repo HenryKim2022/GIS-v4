@@ -135,8 +135,8 @@
                                         </td>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $cat->cat_name }}</td>
-                                        <td>{{ $cat->created_at }}</td>
-                                        <td>{{ $cat->updated_at }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($cat->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($cat->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
