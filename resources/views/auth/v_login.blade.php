@@ -279,7 +279,12 @@
 
                 @foreach ($errorMessages as $index => $message)
                     var toastErrorMsg_{{ $index }} = "{{ $message }}";
-                    var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
 
                     setTimeout(function() {
                         toastr.error(toastErrorMsg_{{ $index }}, '', {
@@ -305,7 +310,8 @@
         });
     </script>
 
-    {{-- TOAST: MESSAGE SUCCESS --}}
+
+    {{-- TOAST: SUCCESS --}}
     @if (Session::has('success'))
         @foreach (Session::get('success') as $index => $message)
             @if ($index == 1)
@@ -322,7 +328,12 @@
             @if (Session::has('success'))
                 @foreach (Session::get('success') as $index => $message)
                     var toastSuccessMsg_{{ $index }} = "{{ $message }}";
-                    var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
 
                     setTimeout(function() {
                         toastr.success(toastSuccessMsg_{{ $index }}, '', {
@@ -357,6 +368,7 @@
 
 
 
+
     {{-- TOAST: NORMAL ERROR MESSAGE --}}
     @if (Session::has('n_errors'))
         @foreach (Session::get('n_errors') as $index => $message)
@@ -374,7 +386,12 @@
             @if (Session::has('n_errors'))
                 @foreach (Session::get('n_errors') as $index => $message)
                     var toastNErrorMsg_{{ $index }} = "{{ $message }}";
-                    var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
 
                     setTimeout(function() {
                         toastr.error(toastNErrorMsg_{{ $index }}, '', {
@@ -418,7 +435,12 @@
             @if (Session::has('auth_errors'))
                 @foreach (Session::get('auth_errors') as $index => $message)
                     var toastNErrorMsg_{{ $index }} = "{{ $message }}";
-                    var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
 
                     setTimeout(function() {
                         toastr.error(toastNErrorMsg_{{ $index }}, '', {

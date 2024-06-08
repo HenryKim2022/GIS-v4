@@ -48,23 +48,25 @@
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                             {{-- <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt="user image"
                                 class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" /> --}}
-                            <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt="user image"
-                                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                            <img src="{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}"
+                                alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
                             <div
                                 class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                 <div class="user-profile-info">
-                                    <h4>{{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}</h4>
+                                    <h4>{{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}
+                                    </h4>
                                     <ul
                                         class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                         <li class="list-inline-item">
-                                            <i class="mdi mdi-invert-colors me-1 mdi-20px"></i><span class="fw-medium">{{ $authenticated_user_data->type }}</span>
+                                            <i class="mdi mdi-invert-colors me-1 mdi-20px"></i><span
+                                                class="fw-medium">{{ $authenticated_user_data->type }}</span>
                                         </li>
                                         <li class="list-inline-item">
                                             <i class="mdi mdi-calendar-blank-outline me-1 mdi-20px"></i>
-                                            <span
-                                                class="fw-medium"> LastUpdate: {{ \Carbon\Carbon::parse($authenticated_user_data->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                            <span class="fw-medium"> LastUpdate:
+                                                {{ \Carbon\Carbon::parse($authenticated_user_data->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
                                             </span>
                                         </li>
                                     </ul>
@@ -135,7 +137,8 @@
                                 <ul class="list-unstyled my-3 pt-1">
                                     <li class="d-flex align-items-center mb-3">
                                         <i class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Full
-                                            Name:</span> <span>{{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}</span>
+                                            Name:</span>
+                                        <span>{{ $authenticated_user_data->firstname && $authenticated_user_data->lastname ? $authenticated_user_data->firstname . ' ' . $authenticated_user_data->lastname : $authenticated_user_data->firstname }}</span>
                                     </li>
                                     <li class="d-flex align-items-center mb-3">
                                         <i class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">
@@ -172,7 +175,7 @@
                             <div class="tab-pane fade" id="navs-pills-justified-editprofile" role="tabpanel">
                                 <!-- Edit Profile -->
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}"
+                                    <img src="{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}"
                                         alt="user-avatar" class="d-block w-px-120 h-px-120 rounded"
                                         id="uploadedAvatar" />
                                     <div class="button-wrapper">
@@ -190,39 +193,89 @@
                                         <div class="small">Allowed JPG, GIF or PNG. Max size of 800K</div>
                                     </div>
                                 </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const uploadInput = document.getElementById('upload');
+                                        const uploadedAvatar = document.getElementById('uploadedAvatar');
+                                        const userId = '{{ $authenticated_user_data->user_id }}';
+
+                                        uploadInput.addEventListener('change', function() {
+                                            const file = uploadInput.files[0];
+                                            const reader = new FileReader();
+
+                                            reader.onload = function(e) {
+                                                const uploadedImage = e.target.result;
+                                                uploadedAvatar.src = uploadedImage;
+
+                                                const formData = new FormData();
+                                                formData.append('user_id', userId);
+                                                formData.append('user_img', file);
+
+                                                const xhr = new XMLHttpRequest();
+                                                xhr.open('POST', '{{ route('myprofile.img.edit') }}');
+                                                xhr.setRequestHeader('X-CSRF-Token', '{{ csrf_token() }}');
+                                                xhr.onload = function() {
+                                                    const response = JSON.parse(xhr.responseText);
+                                                    if (response.reload) {
+                                                        window.location.reload();
+                                                    }
+                                                };
+                                                xhr.send(formData);
+                                            };
+
+                                            reader.readAsDataURL(file);
+                                        });
+                                    });
+                                </script>
+
+
+
                                 <div class="card-body pt-2 px-0 mt-1">
                                     {{-- <form id="formAccountSettings" method="POST" action="{{ route('myprofile.bio.edit') }}" onsubmit="return false"> --}}
-                                    <form id="formAccountSettings" method="POST" action="{{ route('myprofile.bio.edit') }}">
+                                    <form id="formAccountSettings" method="POST"
+                                        action="{{ route('myprofile.bio.edit') }}">
                                         @csrf
                                         <div class="row mt-2 gy-4">
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-floating form-floating-outline">
                                                     <input class="form-control" type="hidden" id="user_id"
                                                         name="user_id" value="{{ $authenticated_user_data->user_id }}" />
                                                     <input class="form-control" type="text" id="firstName"
-                                                        name="firstName" value="{{ $authenticated_user_data->firstname }}" autofocus />
+                                                        name="firstName"
+                                                        value="{{ $authenticated_user_data->firstname }}" autofocus />
                                                     <label for="firstName">First Name</label>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-floating form-floating-outline">
                                                     <input class="form-control" type="text" name="lastName"
-                                                        id="lastName" value="{{ $authenticated_user_data->lastname }}" />
+                                                        id="lastName"
+                                                        value="{{ $authenticated_user_data->lastname }}" />
                                                     <label for="lastName">Last Name</label>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-floating form-floating-outline">
                                                     <input class="form-control" type="text" id="userName"
-                                                        name="userName" value="{{ $authenticated_user_data->user_name }}" placeholder="{{ $authenticated_user_data->user_name }}" />
+                                                        name="userName" value="{{ $authenticated_user_data->user_name }}"
+                                                        placeholder="{{ $authenticated_user_data->user_name }}" />
                                                     <label for="userName">Username</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input class="form-control" type="text" id="userEmail"
+                                                        name="userEmail" value="{{ $authenticated_user_data->user_email }}"
+                                                        placeholder="{{ $authenticated_user_data->user_email }}" />
+                                                    <label for="userEmail">Email</label>
                                                 </div>
                                             </div>
 
                                         </div>
                                         <div class="mt-4">
                                             <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                                            <button type="reset" class="btn btn-outline-secondary" id="cancelBtn">Cancel</button>
+                                            <button type="reset" class="btn btn-outline-secondary"
+                                                id="cancelBtn">Cancel</button>
                                         </div>
                                     </form>
                                 </div>
@@ -243,7 +296,8 @@
 
                                     var resetButton = document.querySelector('.account-image-reset');
                                     resetButton.addEventListener('click', function() {
-                                        userProfilePhotoPreview.src = '{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}';
+                                        userProfilePhotoPreview.src =
+                                            '{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}';
                                         userProfilePhotoInput.value = null;
                                     });
                                 </script>
@@ -255,26 +309,15 @@
                                 <div class="mb-4">
                                     <h5>Change Password</h5>
                                     {{-- <form id="formAccountChangePassSettings" action="{{ route('myprofile.pass.edit') }}" method="GET" onsubmit="return false"> --}}
-                                    <form id="formAccountChangePassSettings" action="{{ route('myprofile.pass.edit') }}" method="POST">
+                                    <form id="formAccountChangePassSettings" action="{{ route('myprofile.pass.edit') }}"
+                                        method="POST">
                                         @csrf
                                         <div class="row g-3 mb-4">
-                                            <div class="col-12 col-md-4 form-password-toggle d-none">
+                                            <div class="col-12 col-md-6 form-password-toggle">
                                                 <div class="input-group input-group-merge">
                                                     <div class="form-floating form-floating-outline">
                                                         <input class="form-control" type="hidden" id="user_id"
                                                         name="user_id" value="{{ $authenticated_user_data->user_id }}" />
-                                                        <input class="form-control" type="password"
-                                                            name="currentPassword" id="currentPassword"
-                                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                                                        <label for="currentPassword">Current Password</label>
-                                                    </div>
-                                                    <span class="input-group-text cursor-pointer"><i
-                                                            class="mdi mdi-eye-off-outline"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 form-password-toggle">
-                                                <div class="input-group input-group-merge">
-                                                    <div class="form-floating form-floating-outline">
                                                         <input class="form-control" type="password" id="newPassword"
                                                             name="newPassword"
                                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
@@ -288,9 +331,9 @@
                                                 <div class="input-group input-group-merge">
                                                     <div class="form-floating form-floating-outline">
                                                         <input class="form-control" type="password"
-                                                            name="confirmPassword" id="confirmPassword"
+                                                            name="confirm-Password" id="confirm-Password"
                                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                                                        <label for="confirmPassword">Confirm New Password</label>
+                                                        <label for="confirm-Password">Confirm New Password</label>
                                                     </div>
                                                     <span class="input-group-text cursor-pointer"><i
                                                             class="mdi mdi-eye-off-outline"></i></span>
@@ -347,6 +390,177 @@
     {{-- <script src="{{ asset('public/materialize/assets/js/pages-account-settings-account.js') }}"></script> --}}
     {{-- <script src="{{ asset('public/materialize/assets/js/pages-account-settings-security.js') }}"></script> --}}
 
+
+
+
+    {{-- ////////////////////////////////////////////////////////////////////// TOAST //////////////////////////////////////////////////////////////////////  --}}
+    {{-- TOAST:  VALIDATION ERROR/FAILED --}}
+    @if ($errors->any())
+        @php
+            $errorMessages = $errors->all();
+        @endphp
+
+        @foreach ($errorMessages as $index => $message)
+            @if ($index == 0)
+                <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 0 }}"
+                    value="{{ $message }}">
+            @else
+                <input type="hidden" class="error-message" data-delay="{{ ($index + 1) * 1000 }}"
+                    value="{{ $message }}">
+            @endif
+        @endforeach
+    @endif
+    <script>
+        $(document).ready(function() {
+            @if ($errors->any())
+                @php
+                    $errorMessages = $errors->all();
+                @endphp
+
+                @foreach ($errorMessages as $index => $message)
+                    var toastErrorMsg_{{ $index }} = "{{ $message }}";
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
+
+                    setTimeout(function() {
+                        toastr.error(toastErrorMsg_{{ $index }}, '', {
+                            closeButton: false,
+                            debug: false,
+                            newestOnTop: false,
+                            progressBar: true,
+                            positionClass: 'toast-top-right',
+                            preventDuplicates: false,
+                            onclick: null,
+                            showDuration: '300',
+                            hideDuration: '1000',
+                            timeOut: '5000',
+                            extendedTimeOut: '1000',
+                            showEasing: 'swing',
+                            hideEasing: 'linear',
+                            showMethod: 'fadeIn',
+                            hideMethod: 'fadeOut'
+                        });
+                    }, delay_{{ $index }});
+                @endforeach
+            @endif
+        });
+    </script>
+
+
+    {{-- TOAST: SUCCESS --}}
+    @if (Session::has('success'))
+        @foreach (Session::get('success') as $index => $message)
+            @if ($index == 1)
+                <input type="hidden" class="success-message" data-delay="{{ ($index + 1) * 0 }}"
+                    value="{{ $message }}">
+            @else
+                <input type="hidden" class="success-message" data-delay="{{ ($index + 1) * 1000 }}"
+                    value="{{ $message }}">
+            @endif
+        @endforeach
+    @endif
+    <script>
+        $(document).ready(function() {
+            @if (Session::has('success'))
+                @foreach (Session::get('success') as $index => $message)
+                    var toastSuccessMsg_{{ $index }} = "{{ $message }}";
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
+
+                    setTimeout(function() {
+                        toastr.success(toastSuccessMsg_{{ $index }}, '', {
+                            closeButton: false,
+                            debug: false,
+                            newestOnTop: false,
+                            progressBar: true,
+                            positionClass: 'toast-top-right',
+                            preventDuplicates: false,
+                            onclick: null,
+                            showDuration: '300',
+                            hideDuration: '1000',
+                            timeOut: '5000',
+                            extendedTimeOut: '1000',
+                            showEasing: 'swing',
+                            hideEasing: 'linear',
+                            showMethod: 'fadeIn',
+                            hideMethod: 'fadeOut'
+                        });
+                    }, delay_{{ $index }});
+                @endforeach
+            @endif
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+    {{-- TOAST: NORMAL ERROR MESSAGE --}}
+    @if (Session::has('n_errors'))
+        @foreach (Session::get('n_errors') as $index => $message)
+            @if ($index == 1)
+                <input type="hidden" class="n-error-message" data-delay="{{ ($index + 1) * 0 }}"
+                    value="{{ $message }}">
+            @else
+                <input type="hidden" class="n-error-message" data-delay="{{ ($index + 1) * 1000 }}"
+                    value="{{ $message }}">
+            @endif
+        @endforeach
+    @endif
+    <script>
+        $(document).ready(function() {
+            @if (Session::has('n_errors'))
+                @foreach (Session::get('n_errors') as $index => $message)
+                    var toastNErrorMsg_{{ $index }} = "{{ $message }}";
+                    var delay_{{ $index }};
+                    @if ($index == 1)
+                        delay_{{ $index }} = {{ ($index + 1) * 0 }};
+                    @else
+                        delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+                    @endif
+
+                    setTimeout(function() {
+                        toastr.error(toastNErrorMsg_{{ $index }}, '', {
+                            closeButton: false,
+                            debug: false,
+                            newestOnTop: false,
+                            progressBar: true,
+                            positionClass: 'toast-top-right',
+                            preventDuplicates: false,
+                            onclick: null,
+                            showDuration: '300',
+                            hideDuration: '1000',
+                            timeOut: '5000',
+                            extendedTimeOut: '1000',
+                            showEasing: 'swing',
+                            hideEasing: 'linear',
+                            showMethod: 'fadeIn',
+                            hideMethod: 'fadeOut'
+                        });
+                    }, delay_{{ $index }});
+                @endforeach
+            @endif
+        });
+    </script>
+    {{-- ////////////////////////////////////////////////////////////////////// ./TOAST //////////////////////////////////////////////////////////////////////  --}}
+
+
+
+
     <script>
         'use strict';
 
@@ -354,121 +568,110 @@
             (function() {
                 const formChangePass = document.querySelector('#formAccountChangePassSettings');
 
-                // Form validation for Change password
-                if (formChangePass) {
-                    const fv = FormValidation.formValidation(formChangePass, {
-                        fields: {
-                            'currentPassword': {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Please current password'
-                                    },
-                                    stringLength: {
-                                        min: 6,
-                                        message: 'Password must be more than 6 characters'
-                                    }
-                                }
-                            },
-                            newPassword: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Please enter new password'
-                                    },
-                                    stringLength: {
-                                        min: 6,
-                                        message: 'Password must be more than 6 characters'
-                                    }
-                                }
-                            },
-                            confirmPassword: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Please confirm new password'
-                                    },
-                                    identical: {
-                                        compare: function() {
-                                            return formChangePass.querySelector(
-                                                '[name="newPassword"]').value;
-                                        },
-                                        message: 'The password and its confirm are not the same'
-                                    },
-                                    stringLength: {
-                                        min: 6,
-                                        message: 'Password must be more than 6 characters'
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            trigger: new FormValidation.plugins.Trigger(),
-                            bootstrap5: new FormValidation.plugins.Bootstrap5({
-                                eleValidClass: '',
-                                rowSelector: '.col-md-4'
-                            }),
-                            submitButton: new FormValidation.plugins.SubmitButton(),
-                            // Submit the form when all fields are valid
-                            // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                            autoFocus: new FormValidation.plugins.AutoFocus()
-                        },
-                        init: instance => {
-                            instance.on('plugins.message.placed', function(e) {
-                                if (e.element.parentElement.classList.contains(
-                                        'input-group')) {
-                                    e.element.parentElement.insertAdjacentElement(
-                                        'afterend', e.messageElement);
-                                }
-                            });
-                        }
-                    });
-                }
+                // // Form validation for Change password
+                // if (formChangePass) {
+                //     const fv = FormValidation.formValidation(formChangePass, {
+                //         fields: {
+                //             newPassword: {
+                //                 validators: {
+                //                     notEmpty: {
+                //                         message: 'Please enter new password'
+                //                     },
+                //                     stringLength: {
+                //                         min: 6,
+                //                         message: 'Password must be more than 6 characters'
+                //                     }
+                //                 }
+                //             },
+                //             confirmPassword: {
+                //                 validators: {
+                //                     notEmpty: {
+                //                         message: 'Please confirm new password'
+                //                     },
+                //                     identical: {
+                //                         compare: function() {
+                //                             return formChangePass.querySelector(
+                //                                 '[name="newPassword"]').value;
+                //                         },
+                //                         message: 'The password and its confirm are not the same'
+                //                     },
+                //                     stringLength: {
+                //                         min: 6,
+                //                         message: 'Password must be more than 6 characters'
+                //                     }
+                //                 }
+                //             }
+                //         },
+                //         plugins: {
+                //             trigger: new FormValidation.plugins.Trigger(),
+                //             bootstrap5: new FormValidation.plugins.Bootstrap5({
+                //                 eleValidClass: '',
+                //                 rowSelector: '.col-md-4'
+                //             }),
+                //             submitButton: new FormValidation.plugins.SubmitButton(),
+                //             // Submit the form when all fields are valid
+                //             // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                //             autoFocus: new FormValidation.plugins.AutoFocus()
+                //         },
+                //         init: instance => {
+                //             instance.on('plugins.message.placed', function(e) {
+                //                 if (e.element.parentElement.classList.contains(
+                //                         'input-group')) {
+                //                     e.element.parentElement.insertAdjacentElement(
+                //                         'afterend', e.messageElement);
+                //                 }
+                //             });
+                //         }
+                //     });
+                // }
 
 
-                const formAccSettings = document.querySelector('#formAccountSettings');
-                // Form validation for Add new record
-                if (formAccSettings) {
-                    const fv = FormValidation.formValidation(formAccSettings, {
-                        fields: {
-                            firstName: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Please enter first name'
-                                    }
-                                }
-                            },
-                            userName: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Please enter username'
-                                    },
-                                    stringLength: {
-                                        min: 7,
-                                        message: 'Username must be more than 7 characters'
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            trigger: new FormValidation.plugins.Trigger(),
-                            bootstrap5: new FormValidation.plugins.Bootstrap5({
-                                eleValidClass: '',
-                                rowSelector: '.col-md-4'
-                            }),
-                            submitButton: new FormValidation.plugins.SubmitButton(),
-                            // Submit the form when all fields are valid
-                            // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                            autoFocus: new FormValidation.plugins.AutoFocus()
-                        },
-                        init: instance => {
-                            instance.on('plugins.message.placed', function(e) {
-                                if (e.element.parentElement.classList.contains(
-                                        'input-group')) {
-                                    e.element.parentElement.insertAdjacentElement(
-                                        'afterend', e.messageElement);
-                                }
-                            });
-                        }
-                    });
-                }
+                // const formAccSettings = document.querySelector('#formAccountSettings');
+                // // Form validation for Add new record
+                // if (formAccSettings) {
+                //     const fv = FormValidation.formValidation(formAccSettings, {
+                //         fields: {
+                //             firstName: {
+                //                 validators: {
+                //                     notEmpty: {
+                //                         message: 'Please enter first name'
+                //                     }
+                //                 }
+                //             },
+                //             userName: {
+                //                 validators: {
+                //                     notEmpty: {
+                //                         message: 'Please enter username'
+                //                     },
+                //                     stringLength: {
+                //                         min: 7,
+                //                         message: 'Username must be more than 7 characters'
+                //                     }
+                //                 }
+                //             }
+                //         },
+                //         plugins: {
+                //             trigger: new FormValidation.plugins.Trigger(),
+                //             bootstrap5: new FormValidation.plugins.Bootstrap5({
+                //                 eleValidClass: '',
+                //                 rowSelector: '.col-md-4'
+                //             }),
+                //             submitButton: new FormValidation.plugins.SubmitButton(),
+                //             // Submit the form when all fields are valid
+                //             // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                //             autoFocus: new FormValidation.plugins.AutoFocus()
+                //         },
+                //         init: instance => {
+                //             instance.on('plugins.message.placed', function(e) {
+                //                 if (e.element.parentElement.classList.contains(
+                //                         'input-group')) {
+                //                     e.element.parentElement.insertAdjacentElement(
+                //                         'afterend', e.messageElement);
+                //                 }
+                //             });
+                //         }
+                //     });
+                // }
 
             })();
         });
