@@ -19,6 +19,8 @@ class UserController extends Controller
     protected $pageData;
     public function __construct()
     {
+        $this->middleware('auth')->only('index', 'add_user', 'edit_user', 'delete_user', 'get_user', 'reset_user');
+
         $this->pageData = [
             'page_title' => 'User Panel',
             'page_url' => base_url('userpanel'),

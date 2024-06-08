@@ -25,6 +25,8 @@ class InstutionController extends Controller
     protected $pageData;
     public function __construct()
     {
+        $this->middleware('auth');
+
         $this->pageData = [
             'page_title' => 'User Panel',
             'page_url' => base_url('userpanel'),

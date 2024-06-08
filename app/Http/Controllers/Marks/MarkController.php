@@ -18,6 +18,11 @@ class MarkController extends Controller
     protected $pageData;
     public function __construct()
     {
+        $this->middleware('auth')->only(
+            'index', 'add_marking', 'add_marking_from_maps', 'edit_marking', 'edit_marking_from_maps', 'delete_marking_from_maps', 'delete_marking', 'get_marking',
+            'reset_marking'
+        );
+
         $this->pageData = [
             'page_title' => 'User Panel',
             'page_url' => base_url('userpanel'),

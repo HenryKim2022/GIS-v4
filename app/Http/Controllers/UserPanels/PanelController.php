@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Session;
 
 use Illuminate\Support\Facades\Auth;
 
+
+
 class PanelController extends Controller
 {
     protected $pageData;
     public function __construct()
     {
+
+        $this->middleware('auth');
         $this->pageData = [
             'page_title' => 'User Panel',
             'page_url' => base_url('userpanel'),
@@ -27,6 +31,7 @@ class PanelController extends Controller
     //
     public function index()
     {
+        // better program set session here, if user not auth
         $process = $this->setPageSession("Dashboard", "dashboard");
         if ($process) {
             return $this->setReturnView('userpanels/pages/v_dashboard');
@@ -41,17 +46,6 @@ class PanelController extends Controller
         }
     }
 
-    // public function logout()
-    // {
-    //     $process = $this->setPageSession("Login Page", "login");
-    //     if ($process) {
-    //         $toast_message = [
-    //             'Logged Out :)'
-    //         ];
-    //         Session::flash('success', $toast_message);
-    //         return Redirect::to('/login');
-    //     }
-    // }
 
     public function logout(Request $request)
     {

@@ -22,6 +22,8 @@ class RegisterController extends Controller
     protected $pageData;
     public function __construct()
     {
+        $this->middleware('guest');
+
         $this->pageData = [
             'page_title' => 'What Public See',
             'page_url' => base_url('register-url'),
@@ -65,6 +67,7 @@ public function doRegister(Request $request){
     // }
     if ($validator->fails()) {
         $toast_message = $validator->errors()->all();
+        // dd($toast_message);
         Session::flash('errors', $toast_message);
 
         return redirect()->back()->withErrors($validator)->withInput();

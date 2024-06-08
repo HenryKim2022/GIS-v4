@@ -23,6 +23,8 @@ class LoginController extends Controller
     protected $pageData;
     public function __construct()
     {
+        $this->middleware('guest')->except('logout');
+
         $this->pageData = [
             'page_title' => 'What Public See',
             'page_url' => base_url('login-url'),
@@ -82,6 +84,7 @@ class LoginController extends Controller
         ) {
             // Authentication successful
             $request->session()->regenerate();
+
             Session::flash('success', ['Welcome back :)']);
             return redirect()->route('dashboard.page');
         } else {

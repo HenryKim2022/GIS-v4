@@ -54,6 +54,14 @@
         $page_url = $page['page_url'];
     @endphp
 
+    @if (Route::has('login.show'))
+        @guest
+            @php
+                Session::flash('n_errors', ['You are not authorized to access that page. Please login first!']);
+            @endphp
+        @endguest
+    @endif
+
     <div id="image-popup" class="modal-dialog-centered col-8 col-sm-6 col-md-4 p-2">
         {{-- Add span button here ( image-popup close btn), the button was hovered over the img at the top-right corner over img --}}
         <span class="close-btn btn btn-sm btn-text-primary rounded-pill btn-icon"><i class="mdi mdi-close"></i></span>
@@ -1062,6 +1070,54 @@
             @endif
         });
     </script>
+
+
+
+
+
+    {{-- TOAST: NORMAL ERROR MESSAGE --}}
+    @if (Session::has('n_errors'))
+        @foreach (Session::get('n_errors') as $index => $message)
+            @if ($index == 1)
+                <input type="hidden" class="n-error-message" data-delay="{{ ($index + 1) * 0 }}"
+                    value="{{ $message }}">
+            @else
+                <input type="hidden" class="n-error-message" data-delay="{{ ($index + 1) * 1000 }}"
+                    value="{{ $message }}">
+            @endif
+        @endforeach
+    @endif
+    <script>
+        $(document).ready(function() {
+            @if (Session::has('n_errors'))
+                @foreach (Session::get('n_errors') as $index => $message)
+                    var toastNErrorMsg_{{ $index }} = "{{ $message }}";
+                    var delay_{{ $index }} = {{ ($index + 1) * 1000 }};
+
+                    setTimeout(function() {
+                        toastr.error(toastNErrorMsg_{{ $index }}, '', {
+                            closeButton: false,
+                            debug: false,
+                            newestOnTop: false,
+                            progressBar: true,
+                            positionClass: 'toast-top-right',
+                            preventDuplicates: false,
+                            onclick: null,
+                            showDuration: '300',
+                            hideDuration: '1000',
+                            timeOut: '5000',
+                            extendedTimeOut: '1000',
+                            showEasing: 'swing',
+                            hideEasing: 'linear',
+                            showMethod: 'fadeIn',
+                            hideMethod: 'fadeOut'
+                        });
+                    }, delay_{{ $index }});
+                @endforeach
+            @endif
+        });
+    </script>
+
     {{-- ////////////////////////////////////////////////////////////////////// ./TOAST //////////////////////////////////////////////////////////////////////  --}}
 
 
