@@ -4,7 +4,6 @@ namespace App\Http\Controllers\UserPanels;
 
 use App\Http\Controllers\Controller;
 use App\Models\User_Model;
-use App\Models\Category_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -39,20 +38,12 @@ class PanelController extends Controller
     //
     public function index()
     {
+        // better program set session here, if user not auth
         $process = $this->setPageSession("Dashboard", "dashboard");
         if ($process) {
-            $categories = Category_Model::with('tb_institution')->withoutTrashed()->get();
-            return $this->setReturnView('userpanels.pages.v_dashboard', compact('categories'));
+            return $this->setReturnView('userpanels/pages/v_dashboard');
         }
     }
-
-
-    public function load_dashboard_chart()
-    {
-    }
-
-
-
 
     public function myprofile()
     {
@@ -95,19 +86,16 @@ class PanelController extends Controller
 
     public function edit_myprofile_bio(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'firstName'         => 'required|min:6',
-                'userName'          => 'required|string|unique:tb_users,user_name',
-                'userEmail'         => 'required|email|unique:tb_users,user_email',
-            ],
-            [
-                'firstName.required' => 'The firstname field is required.',
-                'userName.required' => 'The username field is required.',
-                'userEmail.required' => 'The email field is required.',
-            ]
-        );
+        $validator = Validator::make($request->all(), [
+            'firstName'         => 'required|min:6',
+            'userName'          => 'required|string|unique:tb_users,user_name',
+            'userEmail'         => 'required|email|unique:tb_users,user_email',
+        ],
+        [
+            'firstName.required' => 'The firstname field is required.',
+            'userName.required' => 'The username field is required.',
+            'userEmail.required' => 'The email field is required.',
+        ]);
         if ($validator->fails()) {
             $toast_message = $validator->errors()->all();
             Session::flash('errors', $toast_message);
@@ -136,19 +124,16 @@ class PanelController extends Controller
 
     public function edit_myprofile_pass(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'newPassword'       => 'required|min:6',
-                'confirm-Password'  => 'required|same:newPassword',
-            ],
-            [
-                'password.required' => 'The password field is required.',
-                'confirm-password.required' => 'The confirm password field is required.',
-                'password.min' => 'The password must be at least :min characters.',
-                'confirm-password.same' => 'The confirm password must match the password.',
-            ]
-        );
+        $validator = Validator::make($request->all(), [
+            'newPassword'       => 'required|min:6',
+            'confirm-Password'  => 'required|same:newPassword',
+        ],
+        [
+            'password.required' => 'The password field is required.',
+            'confirm-password.required' => 'The confirm password field is required.',
+            'password.min' => 'The password must be at least :min characters.',
+            'confirm-password.same' => 'The confirm password must match the password.',
+        ]);
         if ($validator->fails()) {
             $toast_message = $validator->errors()->all();
             Session::flash('errors', $toast_message);

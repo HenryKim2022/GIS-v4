@@ -117,6 +117,7 @@ if (env('APP_INSTALL', false)) {    // Not False
     // Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
     Route::controller(PanelController::class)->group(function(){
         Route::get('/dashboard', 'index')->name('dashboard.page');
+        Route::get('/dashboard/load_chart', 'load_dashboard_chart')->name('dashboard.chart.load');
         Route::get('/logout', 'logout')->name('logout.redirect');
         Route::get('/myprofile', 'myprofile')->name('myprofile.page');
         Route::post('/myprofile/edit-img', 'edit_myprofile_img')->name('myprofile.img.edit');

@@ -96,7 +96,7 @@ class LoginController extends Controller
             } elseif ($user->type == "institution") {
                 return redirect()->route('dashboard.page'); // Redirect to institution dashboard
             }else{
-                return redirect()->route('login.show'); // Redirect to institution dashboard
+                return redirect()->route('login.show'); // Redirect to login page
             }
         } else {
             // Authentication failed

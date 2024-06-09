@@ -23,4 +23,10 @@ class Category_Model extends Model
     {
         return $this->hasMany(Institution_Model::class, 'cat_id');
     }
+
+    // Rename the cat_name attribute to name
+    public function getNameAttribute()
+    {
+        return $this->cat_name;
+    }
 }
