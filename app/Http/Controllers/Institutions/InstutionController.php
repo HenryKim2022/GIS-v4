@@ -62,10 +62,12 @@ class InstutionController extends Controller
             Storage::putFileAs('public', $file, $filename);
             // Update the institution's logo field with the stored file path
             $inst->institu_logo = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
+            Session::flash('success', ['Institution added successfully!']);
             $inst->save();
         } else {
             // Handle case where no logo file is provided
             $inst->institu_logo = asset(env(key: 'APP_NOIMAGE')); // Set a default value or handle the case as needed
+            Session::flash('success', ['Institution added successfully!']);
             $inst->save();
         }
 
@@ -82,26 +84,24 @@ class InstutionController extends Controller
             $inst->cat_id = $request->input('modalEditInstitutionCATID2');
             $inst->mark_id = $request->input('modalEditInstitutionMARKID2');
 
-
             if ($request->hasFile('modalEditInstitutionLOGO2')) {
                 $file = $request->file('modalEditInstitutionLOGO2');
                 $filename = uniqid() . '.' . $file->getClientOriginalExtension();
 
                 // Store the uploaded file in the storage/app/public directory
                 Storage::putFileAs('public', $file, $filename);
-                // Update the institution's logo field with the stored file path
-                // $inst->institu_logo = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
-                $inst->institu_logo = asset('storage/' . $filename);
+                $inst->institu_logo = asset('public/storage/' . $filename);
 
                 $inst->save();
+                Session::flash('success', ['Institution updated successfully!']);
                 return Redirect::back();
             }else{
                 $inst->save();
+                Session::flash('success', ['Institution updated successfully!']);
                 return Redirect::back();
             }
         } else {
-            // Handle the case when the institution is not found
-            return response()->json(['error' => 'Institution not found'], 404);
+            Session::flash('errors', ['Err[404]: Institution update failed!']);
         }
     }
 
@@ -114,19 +114,21 @@ class InstutionController extends Controller
         if ($inst) {
             $images = $inst->tb_image;
             if ($images->isNotEmpty()) {
-                $imageIds = $images->pluck('img_id')->toArray();
-                $imageIdsString = implode(', ', $imageIds);
-                return response()->json(['error' => "Institution is used by tb_image (img_ids: ${imageIdsString}) and cannot be deleted"], 400);
+                $imageNames = $images->pluck('img_title')->toArray();
+                $imageNamesString = implode(', ', $imageNames);
+                $imageIDs = $images->pluck('img_id')->toArray();
+                $imageIDsString = implode(', ', $imageIDs);
+                $error = 'Institution is used by the following images('. $imageNamesString .') with id(' . $imageIDsString . ') and cannot be deleted.';
+                Session::flash('n_errors', ['This ' . $error]);
             } else {
                 $inst->delete();
-                // return response()->json(['success' => 'Institution deleted successfully']);
-                return redirect()->back();
+                Session::flash('success', ['Institution deletion successful!']);
             }
         } else {
-            return response()->json(['error' => 'Institution not found'], 404);
+            Session::flash('errors', ['Err[404]: Institution deletion failed!']);
         }
+        return redirect()->back();
     }
-
 
 
     public function get_inst(Request $request)
@@ -290,10 +292,8 @@ class InstutionController extends Controller
     {
         // Delete all records from the tb_mark table
         Institution_Model::query()->delete();
-
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_institution AUTO_INCREMENT = 1');
-
         // Redirect back to the previous page
         return redirect()->back();
     }

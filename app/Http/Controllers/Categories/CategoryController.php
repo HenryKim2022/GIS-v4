@@ -45,22 +45,21 @@ class CategoryController extends Controller
         $cat = new Category_Model();
         $cat->cat_name = $catName;
         $cat->save();
+        Session::flash('success', ['Category added successfully']);
         return Redirect::back();
     }
 
 
     public function edit_categories(Request $request)
     {
-
-        // $cat = Category_Model::find($request->input('modalEditCatID2'));
         $cat = Category_Model::where('cat_id', $request->input('modalEditCatID2'))->first();
         if ($cat) {
             $cat->cat_name = $request->input('modalEditCategoryName2');
             $cat->save();
+            Session::flash('success', ['Category updated successfully']);
             return Redirect::back();
         } else {
-            // Handle the case when the category is not found
-            return response()->json(['error' => 'Category not found'], 404);
+            Session::flash('errors', ['Err[404]: Category updated failed!']);
         }
     }
 
@@ -69,17 +68,19 @@ class CategoryController extends Controller
     {
         $cat = Category_Model::find($request->input('cat_id'));
         if ($cat) {
-            $isUsed = $cat->tb_institution()->exists();
-            if ($isUsed) {
-                return response()->json(['error' => 'Category is used by tb_institution and cannot be deleted'], 400);
-            } else {
+            $institutions = $cat->tb_institution()->get();
+            if ($institutions->isNotEmpty()) {
+                $institutionNames = $institutions->pluck('institu_name')->toArray();
+                $error = 'categories is used by the following institution('. implode(', ', $institutionNames) .') and cannot be deleted.';
+                Session::flash('n_errors', ['This ' . $error]);
+            }else{
                 $cat->delete();
-                // return response()->json(['success' => 'Category deleted successfully']);
-                return redirect()->back();
+                Session::flash('success', ['Category deletion successfully']);
             }
         } else {
-            return response()->json(['error' => 'Category not found'], 404);
+            Session::flash('errors', ['Err[404]: Category deletion failed!']);
         }
+        return redirect()->back();
     }
 
 
@@ -110,10 +111,8 @@ class CategoryController extends Controller
     {
         // Delete all records from the tb_mark table
         Category_Model::query()->delete();
-
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_category AUTO_INCREMENT = 1');
-
         // Redirect back to the previous page
         return redirect()->back();
     }
