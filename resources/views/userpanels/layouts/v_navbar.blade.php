@@ -146,7 +146,7 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ $authenticated_user_data->user_image ?? env('APP_NOIMAGE') }}" alt
+                        <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt="{{ $authenticated_user_data->name ?: 'No Image' }}"
                             {{-- class="w-px-40 h-auto rounded-circle" /> --}}
                             class="w-px-40 h-px-40 rounded-circle" />
                     </div>
@@ -157,7 +157,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ $authenticated_user_data->user_image ?? env('APP_NOIMAGE') }}" alt
+                                        <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt="{{ $authenticated_user_data->name ?: 'No Image' }}"
                                             class="w-px-40 h-px-40 rounded-circle" />
                                     </div>
                                 </div>
