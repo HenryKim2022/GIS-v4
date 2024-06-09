@@ -26,7 +26,7 @@ class PanelController extends Controller
     public function __construct()
     {
 
-        // $this->middleware('auth');
+        $this->middleware('auth');
         $this->pageData = [
             'page_title' => 'User Panel',
             'page_url' => base_url('userpanel'),
@@ -86,6 +86,23 @@ class PanelController extends Controller
 
     public function edit_myprofile_bio(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'firstName'         => 'required|min:6',
+            'userName'          => 'required|string|unique:tb_users,user_name',
+            'userEmail'         => 'required|email|unique:tb_users,user_email',
+        ],
+        [
+            'firstName.required' => 'The firstname field is required.',
+            'userName.required' => 'The username field is required.',
+            'userEmail.required' => 'The email field is required.',
+        ]);
+        if ($validator->fails()) {
+            $toast_message = $validator->errors()->all();
+            Session::flash('errors', $toast_message);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
         $user = User_Model::where('user_id', $request->input('user_id'))->first();
         if ($user) {
             $user->firstname = $request->input('firstName');
@@ -96,13 +113,10 @@ class PanelController extends Controller
 
             $updatedUser = User_Model::find($user->user_id);
             Session::put('authenticated_user_data', $updatedUser);
-            Session::put('reload', true);
 
             Session::flash('success', ['Your data account was updated!']);
-            // return $this->logout4romCode($request, ['Logged Out!', 'Your data account was updated. Please relogin :)']);
         } else {
-            // return response()->json(['error' => 'User not found'], 404);
-            Session::flash('errors', ['Failed to updated user account!']);
+            Session::flash('errors', ['Err[404]: Failed to updated user account!']);
         }
         return Redirect::back();
     }
@@ -134,26 +148,13 @@ class PanelController extends Controller
 
             $updatedUser = User_Model::find($user->user_id);
             Session::put('authenticated_user_data', $updatedUser);
-            Session::flash('reload', true);
 
             Session::flash('success', ['Your data account was updated!']);
-            // $this->logout4romCode($request, ['Logged Out!', 'Your data account was updated. Please relogin :)']);
-            // return Redirect::back();
         } else {
             return response()->json(['error' => 'User not found'], 404);
         }
         return Redirect::back();
     }
-
-    public function logout4romCode($request, $toast_messages)
-    {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-
-        Session::flash('success', $toast_messages);
-        return Redirect::to('/login');
-    }
-
 
 
 

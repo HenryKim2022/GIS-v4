@@ -18,13 +18,16 @@
 
         <!-- Search -->
         <div class="navbar-nav align-items-center">
+            @auth
             <div class="nav-item navbar-search-wrapper mb-0">
                 <a class="nav-item nav-link search-toggler fw-normal px-0" href="javascript:void(0);">
                     <i class="mdi mdi-magnify mdi-24px scaleX-n1-rtl"></i>
                     <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
             </div>
+            @endauth
         </div>
+
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -139,6 +142,7 @@
             <!--/ Notification -->
 
             <!-- User -->
+            @auth
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
@@ -188,6 +192,16 @@
 
                 </ul>
             </li>
+            @endauth
+            @guest
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="dropdown-item" href="{{ route('login.show') }}" target="_self">
+                    <i class="mdi mdi-login me-2"></i>
+                    <span class="align-middle">Login</span>
+                </a>
+            </li>
+            @endguest
+
             <!--/ User -->
         </ul>
     </div>

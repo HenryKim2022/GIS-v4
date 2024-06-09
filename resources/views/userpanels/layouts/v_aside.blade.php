@@ -57,12 +57,14 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
+        @auth
         <li class="menu-item">
             <a href="{{ route('dashboard.page') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
         </li>
+        @endauth
         <li class="menu-item">
             <a href="{{ route('landing.page') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-airplane-landing"></i>
@@ -72,10 +74,13 @@
 
 
         <!-- Apps & Pages -->
+        @auth
         <li class="menu-header fw-medium mt-4">
             <span class="menu-header-text" data-i18n="DB Managements">DB Managements</span>
         </li>
+        @endauth
         <!-- manage-maps menu start -->
+        @auth
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-leaf-maple"></i>
@@ -116,6 +121,7 @@
 
             </ul>
         </li>
+        @endauth
         <!-- manage-maps menu end -->
 
 
@@ -123,6 +129,7 @@
 
 
         <!-- user-account menu start -->
+        @auth
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-account-group-outline"></i>
@@ -136,6 +143,7 @@
                 </li>
             </ul>
         </li>
+        @endauth
         <!-- user-account menu end -->
 
         <!-- Misc -->

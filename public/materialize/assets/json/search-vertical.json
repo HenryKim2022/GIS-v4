@@ -11,9 +11,9 @@
     "url": "landing-page"
     },
     {
-    "name": "Institution List",
+    "name": "Marking List",
     "icon": "mdi-leaf-maple",
-    "url": "m-inst"
+    "url": "m-mark"
     },
     {
     "name": "Categories",
@@ -21,9 +21,14 @@
     "url": "m-categories"
     },
     {
-    "name": "Marking List",
+    "name": "Institution List",
     "icon": "mdi-leaf-maple",
-    "url": "m-mark"
+    "url": "m-inst"
+    },
+    {
+    "name": "Institution Images",
+    "icon": "mdi-leaf-maple",
+    "url": "m-image"
     },
     {
     "name": "User List",
@@ -55,25 +60,25 @@
       "name": "Hendri",
       "subtitle": "Programmer",
       "src": "img/avatars/1.png",
-      "url": "app-user-view-account.html"
+      "url": ""
     },
     {
       "name": "M. Ramdan Pujianto",
       "subtitle": "Analize",
       "src": "img/avatars/2.png",
-      "url": "app-user-view-account.html"
+      "url": ""
     },
     {
       "name": "Yopi Okta",
       "subtitle": "Designer",
       "src": "img/avatars/5.png",
-      "url": "app-user-view-account.html"
+      "url": ""
     },
     {
       "name": "M. Haffizh",
       "subtitle": "Project Manager",
       "src": "img/avatars/7.png",
-      "url": "app-user-view-account.html"
+      "url": ""
     }
   ]
 }
