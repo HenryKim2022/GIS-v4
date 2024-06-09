@@ -84,10 +84,13 @@
                         <a href="javascript:;" class="dropdown-item text-success add-image-record btn-sm mdi mdi-image-text"
                             data-bs-toggle="modal" data-bs-target="#addImageModalTB"> Add
                             New Data</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="javascript:;"
-                            class="dropdown-item text-danger reset-all-images-record btn-sm mdi mdi-database-settings">
-                            ResetTable</a>
+
+                        @if (auth()->user()->type == 'admin')
+                            <div class="dropdown-divider"></div>
+                            <a href="javascript:;"
+                                class="dropdown-item text-danger reset-all-images-record btn-sm mdi mdi-database-settings">
+                                ResetTable</a>
+                        @endif
                     </div>
                 </div>
 
@@ -149,7 +152,8 @@
                                             </div>
                                         </td>
                                         {{-- <td>{{ \Carbon\Carbon::parse($instituImage->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td> --}}
-                                        <td>{{ \Carbon\Carbon::parse($instituImage->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($instituImage->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -249,5 +253,8 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/add_image_for_modal.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/edit_image_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/delete_image_for_tb.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/reset_image.js') }}"></script>
+
+    @if (auth()->user()->type == 'admin')
+        <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/reset_image.js') }}"></script>
+    @endif
 @endsection

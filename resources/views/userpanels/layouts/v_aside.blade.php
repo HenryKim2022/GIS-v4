@@ -58,12 +58,12 @@
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
         @auth
-        <li class="menu-item">
-            <a href="{{ route('dashboard.page') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
-                <div data-i18n="Dashboards">Dashboards</div>
-            </a>
-        </li>
+            <li class="menu-item">
+                <a href="{{ route('dashboard.page') }}" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                    <div data-i18n="Dashboards">Dashboards</div>
+                </a>
+            </li>
         @endauth
         <li class="menu-item">
             <a href="{{ route('landing.page') }}" class="menu-link">
@@ -75,52 +75,54 @@
 
         <!-- Apps & Pages -->
         @auth
-        <li class="menu-header fw-medium mt-4">
-            <span class="menu-header-text" data-i18n="DB Managements">DB Managements</span>
-        </li>
+            <li class="menu-header fw-medium mt-4">
+                <span class="menu-header-text" data-i18n="DB Managements">DB Managements</span>
+            </li>
         @endauth
         <!-- manage-maps menu start -->
         @auth
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-leaf-maple"></i>
-                <div data-i18n="Manage Maps">Manage Maps</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ route('m-markings.index') }}" class="menu-link">
-                        <div data-i18n="Marking List">Marking List</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="Institutions">Institutions</div>
-                    </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="{{ route('m-categories.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons mdi mdi-factory"></i>
-                                <div data-i18n="Categories"> Categories</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="{{ route('m-inst.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons mdi mdi-clipboard-list-outline"></i>
-                                <div data-i18n="List"> List</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="{{ route('m-image.index') }}" class="menu-link">
-                                <i class="menu-icon tf-icons mdi mdi-image-multiple-outline"></i>
-                                <div data-i18n="Images"> Images</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons mdi mdi-leaf-maple"></i>
+                    <div data-i18n="Manage Maps">Manage Maps</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="{{ route('m-markings.index') }}" class="menu-link">
+                            <div data-i18n="Marking List">Marking List</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <div data-i18n="Institutions">Institutions</div>
+                        </a>
+                        <ul class="menu-sub">
+                            @if (auth()->user()->type == 'admin')
+                            <li class="menu-item">
+                                <a href="{{ route('m-categories.index') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons mdi mdi-factory"></i>
+                                    <div data-i18n="Categories"> Categories</div>
+                                </a>
+                            </li>
+                            @endif
+                            <li class="menu-item">
+                                <a href="{{ route('m-inst.index') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons mdi mdi-clipboard-list-outline"></i>
+                                    <div data-i18n="List"> List</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('m-image.index') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons mdi mdi-image-multiple-outline"></i>
+                                    <div data-i18n="Images"> Images</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
 
-            </ul>
-        </li>
+                </ul>
+            </li>
         @endauth
         <!-- manage-maps menu end -->
 
@@ -130,19 +132,21 @@
 
         <!-- user-account menu start -->
         @auth
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-account-group-outline"></i>
-                <div data-i18n="User Accounts">User Accounts</div>
-            </a>
-            <ul class="menu-sub">
+            @if (auth()->user()->type == 'admin')
                 <li class="menu-item">
-                    <a href="{{ route('m-ul.index') }}" class="menu-link">
-                        <div data-i18n="User List">User List</div>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons mdi mdi-account-group-outline"></i>
+                        <div data-i18n="User Accounts">User Accounts</div>
                     </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a href="{{ route('m-ul.index') }}" class="menu-link">
+                                <div data-i18n="User List">User List</div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-            </ul>
-        </li>
+            @endif
         @endauth
         <!-- user-account menu end -->
 

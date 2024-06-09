@@ -85,10 +85,13 @@
                             class="dropdown-item text-success add-institution-record btn-sm mdi mdi-image-text"
                             data-bs-toggle="modal" data-bs-target="#addInstituModalTB"> Add
                             New Data</a>
-                        <div class="dropdown-divider"></div>
+
+                        @if (auth()->user()->type == 'admin')
+                            <div class="dropdown-divider"></div>
                         <a href="javascript:;"
                             class="dropdown-item text-danger reset-all-institutions-record btn-sm mdi mdi-database-settings">
                             ResetTable</a>
+                        @endif
                     </div>
                 </div>
 
@@ -253,5 +256,8 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/add_insititu_for_modal.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/edit_institu_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/delete_institu_for_tb.js') }}"></script>
+
+    @if (auth()->user()->type == 'admin')
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/reset_institu.js') }}"></script>
+    @endif
 @endsection

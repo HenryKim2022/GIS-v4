@@ -131,10 +131,13 @@
                                             class="dropdown-item text-success add-record btn-sm mdi mdi-image-text">
                                             Add
                                             New Data</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="javascript:;"
-                                            class="dropdown-item text-danger reset-all-marks-record btn-sm mdi mdi-database-settings">
-                                            ResetTable</a>
+
+                                        @if (auth()->user()->type == 'admin')
+                                            <div class="dropdown-divider"></div>
+                                            <a href="javascript:;"
+                                                class="dropdown-item text-danger reset-all-marks-record btn-sm mdi mdi-database-settings">
+                                                ResetTable</a>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -287,8 +290,10 @@
                                                     <td>{{ $mark->mark_lat }}</td>
                                                     <td>{{ $mark->mark_lon }}</td>
                                                     <td>{{ $mark->mark_address }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mark->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mark->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($mark->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                                    </td>
+                                                    <td>{{ \Carbon\Carbon::parse($mark->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                                    </td>
 
                                                 </tr>
                                             @endforeach
@@ -447,5 +452,8 @@
     {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_maps.js') }}"></script> --}}
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_tb.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>
+
+    @if (auth()->user()->type == 'admin')
+        <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>
+    @endif
 @endsection

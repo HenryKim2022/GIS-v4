@@ -111,7 +111,7 @@ if (env('APP_INSTALL', false)) {    // Not False
     });
 
 
-    //////////// USERPANEL: DASHBOARD DKK
+    ////////// USERPANEL: DASHBOARD DKK
     // Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard.page');
     // Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
     // Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
@@ -123,6 +123,27 @@ if (env('APP_INSTALL', false)) {    // Not False
         Route::post('/myprofile/edit-bio', 'edit_myprofile_bio')->name('myprofile.bio.edit');
         Route::post('/myprofile/edit-pass', 'edit_myprofile_pass')->name('myprofile.pass.edit');
     });
+
+
+    // Route::middleware(['auth', 'user-access:guest'])->group(function(){
+    //     Route::get('/dashboard', [LoginController::class, 'index'])->name('dashboard.page');
+    //     Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
+    //     Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
+    //     Route::post('/myprofile/edit-img', [PanelController::class, 'edit_myprofile_img'])->name('myprofile.img.edit');
+    //     Route::post('/myprofile/edit-bio', [PanelController::class, 'edit_myprofile_bio'])->name('myprofile.bio.edit');
+    //     Route::post('/myprofile/edit-pass', [PanelController::class, 'edit_myprofile_pass'])->name('myprofile.pass.edit');
+    // });
+
+    // Route::middleware(['auth', 'user-access:institution'])->group(function(){
+    //     Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard.page');
+    //     Route::get('/logout', [PanelController::class, 'logout'])->name('logout.redirect');
+    //     Route::get('/myprofile', [PanelController::class, 'myprofile'])->name('myprofile.page');
+    //     Route::post('/myprofile/edit-img', [PanelController::class, 'edit_myprofile_img'])->name('myprofile.img.edit');
+    //     Route::post('/myprofile/edit-bio', [PanelController::class, 'edit_myprofile_bio'])->name('myprofile.bio.edit');
+    //     Route::post('/myprofile/edit-pass', [PanelController::class, 'edit_myprofile_pass'])->name('myprofile.pass.edit');
+    // });
+
+
 
 
 
