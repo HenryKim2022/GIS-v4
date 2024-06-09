@@ -230,7 +230,7 @@
                                 <h5 class="mb-0">Institution Categories</h5>
                             </div>
                             <div class="card-body">
-                                <div class="col-sm-6 col-md-8 col-xl-8">
+                                {{-- <div class="col-sm-6 col-md-8 col-xl-8"> --}}
                                     <div class="row g-4 justify-content-around d-flex">
                                         @foreach ($categories as $category)
                                             <!-- Category -->
@@ -240,17 +240,17 @@
                                                         <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
                                                             <h4 class="mb-0 me-2 mdi mdi-school-outline mdi-48px">
                                                                 {{ $category->name }}</h4>
+                                                            </div>
                                                             <span
                                                                 class="d-block mb-2 text-body">{{ count($category->tb_institution) }}
                                                                 Institution(s) in this category</span>
                                                             <p class="mb-0 text-danger"></p>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
-                                </div>
+                                {{-- </div> --}}
                             </div>
                         </div>
                     </div>
