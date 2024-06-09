@@ -73,7 +73,8 @@ class PanelController extends Controller
                 // Store the uploaded file in the storage/app/public directory
                 Storage::putFileAs('public', $file, $filename);
                 // $user->user_image = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
-                $user->user_image = asset(env(key: 'APP_URL')) . '/storage/app/public/' . $filename;
+                // $user->user_image = asset(env(key: 'APP_URL')) . '/storage/app/public/' . $filename;
+                $user->user_image = asset('public/storage/' . $filename);;
                 $user->save();
 
                 // Update the authenticated_user_data session variable

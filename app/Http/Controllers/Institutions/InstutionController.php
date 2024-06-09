@@ -90,7 +90,9 @@ class InstutionController extends Controller
                 // Store the uploaded file in the storage/app/public directory
                 Storage::putFileAs('public', $file, $filename);
                 // Update the institution's logo field with the stored file path
-                $inst->institu_logo = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
+                // $inst->institu_logo = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
+                $inst->institu_logo = asset('storage/' . $filename);
+
                 $inst->save();
                 return Redirect::back();
             }else{

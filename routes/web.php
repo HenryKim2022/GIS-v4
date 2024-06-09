@@ -17,7 +17,6 @@ use App\Http\Controllers\Institutions\InstutionController;
 use App\Http\Controllers\Images\ImageController;
 
 
-Route::get('/create-symlink', function (){ symlink(storage_path('/app/public'), public_path('storage')); echo "Symlink Created. Thanks"; });
 
 
 /*
