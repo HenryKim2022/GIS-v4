@@ -58,7 +58,8 @@ class ImageController extends Controller
             // Store the uploaded file in the storage/app/public directory
             Storage::putFileAs('public', $file, $filename);
             // Update the institution's logo field with the stored file path
-            $img->img_src = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
+            // $img->img_src = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
+            $img->img_src = asset(env(key: 'APP_URL')) . '/storage/app/public/' . $filename;
             $img->save();
         } else {
             // Handle case where no logo file is provided

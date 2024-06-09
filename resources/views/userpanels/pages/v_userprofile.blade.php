@@ -48,9 +48,7 @@
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                             {{-- <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt="user image"
                                 class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" /> --}}
-                            {{-- <img src="{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}"
-                                alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" /> --}}
-                            <img src="{{ base_url($authenticated_user_data->user_image) ?: env('APP_NOIMAGE') }}"
+                            <img src="{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}"
                                 alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
@@ -177,7 +175,7 @@
                             <div class="tab-pane fade" id="navs-pills-justified-editprofile" role="tabpanel">
                                 <!-- Edit Profile -->
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src="{{ base_url($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}"
+                                    <img src="{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}"
                                         alt="user-avatar" class="d-block w-px-120 h-px-120 rounded"
                                         id="uploadedAvatar" />
                                     <div class="button-wrapper">
@@ -299,7 +297,7 @@
                                     var resetButton = document.querySelector('.account-image-reset');
                                     resetButton.addEventListener('click', function() {
                                         userProfilePhotoPreview.src =
-                                            '{{ base_url($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}';
+                                            '{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}';
                                         userProfilePhotoInput.value = null;
                                     });
                                 </script>

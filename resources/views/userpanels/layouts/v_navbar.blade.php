@@ -157,7 +157,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt
+                                        <img src="{{ asset($authenticated_user_data->user_image) ?? env('APP_NOIMAGE') }}" alt
                                             class="w-px-40 h-px-40 rounded-circle" />
                                     </div>
                                 </div>
