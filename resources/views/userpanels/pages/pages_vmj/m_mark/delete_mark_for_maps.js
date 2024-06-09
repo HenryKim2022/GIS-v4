@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Send AJAX request to delete the mark record
                 var markID = $(this).attr('mark_id_value');
                 $.ajax({
-                    url: '/m-mark/delete-mark',
+                    url: '/m-mark/delete-mark-maps',
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

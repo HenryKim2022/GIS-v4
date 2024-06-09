@@ -57,11 +57,9 @@ class ImageController extends Controller
 
             // Store the uploaded file in the storage/app/public directory
             Storage::putFileAs('public', $file, $filename);
-            // Update the institution's logo field with the stored file path
-            // $img->img_src = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
-            // $img->img_src = asset(env(key: 'APP_URL')) . '/storage/app/public/' . $filename;
             $img->img_src = asset('public/storage/' . $filename);
             $img->save();
+            Session::flash('success', ['Image added successfully']);
         } else {
             // Handle case where no logo file is provided
             $img->img_src = asset(env(key: 'APP_NOIMAGE')); // Set a default value or handle the case as needed
@@ -75,46 +73,39 @@ class ImageController extends Controller
     public function edit_img(Request $request)
     {
         $img = Image_Model::find($request->input('modalEditImageID2'));
-        if ($img) {
-            $img->img_title = $request->input('modalEditImageTitle2');
-            $img->img_alt = Str::slug($request->input('modalEditImageTitle2')) . "-alt";
-            $img->img_descb = $request->input('modalEditImageDescb2');
-            $img->institu_id = $request->input('modalEditInstitutionIDSelect2');
-            // $img->img_src = $request->input('modalEditImageSRC2');
-
-
-            if ($request->hasFile('modalEditImageSRC2')) {
-                $file = $request->file('modalEditImageSRC2');
-                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-
-                // Store the uploaded file in the storage/app/public directory
-                Storage::putFileAs('public', $file, $filename);
-                // Update the institution's logo field with the stored file path
-                // $img->img_src = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
-                $img->img_src = asset('public/storage/' . $filename);
-                $img->save();
-                return Redirect::back();
-            }else{
-                $img->save();
-                return Redirect::back();
-            }
-        } else {
-            // Handle the case when the mark is not found
-            return response()->json(['error' => 'Image not found'], 404);
+        if (!$img) {
+            Session::flash('errors', ['Err[404]: Image update failed!']);
+            return Redirect::back();
         }
+
+        $img->img_title = $request->input('modalEditImageTitle2');
+        $img->img_alt = Str::slug($request->input('modalEditImageTitle2')) . "-alt";
+        $img->img_descb = $request->input('modalEditImageDescb2');
+        $img->institu_id = $request->input('modalEditInstitutionIDSelect2');
+        if ($request->hasFile('modalEditImageSRC2')) {
+            $file = $request->file('modalEditImageSRC2');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Store the uploaded file in the storage/app/public directory
+            Storage::putFileAs('public', $file, $filename);
+            $img->img_src = asset('public/storage/' . $filename);
+        }
+        $img->save();
+        Session::flash('success', ['Image updated successfully !']);
+        return Redirect::back();
     }
 
 
     public function delete_img(Request $request)
     {
         $img = Image_Model::find($request->input('img_id'));
-        if ($img) {
-            $img->delete();
-            // return response()->json(['success' => 'Image deleted successfully']);
+        if (!$img){
+            Session::flash('errors', ['Err[404]: Image deletion failed!']);
             return Redirect::back();
-        } else {
-            return response()->json(['error' => 'Image not found'], 404);
         }
+        $img->delete();
+        Session::flash('success', ['Image deleted successfully !']);
+        return Redirect::back();
     }
 
 
@@ -216,10 +207,8 @@ class ImageController extends Controller
     {
         // Delete all records from the tb_mark table
         Image_Model::query()->delete();
-
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_image AUTO_INCREMENT = 1');
-
         // Redirect back to the previous page
         return redirect()->back();
     }

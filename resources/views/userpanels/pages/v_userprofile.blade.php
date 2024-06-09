@@ -499,16 +499,6 @@
         });
     </script>
 
-
-
-
-
-
-
-
-
-
-
     {{-- TOAST: NORMAL ERROR MESSAGE --}}
     @if (Session::has('n_errors'))
         @foreach (Session::get('n_errors') as $index => $message)

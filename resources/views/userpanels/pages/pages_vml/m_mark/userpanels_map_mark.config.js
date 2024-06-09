@@ -596,7 +596,7 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
     const targetedModalForm = document.querySelector('#' + whichModal + ' #viewMarkForm');
 
     // Retrieve data for the clicked marker
-    const mark_id = selectedMarkerData.mark_id;
+    var mark_id = selectedMarkerData.mark_id;
     const mark_lat = selectedMarkerData.mark_lat;
     const mark_lon = selectedMarkerData.mark_lon;
     const mark_address = selectedMarkerData.mark_address;
@@ -626,7 +626,7 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    mark_id: mark_id
+                    mark_id_maps: mark_id
                 },
                 success: function (response) {
                     // Handle success response, e.g., reload the table or show a success message

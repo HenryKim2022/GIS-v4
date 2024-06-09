@@ -72,8 +72,6 @@ class PanelController extends Controller
                 $filename = uniqid() . '.' . $file->getClientOriginalExtension();
                 // Store the uploaded file in the storage/app/public directory
                 Storage::putFileAs('public', $file, $filename);
-                // $user->user_image = asset(env(key: 'APP_URL')) . '/public/storage/' . $filename;
-                // $user->user_image = asset(env(key: 'APP_URL')) . '/storage/app/public/' . $filename;
                 $user->user_image = asset('public/storage/' . $filename);;
                 $user->save();
 
@@ -88,7 +86,7 @@ class PanelController extends Controller
             }
         } else {
             // Handle the case when the user is not found
-            Session::flash('errors', ['User not found']);
+            Session::flash('errors', ['Err[404]: User not found']);
         }
         return response()->json(['reload' => true]);
     }
@@ -100,9 +98,9 @@ class PanelController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'firstName'         => 'required|min:6',
-                'userName'          => 'required|string|unique:tb_users,user_name',
-                'userEmail'         => 'required|email|unique:tb_users,user_email',
+                'firstName'         => 'sometimes|required|min:6',
+                'userName'          => 'sometimes|required|string|unique:tb_users,user_name',
+                'userEmail'         => 'sometimes|required|email|unique:tb_users,user_email',
             ],
             [
                 'firstName.required' => 'The firstname field is required.',
@@ -168,7 +166,7 @@ class PanelController extends Controller
 
             Session::flash('success', ['Your data account was updated!']);
         } else {
-            return response()->json(['error' => 'User not found'], 404);
+            Session::flash('errors', ['Err[404]: Failed to update data account!']);
         }
         return Redirect::back();
     }

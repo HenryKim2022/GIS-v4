@@ -112,7 +112,6 @@ class UserController extends Controller
         // $encryptedUserPwd = Crypt::decryptString($user->user_pwd);
         $encryptedUserPwd = $user->user_pwd;
         if ($user) {
-            // Return the latitude and longitude as a JSON response
             return response()->json([
                 'user_id' => $userID,
                 'firstname' => $user->firstname,
@@ -122,7 +121,6 @@ class UserController extends Controller
                 'user_image' => $user->user_image
             ]);
         } else {
-            // Handle the case when the mark is not found
             return response()->json(['error' => 'User not found'], 404);
         }
     }
