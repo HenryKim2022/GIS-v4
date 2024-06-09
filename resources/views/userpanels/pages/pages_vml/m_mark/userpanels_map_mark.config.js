@@ -14,11 +14,11 @@ function setStartingValue() {
         if (deviceType === 'smartphone') {
             // console.log('Smartphone viewport detected');
             startingCoordinates = [-3.4763993, 133.2211498];
-            startingZoom = 4.50;
+            startingZoom = 6.5;
         } else {
             // console.log('PC viewport detected');
-            startingCoordinates = [-1.4763993, 118.2211498];
-            startingZoom = 4.50;
+            startingCoordinates = [-4.4408012,137.985168];
+            startingZoom = 6.5;
         }
     }
 
@@ -241,12 +241,12 @@ function initLeafletMap() {
         if (deviceType === 'smartphone') {
             console.log('Smartphone viewport detected');
             startingCoordinates = [-3.4763993, 133.2211498];
-            startingZoom = 4.50;
+            startingZoom = 6.5;
             map.setView(startingCoordinates, startingZoom);
         } else {
             console.log('PC viewport detected');
-            startingCoordinates = [-1.4763993, 118.2211498];
-            startingZoom = 4.50;
+            startingCoordinates = [-4.4408012,137.985168];
+            startingZoom = 6.5;
             map.setView(startingCoordinates, startingZoom);
         }
     }
