@@ -322,7 +322,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <p>
                                         “No Address”
                                     </p>
