@@ -5,6 +5,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Samples\SampleController;
 use App\Http\Controllers\Sessions\SessionController;
+use App\Http\Controllers\Developers\DeveloperController;
 use App\Http\Controllers\Landings\LandingPageController;
 use App\Http\Controllers\Setups\ConfigurationController;
 use App\Http\Controllers\Auth\LoginController;
@@ -53,12 +54,6 @@ if (env('APP_INSTALL', false)) {    // Not False
 
 
     Route::get('/', [LandingPageController::class, 'index'])->name('landing.page');                          // CHANGE IT LATER (IF NEDDED)
-
-
-    Route::controller(SessionController::class)->group(function(){
-        Route::get('/clr-success-msg', 'clearSuccessMessages')->name('clr.success.sess');
-        Route::post('/clr-errors-msg', 'clearErrorMessages')->name('clr.errors.sess');
-    });
 
 
     //////////// SAMPLES-PAGE

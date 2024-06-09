@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Landings;
 use App\Http\Controllers\Controller;
 use App\Models\Institution_Model;
 use App\Models\Image_Model;
+use App\Models\Developer_Model;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -43,14 +44,17 @@ class LandingPageController extends Controller
     //
     public function index()
     {
-        // $loadInstReviewFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get(); // Retrieve the marks from the database (exclude: softDeleted's).
-        $loadInstReviewFromDB = Institution_Model::all(); // Retrieve the marks from the database (exclude: softDeleted's).
         $process = $this->setPageSession("Landing Page", "landing-page");
         if ($process) {
-            return $this->setReturnView('landings/pages/v_landing_customizer', ['loadInstReviewFromDB' => $loadInstReviewFromDB]);
+            $loadInstReviewFromDB = Institution_Model::all();
+            $developers = Developer_Model::withoutTrashed()->orderBy('created_at', 'asc')->get();
+            $data = [
+                'loadInstReviewFromDB' => $loadInstReviewFromDB,
+                'developers' => $developers
+            ];
+            return $this->setReturnView('landings/pages/v_landing_customizer', $data);
         }
     }
-
 
 
     public function load_marks_into_map()

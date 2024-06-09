@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use App\Models\Developer_Model;
 use App\Models\Mark_Model;
 use App\Models\Category_Model;
 use App\Models\Image_Model;

@@ -298,19 +298,22 @@
         <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4 pt-8">
             <div class="swiper" id="swiper-reviews">
                 <div class="swiper-wrapper">
+                    @php
+                        $insReviewCount = count($loadInstReviewFromDB);
+                    @endphp
 
-                    @foreach ($loadInstReviewFromDB as $index => $inst)
+                    @if ($insReviewCount == 0)
                         <div class="swiper-slide">
                             <div class="card h-100">
                                 <div class="card-body text-body d-flex flex-column justify-content-between text-center">
                                     <div class="mb-3">
-                                        <img src="{{ $inst->institu_logo ? $inst->institu_logo : env('APP_NOIMAGE') }}"
+                                        <img src="{{ env('APP_NOIMAGE') }}"
                                             alt="institution logo" class="client-logo img-fluid hover-image"
                                             style="height: 4.75rem" />
                                     </div>
                                     <div>
-                                        <h6 class="mb-1">{{ $inst->institu_name }}</h6>
-                                        <p class="mb-0">(npsn: {{ $inst->institu_npsn }})</p>
+                                        <h6 class="mb-1">No Institution</h6>
+                                        <p class="mb-0">(npsn: 00000000)</p>
                                     </div>
                                     <div class="divider text-warning mb-1 mt-0">
                                         <div class="divider-text">
@@ -321,12 +324,43 @@
                                     </div>
 
                                     <p>
-                                        “{{ $inst->tb_mark->mark_address }}”
+                                        “No Address”
                                     </p>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @else
+                        @foreach ($loadInstReviewFromDB as $index => $inst)
+                            <div class="swiper-slide">
+                                <div class="card h-100">
+                                    <div
+                                        class="card-body text-body d-flex flex-column justify-content-between text-center">
+                                        <div class="mb-3">
+                                            <img src="{{ $inst->institu_logo ? $inst->institu_logo : env('APP_NOIMAGE') }}"
+                                                alt="institution logo" class="client-logo img-fluid hover-image"
+                                                style="height: 4.75rem" />
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">{{ $inst->institu_name }}</h6>
+                                            <p class="mb-0">(npsn: {{ $inst->institu_npsn }})</p>
+                                        </div>
+                                        <div class="divider text-warning mb-1 mt-0">
+                                            <div class="divider-text">
+                                                <div class="divider-icon">
+                                                    <i class="tf-icon mdi mdi-map-marker-outline mdi-24px"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p>
+                                            “{{ $inst->tb_mark->mark_address }}”
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -407,44 +441,66 @@
             <div class="row gy-5 mt-2">
 
                 @php
-                    $groupMembersJson = env('GROUP_MEMBER');
-                    $groupMembers = json_decode($groupMembersJson, true);
+                    $devCount = count($developers);
                 @endphp
-
-                @if (is_array($groupMembers))
-                    @foreach ($groupMembers as $member)
+                @if ($devCount > 0)
+                    @foreach ($developers as $dev)
                         <div class="col-lg-3 col-sm-6">
                             <div class="card card-hover-border-primary mt-3 mt-lg-0 shadow-none">
                                 <div class="bg-label-primary position-relative team-image-box">
-                                    @php
-                                        $memberImg =
-                                            $member[3] != null
-                                                ? 'https://' . $member[3]
-                                                : asset(env(key: 'APP_NOIMAGE'));
-                                    @endphp
-                                    <img src="{{ $memberImg }}"
-                                        class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl non-draggable"
-                                        alt="human image" />
+                                    <img src="{{ $dev->dev_image ?: env('APP_NOIMAGE') }}" alt="team member"
+                                        class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl non-draggable" />
                                 </div>
                                 <div class="card-body text-center">
-                                    <h5 class="card-title fw-semibold mb-1">{{ $member[0] }}</h5>
-                                    <p class="card-text">{{ $member[1] . $member[2] }}</p>
-                                    <div class="text-center team-media-icons d-none">
-                                        <a href="javascript:void(0);" class="text-heading" target="_blank">
-                                            <i class="tf-icons mdi mdi-facebook mdi-24px me-2"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-heading" target="_blank">
-                                            <i class="tf-icons mdi mdi-twitter mdi-24px me-2"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-heading" target="_blank">
-                                            <i class="tf-icons mdi mdi-linkedin mdi-24px"></i>
-                                        </a>
-                                    </div>
+                                    <h5 class="card-title fw-semibold mb-1">
+                                        {{ $dev->dev_lastname ? $dev->dev_firstname . ' ' . $dev->dev_lastname : $dev->dev_firstname }}
+                                    </h5>
+                                    <p class="card-text">{{ $dev->dev_job . '(' . $dev->dev_id . ')' }}</p>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+                @else
+                    @php
+                        $groupMembersJson = env('GROUP_MEMBER');
+                        $groupMembers = json_decode($groupMembersJson, true);
+                    @endphp
+                    @if (is_array($groupMembers))
+                        @foreach ($groupMembers as $member)
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card card-hover-border-primary mt-3 mt-lg-0 shadow-none">
+                                    <div class="bg-label-primary position-relative team-image-box">
+                                        @php
+                                            $memberImg =
+                                                $member[3] != null
+                                                    ? 'https://' . $member[3]
+                                                    : asset(env(key: 'APP_NOIMAGE'));
+                                        @endphp
+                                        <img src="{{ $memberImg }}"
+                                            class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl non-draggable"
+                                            alt="human image" />
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title fw-semibold mb-1">{{ $member[0] }}</h5>
+                                        <p class="card-text">{{ $member[1] . $member[2] }}</p>
+                                        <div class="text-center team-media-icons d-none">
+                                            <a href="javascript:void(0);" class="text-heading" target="_blank">
+                                                <i class="tf-icons mdi mdi-facebook mdi-24px me-2"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="text-heading" target="_blank">
+                                                <i class="tf-icons mdi mdi-twitter mdi-24px me-2"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="text-heading" target="_blank">
+                                                <i class="tf-icons mdi mdi-linkedin mdi-24px"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 @endif
+
 
             </div>
         </div>
