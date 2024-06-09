@@ -99,11 +99,14 @@
                                 <p class="pb-0 mb-0">
                                     @auth
                                         @if (auth()->user()->type == 'admin')
-                                            Have a nice day managing this website admin ദ്ദി(｡•̀ ,<)~✩‧₊ @endif
-                                            @endauth
-                                            @guest
-                                                Hey, u aren't authorized to access this page （ꐦ𝅒_𝅒）
-                                            @endguest
+                                            Have a nice day managing this website ദ്ദി(｡•̀ ,<)~✩‧₊
+                                        @elseif(auth()->user()->type == 'institution')
+                                            Have a nice day managing this website, admin watching you ദ്ദി(｡•̀ ,<)~✩‧₊
+                                        @endif
+                                    @endauth
+                                    @guest
+                                        Hey, u aren't authorized to access this page （ꐦ𝅒_𝅒）
+                                    @endguest
                                 </p>
                                 {{-- <a href="{{ route('myprofile.page') }}" class="btn btn-primary">View Profile</a> --}}
                             </div>
