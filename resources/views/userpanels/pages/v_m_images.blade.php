@@ -87,7 +87,7 @@
 
                         @if (auth()->user()->type == 'admin')
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:;"
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#resetImageModalTB"
                                 class="dropdown-item text-danger reset-all-images-record btn-sm mdi mdi-database-settings">
                                 ResetTable</a>
                         @endif
@@ -233,6 +233,9 @@
                 @include('userpanels.modals.vmm.m_image.vm_addimage_modal_for_tb')
                 @include('userpanels.modals.vmm.m_image.vm_editimage_modal_for_tb')
                 @include('userpanels.modals.vmm.m_image.vm_deleteimage_modal_for_tb')
+                @if (auth()->user()->type == 'admin')
+                    @include('userpanels.modals.vmm.m_image.vm_resetimage_modal_for_tb')
+                @endif
 
             </div>
         </div>
@@ -254,7 +257,7 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/edit_image_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/delete_image_for_tb.js') }}"></script>
 
-    @if (auth()->user()->type == 'admin')
-        <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/reset_image.js') }}"></script>
-    @endif
+    {{-- @if (auth()->user()->type == 'admin')
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_image/reset_image.js') }}"></script>
+    @endif --}}
 @endsection

@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const modalSelector = document.getElementById('editCatModalTB');
+    const modalSelector = document.getElementById('addCatModalTB');
+    const modalToShow = new bootstrap.Modal(modalSelector);
+    const targetedModalForm = document.querySelector('#addCatModalTB #addCatForm');
 
     if (modalSelector) {
         setTimeout(() => {

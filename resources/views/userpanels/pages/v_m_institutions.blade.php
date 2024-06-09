@@ -88,9 +88,9 @@
 
                         @if (auth()->user()->type == 'admin')
                             <div class="dropdown-divider"></div>
-                        <a href="javascript:;"
-                            class="dropdown-item text-danger reset-all-institutions-record btn-sm mdi mdi-database-settings">
-                            ResetTable</a>
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#resetInstModalTB"
+                                class="dropdown-item text-danger reset-all-institutions-record btn-sm mdi mdi-database-settings">
+                                ResetTable</a>
                         @endif
                     </div>
                 </div>
@@ -152,7 +152,8 @@
                                             </div>
                                         </td>
                                         {{-- <td>{{ \Carbon\Carbon::parse($institu->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td> --}}
-                                        <td>{{ \Carbon\Carbon::parse($institu->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($institu->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -236,6 +237,9 @@
                 @include('userpanels.modals.vmm.m_institu.vm_addinstitu_modal_for_tb')
                 @include('userpanels.modals.vmm.m_institu.vm_editinstitu_modal_for_tb')
                 @include('userpanels.modals.vmm.m_institu.vm_deleteinstitu_modal_for_tb')
+                @if (auth()->user()->type == 'admin')
+                    @include('userpanels.modals.vmm.m_institu.vm_resetinstitu_modal_for_tb')
+                @endif
 
             </div>
         </div>
@@ -466,7 +470,7 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/edit_institu_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/delete_institu_for_tb.js') }}"></script>
 
-    @if (auth()->user()->type == 'admin')
+    {{-- @if (auth()->user()->type == 'admin')
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_institu/reset_institu.js') }}"></script>
-    @endif
+    @endif --}}
 @endsection

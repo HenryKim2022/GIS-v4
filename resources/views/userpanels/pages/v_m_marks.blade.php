@@ -134,7 +134,7 @@
 
                                         @if (auth()->user()->type == 'admin')
                                             <div class="dropdown-divider"></div>
-                                            <a href="javascript:;"
+                                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#resetMarkModalTB"
                                                 class="dropdown-item text-danger reset-all-marks-record btn-sm mdi mdi-database-settings">
                                                 ResetTable</a>
                                         @endif
@@ -236,7 +236,7 @@
                                             data-bs-toggle="modal" data-bs-target="#addMarkModalTB"> Add
                                             New Data</a>
                                         <div class="dropdown-divider"></div>
-                                        <a href="javascript:;"
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#resetMarkModalTB"
                                             class="dropdown-item text-danger reset-all-marks-record btn-sm mdi mdi-database-settings">
                                             ResetTable</a>
                                     </div>
@@ -368,6 +368,9 @@
     @include('userpanels.modals.vmm.m_mark.vm_addmark_modal_for_tb')
     @include('userpanels.modals.vmm.m_mark.vm_editmark_modal_for_tb')
     @include('userpanels.modals.vmm.m_mark.vm_deletemark_modal_for_tb')
+    @if (auth()->user()->type == 'admin')
+        @include('userpanels.modals.vmm.m_mark.vm_resetmark_modal_for_tb')
+    @endif
 @endsection
 
 
@@ -618,7 +621,7 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/edit_mark_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/delete_mark_for_tb.js') }}"></script>
 
-    @if (auth()->user()->type == 'admin')
+    {{-- @if (auth()->user()->type == 'admin')
         <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_mark/reset_mark.js') }}"></script>
-    @endif
+    @endif --}}
 @endsection

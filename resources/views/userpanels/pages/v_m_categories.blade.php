@@ -85,7 +85,7 @@
                             data-bs-toggle="modal" data-bs-target="#addCatModalTB"> Add
                             New Data</a>
                         <div class="dropdown-divider"></div>
-                        <a href="javascript:;"
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#resetCatModalTB"
                             class="dropdown-item text-danger reset-all-categories-record btn-sm mdi mdi-database-settings">
                             ResetTable</a>
                     </div>
@@ -215,6 +215,7 @@
                 @include('userpanels.modals.vmm.m_cat.vm_addcat_modal_for_tb')
                 @include('userpanels.modals.vmm.m_cat.vm_editcat_modal_for_tb')
                 @include('userpanels.modals.vmm.m_cat.vm_deletecat_modal_for_tb')
+                @include('userpanels.modals.vmm.m_cat.vm_resetcat_modal_for_tb')
 
             </div>
         </div>
@@ -442,5 +443,5 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_cat/tbinit_cat.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_cat/edit_cat_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_cat/delete_cat_for_tb.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_cat/reset_cat.js') }}"></script>
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_cat/reset_cat.js') }}"></script> --}}
 @endsection

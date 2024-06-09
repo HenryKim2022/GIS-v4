@@ -83,7 +83,7 @@
                             data-bs-toggle="modal" data-bs-target="#addUserModalTB"> Add
                             New Data</a>
                         <div class="dropdown-divider"></div>
-                        <a href="javascript:;"
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#resetUserModalTB"
                             class="dropdown-item text-danger reset-all-users-record btn-sm mdi mdi-database-settings">
                             ResetTable</a>
                     </div>
@@ -163,8 +163,10 @@
                                             alt="Logo 1" style="height: 24px; width: 24px;" class="hover-image">
                                     </div>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($user->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($user->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($user->created_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($user->updated_at)->isoFormat('dddd, DD MMMM YYYY, h:mm:ss A') }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -275,6 +277,9 @@
                 @include('userpanels.modals.vmm.m_user.vm_adduser_modal_for_tb')
                 @include('userpanels.modals.vmm.m_user.vm_edituser_modal_for_tb')
                 @include('userpanels.modals.vmm.m_user.vm_deleteuser_modal_for_tb')
+                @if (auth()->user()->type == 'admin')
+                    @include('userpanels.modals.vmm.m_user.vm_resetuser_modal_for_tb')
+                @endif
 
             </div>
         </div>
@@ -294,5 +299,5 @@
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_user/tbinit_user.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_user/edit_user_for_tb.js') }}"></script>
     <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_user/delete_user_for_tb.js') }}"></script>
-    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_user/reset_user.js') }}"></script>
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_user/reset_user.js') }}"></script> --}}
 @endsection

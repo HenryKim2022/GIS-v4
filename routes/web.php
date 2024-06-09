@@ -199,7 +199,7 @@ if (env('APP_INSTALL', false)) {    // Not False
     Route::post('/m-image/update-img', [ImageController::class, 'update_img'])->name('m-image-data.update');
     Route::post('/m-image/delete-img', [ImageController::class, 'delete_img'])->name('m-image-data.delete');
     Route::post('/m-image/reset', [ImageController::class, 'reset_img'])->name('m-image-data.reset');
-    Route::post('/m-image/load-select-list', [ImageController::class, 'load_select_list_for_modal'])->name('m-image-data.reset');
+    Route::post('/m-image/load-select-list', [ImageController::class, 'load_select_list_for_modal'])->name('m-image-get.selectlist');
 
 
 }
