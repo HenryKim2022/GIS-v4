@@ -17,58 +17,59 @@ class Setup_Default_WFK extends Seeder
      */
     public function run(): void
     {
-        Mark_Model::create([
-            'mark_lat' => '-7.5854804',
-            'mark_lon' => '111.7089844',
-            'mark_address' => 'Jl. Sample 1',
-        ]);
-        Mark_Model::create([
-            'mark_lat' => '-6.6996277',
-            'mark_lon' => '107.5534058',
-            'mark_address' => 'Jl. Sample 2',
-        ]);
+        // Mark_Model::create([
+        //     'mark_lat' => '-7.5854804',
+        //     'mark_lon' => '111.7089844',
+        //     'mark_address' => 'Jl. Sample 1',
+        // ]);
+        // Mark_Model::create([
+        //     'mark_lat' => '-6.6996277',
+        //     'mark_lon' => '107.5534058',
+        //     'mark_address' => 'Jl. Sample 2',
+        // ]);
 
         Category_Model::create([
             'cat_name' => 'SMA',
+            'cat_name' => 'SMK'
         ]);
 
-        Institution_Model::create([
-            'institu_name' => 'SMA N 1 JAYAPURA',
-            'institu_npsn' => '00000001',
-            'institu_logo' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
-            'mark_id' => '1',
-            'cat_id' => '1',
-        ]);
+        // Institution_Model::create([
+        //     'institu_name' => 'SMA N 1 JAYAPURA',
+        //     'institu_npsn' => '00000001',
+        //     'institu_logo' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
+        //     'mark_id' => '1',
+        //     'cat_id' => '1',
+        // ]);
 
-        Institution_Model::create([
-            'institu_name' => 'SMA N 2 JAYAPURA',
-            'institu_npsn' => '00000002',
-            'institu_logo' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
-            'mark_id' => '2',
-            'cat_id' => '1',
-        ]);
+        // Institution_Model::create([
+        //     'institu_name' => 'SMA N 2 JAYAPURA',
+        //     'institu_npsn' => '00000002',
+        //     'institu_logo' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
+        //     'mark_id' => '2',
+        //     'cat_id' => '1',
+        // ]);
 
-        Image_Model::create([
-            'img_title' => 'Images 1',
-            'img_alt' => 'Images 1 alt',
-            'img_descb' => 'Images 1 blabla',
-            'img_src' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
-            'institu_id' => '1',
-        ]);
-        Image_Model::create([
-            'img_title' => 'Images 2',
-            'img_alt' => 'Images 2 alt',
-            'img_descb' => 'Images 2 blabla',
-            'img_src' => 'https://www.dbl.id/uploads/school/31330/710-SMAN_2_JAYAPURA.png',
-            'institu_id' => '1',
-        ]);
-        Image_Model::create([
-            'img_title' => 'Images 3',
-            'img_alt' => 'Images 3 alt',
-            'img_descb' => 'Images 4 blabla',
-            'img_src' => 'https://www.dbl.id/uploads/school/31323/209-SMAN_3_JAYAPURA.png',
-            'institu_id' => '2',
-        ]);
+        // Image_Model::create([
+        //     'img_title' => 'Images 1',
+        //     'img_alt' => 'Images 1 alt',
+        //     'img_descb' => 'Images 1 blabla',
+        //     'img_src' => 'https://www.sman1jayapura.com/upload/picture/50709381logoSMAN1JAYAPURA.png',
+        //     'institu_id' => '1',
+        // ]);
+        // Image_Model::create([
+        //     'img_title' => 'Images 2',
+        //     'img_alt' => 'Images 2 alt',
+        //     'img_descb' => 'Images 2 blabla',
+        //     'img_src' => 'https://www.dbl.id/uploads/school/31330/710-SMAN_2_JAYAPURA.png',
+        //     'institu_id' => '1',
+        // ]);
+        // Image_Model::create([
+        //     'img_title' => 'Images 3',
+        //     'img_alt' => 'Images 3 alt',
+        //     'img_descb' => 'Images 4 blabla',
+        //     'img_src' => 'https://www.dbl.id/uploads/school/31323/209-SMAN_3_JAYAPURA.png',
+        //     'institu_id' => '2',
+        // ]);
 
 
     }
