@@ -448,7 +448,8 @@ function populateMarks4romDB(map, markersLayer) {
 
                     // Pan the map to the selected marker
                     // map.panTo(selectedCoordinates);
-                    map.flyTo(selectedCoordinates, 8.5);
+                    map.flyTo(selectedCoordinates, Math.min(18, 18.5));
+
                     // Zoom the map to the selected marker
                     // map.setZoom(15); // Adjust the zoom level as needed
 
@@ -528,7 +529,8 @@ function populateMarks4romDB(map, markersLayer) {
 
                         // Pan the map to the selected marker
                         // map.panTo(selectedCoordinates);
-                        map.flyTo(selectedCoordinates, 8.5);
+                        map.flyTo(selectedCoordinates, Math.min(18, 18.5));
+
 
 
                         // Log the coordinates
