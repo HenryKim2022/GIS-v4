@@ -209,6 +209,7 @@ class ImageController extends Controller
         Image_Model::query()->delete();
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_image AUTO_INCREMENT = 1');
+        Session::flash('success', ['All images data reset successfully!']);
         // Redirect back to the previous page
         return redirect()->back();
     }

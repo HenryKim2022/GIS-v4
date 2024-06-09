@@ -247,6 +247,7 @@ class MarkController extends Controller
         Mark_Model::query()->delete();
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_mark AUTO_INCREMENT = 1');
+        Session::flash('success', ['All marks data reset successfuly!']);
         // Redirect back to the previous page
         return redirect()->back();
     }

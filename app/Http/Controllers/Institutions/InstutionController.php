@@ -294,6 +294,7 @@ class InstutionController extends Controller
         Institution_Model::query()->delete();
         // Reset the auto-increment value
         DB::statement('ALTER TABLE tb_institution AUTO_INCREMENT = 1');
+        Session::flash('success', ['All institutions data reset successfully!']);
         // Redirect back to the previous page
         return redirect()->back();
     }
