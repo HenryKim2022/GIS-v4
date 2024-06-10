@@ -85,7 +85,7 @@
         <!-- Navbar pills -->
         <div class="row">
             <div class="col-md-12 overflow-hidden">
-                <div class="overflow-x-auto">
+                <div class="nav-scroll-container">
                     <ul class="nav nav-pills mb-3 nav-align-left flex-nowrap overflow-auto" role="tablist">
                         <li class="nav-item">
                             <button type="button" class="nav-link active" role="tab" data-bs-toggle="pill"
@@ -113,6 +113,40 @@
             </div>
         </div>
         <!--/ Navbar pills -->
+
+        <style>
+            .nav-scroll-container {
+                position: relative;
+                padding-bottom: 10px;
+                /* Add a bottom padding to create a gap */
+            }
+
+            .nav-scroll-container::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 10px;
+                /* Set the height of the gap */
+                background-color: transparent;
+                /* Set the background color of the gap */
+            }
+
+            .nav-scroll-container::-webkit-scrollbar {
+                width: 8px;
+                /* Set the width of the scrollbar */
+                background-color: transparent;
+                /* Set the background color of the scrollbar */
+            }
+
+            .nav-scroll-container::-webkit-scrollbar-thumb {
+                background-color: #888;
+                /* Set the color of the scrollbar thumb */
+                border-radius: 4px;
+                /* Set the border radius of the scrollbar thumb */
+            }
+        </style>
 
         <!-- User Profile Content -->
         <div class="row">
