@@ -83,8 +83,11 @@
                     alt="section title icon" class="me-2" />
                 <span class="text-uppercase">
                     <h3 class="text-center mb-2">
-                        <span class="fw-bold">{{ env('APP_NAME') . ' : ' }}</span>
-                        {{ env('APP_PURPOSE') }}
+                        <div class="row">
+                            {{-- <span class="fw-bold">{{ env('APP_NAME') . ' : ' }}</span> --}}
+                            <span class="fw-thin">{{ env('APP_PURPOSE') }}</span>
+                        </div>
+
                     </h3>
                 </span>
             </h6>
