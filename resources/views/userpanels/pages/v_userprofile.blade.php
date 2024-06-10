@@ -96,7 +96,7 @@
                     </li>
                 </ul> --}}
 
-                <ul class="nav nav-pills mb-3 nav-align-left" role="tablist">
+                <ul class="nav nav-pills mb-3 nav-align-left overflow-x-scroll" role="tablist">
                     <li class="nav-item">
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
