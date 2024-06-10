@@ -85,24 +85,24 @@
         <!-- Navbar pills -->
         <div class="row">
             <div class="col-md-12 overflow-hidden">
-                <div class="nav-scroll-container">
-                    <ul class="nav nav-pills mb-3 nav-align-left overflow-x-scroll" role="tablist">
+                <div class="overflow-x-auto">
+                    <ul class="nav nav-pills mb-3 nav-align-left flex-nowrap overflow-auto" role="tablist">
                         <li class="nav-item">
-                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="pill"
                                 data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
                                 aria-selected="true">
                                 <i class="tf-icons mdi mdi-account-outline me-1 mdi-20px"></i> Profile
                             </button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="pill"
                                 data-bs-target="#navs-pills-justified-editprofile"
                                 aria-controls="navs-pills-justified-editprofile" aria-selected="false">
                                 <i class="tf-icons mdi mdi-account-edit-outline me-1 mdi-20px"></i> Edit Profile
                             </button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="pill"
                                 data-bs-target="#navs-pills-justified-security"
                                 aria-controls="navs-pills-justified-security" aria-selected="false">
                                 <i class="tf-icons mdi mdi-shield-account-outline me-1 mdi-20px"></i> Security
