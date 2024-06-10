@@ -228,10 +228,10 @@
                 <div class="card h-100">
                     <div class="row">
                         <div class="col-md-12 col-12 order-2 order-md-0">
-                            <div class="card-header">
+                            <div class="card-header pb-0">
                                 <h5 class="mb-0">Institution Categories</h5>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body pt-0">
                                 <div class="row justify-content-center">
                                     @php
                                         $categoryCount = count($categories);
