@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Schema;
 
 use App\Models\Mark_Model;
 use App\Models\Category_Model;
-
+use App\Models\User_Model;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Response;
@@ -28,11 +28,6 @@ class LandingPageController extends Controller
     protected $pageData;
     public function __construct()
     {
-
-        // if ($this->middleware('auth')){
-        //     echo ('console.log("LOGIN FIRST :)")');
-        // }
-
         $this->pageData = [
             'page_title' => 'What Public See',
             'page_url' => base_url('public-url'),
@@ -47,10 +42,11 @@ class LandingPageController extends Controller
         $process = $this->setPageSession("Landing Page", "landing-page");
         if ($process) {
             $loadInstReviewFromDB = Institution_Model::all();
-            $developers = Developer_Model::withoutTrashed()->orderBy('created_at', 'asc')->get();
+
+            $developers = Developer_Model::withoutTrashed()->with('tb_users')->get();
             $data = [
                 'loadInstReviewFromDB' => $loadInstReviewFromDB,
-                'developers' => $developers
+                'developers' => $developers,
             ];
             return $this->setReturnView('landings/pages/v_landing_customizer', $data);
         }
@@ -58,84 +54,84 @@ class LandingPageController extends Controller
 
 
     public function load_marks_into_map()
-{
-    $institutions = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get();
+    {
+        $institutions = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category', 'tb_image')->get();
 
-    $featureCollection = [
-        "type" => "FeatureCollection",
-        "generator" => "overpass-turbo",
-        "copyright" => "The data included in this document is owned by " . env('APP_NAME') . ". The data is made available when we are active.",
-        "timestamp" => date('Y-m-d\TH:i:s\Z'),
-        "features" => []
-    ];
-
-    foreach ($institutions as $inst) {
-        $instituImages = $inst->tb_image->map(function ($image) {
-            return [
-                "title" => $image->img_title,
-                "src" => $image->img_src,
-                "alt" => $image->img_alt,
-                "description" => $image->img_descb
-            ];
-        })->all();
-
-        if (empty($instituImages)) {
-            $instituImages[] = [
-                "title" => "No Image",
-                "src" => env('APP_NOIMAGE'),
-                "alt" => "No Image",
-                "description" => "No Image Available"
-            ];
-        } else {
-            foreach ($instituImages as &$image) {
-                if (empty($image['src'])) {
-                    $image['src'] = env('APP_NOIMAGE');
-                }
-            }
-        }
-
-        $feature = [
-            "type" => "Feature",
-            "properties" => [
-                "institu_id" => $inst->institu_id,
-                "institu_name" => $inst->institu_name,
-                "institu_category" => $inst->tb_category->cat_name,
-                "institu_npsn" => $inst->institu_npsn,
-                "institu_logo" => $inst->institu_logo,
-                "institu_address" => $inst->tb_mark->mark_address,
-                "institu_images" => $instituImages,
-                "institu_mark_id" => $inst->tb_mark->mark_id,
-                "created_at" => $inst->tb_mark->created_at,
-                "updated_at" => max($inst->updated_at, $inst->tb_mark->updated_at, $inst->tb_category->updated_at, $inst->tb_image->max('updated_at'))
-            ],
-            "geometry" => [
-                "type" => "Point",
-                "coordinates" => [
-                    $inst->tb_mark->mark_lon,
-                    $inst->tb_mark->mark_lat
-                ]
-            ]
+        $featureCollection = [
+            "type" => "FeatureCollection",
+            "generator" => "overpass-turbo",
+            "copyright" => "The data included in this document is owned by " . env('APP_NAME') . ". The data is made available when we are active.",
+            "timestamp" => date('Y-m-d\TH:i:s\Z'),
+            "features" => []
         ];
 
-        $featureCollection["features"][] = $feature;
+        foreach ($institutions as $inst) {
+            $instituImages = $inst->tb_image->map(function ($image) {
+                return [
+                    "title" => $image->img_title,
+                    "src" => $image->img_src,
+                    "alt" => $image->img_alt,
+                    "description" => $image->img_descb
+                ];
+            })->all();
+
+            if (empty($instituImages)) {
+                $instituImages[] = [
+                    "title" => "No Image",
+                    "src" => env('APP_NOIMAGE'),
+                    "alt" => "No Image",
+                    "description" => "No Image Available"
+                ];
+            } else {
+                foreach ($instituImages as &$image) {
+                    if (empty($image['src'])) {
+                        $image['src'] = env('APP_NOIMAGE');
+                    }
+                }
+            }
+
+            $feature = [
+                "type" => "Feature",
+                "properties" => [
+                    "institu_id" => $inst->institu_id,
+                    "institu_name" => $inst->institu_name,
+                    "institu_category" => $inst->tb_category->cat_name,
+                    "institu_npsn" => $inst->institu_npsn,
+                    "institu_logo" => $inst->institu_logo,
+                    "institu_address" => $inst->tb_mark->mark_address,
+                    "institu_images" => $instituImages,
+                    "institu_mark_id" => $inst->tb_mark->mark_id,
+                    "created_at" => $inst->tb_mark->created_at,
+                    "updated_at" => max($inst->updated_at, $inst->tb_mark->updated_at, $inst->tb_category->updated_at, $inst->tb_image->max('updated_at'))
+                ],
+                "geometry" => [
+                    "type" => "Point",
+                    "coordinates" => [
+                        $inst->tb_mark->mark_lon,
+                        $inst->tb_mark->mark_lat
+                    ]
+                ]
+            ];
+
+            $featureCollection["features"][] = $feature;
+        }
+
+        $response = response()->json($featureCollection);
+        // Append a query parameter to the logo and image URLs (avoid image not updated in browser cache).
+        $queryParam = 'v=' . time(); // Unique value, such as a timestamp
+        $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        $response->header('Pragma', 'no-cache');
+        $response->header('Expires', '0');
+        $response->header('Content-Type', 'application/json');
+        $response->header('Vary', 'Accept-Encoding');
+        $response->header('X-Powered-By', 'Laravel');
+        $response->header('Access-Control-Allow-Origin', '*');
+
+        // Modify the logo and image URLs in the feature collection
+        $response->setData($this->modifyAssetUrls($response->getData(), $queryParam));
+
+        return $response;
     }
-
-    $response = response()->json($featureCollection);
-    // Append a query parameter to the logo and image URLs (avoid image not updated in browser cache).
-    $queryParam = 'v=' . time(); // Unique value, such as a timestamp
-    $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
-    $response->header('Pragma', 'no-cache');
-    $response->header('Expires', '0');
-    $response->header('Content-Type', 'application/json');
-    $response->header('Vary', 'Accept-Encoding');
-    $response->header('X-Powered-By', 'Laravel');
-    $response->header('Access-Control-Allow-Origin', '*');
-
-    // Modify the logo and image URLs in the feature collection
-    $response->setData($this->modifyAssetUrls($response->getData(), $queryParam));
-
-    return $response;
-}
 
 
 

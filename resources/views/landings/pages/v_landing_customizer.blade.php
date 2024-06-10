@@ -307,9 +307,8 @@
                             <div class="card h-100">
                                 <div class="card-body text-body d-flex flex-column justify-content-between text-center">
                                     <div class="mb-3">
-                                        <img src="{{ env('APP_NOIMAGE') }}"
-                                            alt="institution logo" class="client-logo img-fluid hover-image"
-                                            style="height: 4.75rem" />
+                                        <img src="{{ env('APP_NOIMAGE') }}" alt="institution logo"
+                                            class="client-logo img-fluid hover-image" style="height: 4.75rem" />
                                     </div>
                                     <div>
                                         <h6 class="mb-1">No Institution</h6>
@@ -447,7 +446,10 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="card card-hover-border-primary mt-3 mt-lg-0 shadow-none">
                                 <div class="bg-label-primary position-relative team-image-box">
-                                    <img src="{{ $dev->dev_image ?: env('APP_NOIMAGE') }}" alt="team member"
+                                    @php
+                                        $devImage = $dev->getDevImage() ?: $dev->getUserImage() ?: env('APP_NOIMAGE');
+                                    @endphp
+                                    <img src="{{ $devImage }}" alt="team member"
                                         class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl non-draggable" />
                                 </div>
                                 <div class="card-body text-center">

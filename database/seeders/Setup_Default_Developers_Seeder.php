@@ -24,22 +24,7 @@ class Setup_Default_Developers_Seeder extends Seeder
             'dev_lastname' => '',
             'dev_job' => 'Programmer',
             'dev_image' => '',
-        ]);
-
-        Developer_Model::create([
-            'dev_id' => '1152120003',
-            'dev_firstname' => 'Yopi Okta',
-            'dev_lastname' => 'R.W',
-            'dev_job' => 'Designer',
-            'dev_image' => '',
-        ]);
-
-        Developer_Model::create([
-            'dev_id' => '1152120001',
-            'dev_firstname' => 'Akhmad Hafizh',
-            'dev_lastname' => 'D',
-            'dev_job' => 'Project Manager',
-            'dev_image' => '',
+            'user_id' => '1',
         ]);
 
         Developer_Model::create([
@@ -48,6 +33,27 @@ class Setup_Default_Developers_Seeder extends Seeder
             'dev_lastname' => 'P',
             'dev_job' => 'Analize',
             'dev_image' => '',
+            'user_id' => '2',
         ]);
+
+        Developer_Model::create([
+            'dev_id' => '1152120003',
+            'dev_firstname' => 'Yopi Okta',
+            'dev_lastname' => 'R.W',
+            'dev_job' => 'Designer',
+            'dev_image' => '',
+            'user_id' => '3',
+        ]);
+
+        Developer_Model::create([
+            'dev_id' => '1152120001',
+            'dev_firstname' => 'Akhmad Hafizh',
+            'dev_lastname' => 'D',
+            'dev_job' => 'Project Manager',
+            'dev_image' => '',
+            'user_id' => '4',
+        ]);
+
+
     }
 }

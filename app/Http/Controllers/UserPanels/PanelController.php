@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -98,13 +99,23 @@ class PanelController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'firstName'         => 'sometimes|required|min:6',
-                'userName'          => 'sometimes|required|string|unique:tb_users,user_name',
-                'userEmail'         => 'sometimes|required|email|unique:tb_users,user_email',
+                'firstName'  => 'sometimes|required|min:5',
+                'userName'   => [
+                    'sometimes',
+                    'required',
+                    'string',
+                    Rule::unique('tb_users', 'user_name')->ignore($request->input('user_id'), 'user_id')
+                ],
+                'userEmail'  => [
+                    'sometimes',
+                    'required',
+                    'email',
+                    Rule::unique('tb_users', 'user_email')->ignore($request->input('user_id'), 'user_id')
+                ],
             ],
             [
                 'firstName.required' => 'The firstname field is required.',
-                'userName.required' => 'The username field is required.',
+                'userName.required'  => 'The username field is required.',
                 'userEmail.required' => 'The email field is required.',
             ]
         );
@@ -113,7 +124,6 @@ class PanelController extends Controller
             Session::flash('errors', $toast_message);
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
 
         $user = User_Model::where('user_id', $request->input('user_id'))->first();
         if ($user) {
@@ -126,13 +136,12 @@ class PanelController extends Controller
             $updatedUser = User_Model::find($user->user_id);
             Session::put('authenticated_user_data', $updatedUser);
 
-            Session::flash('success', ['Your data account was updated!']);
+            Session::flash('success', ['Your account data was updated!']);
         } else {
-            Session::flash('errors', ['Err[404]: Failed to updated user account!']);
+            Session::flash('errors', ['Err[404]: Failed to update user account!']);
         }
-        return Redirect::back();
+        return redirect()->back();
     }
-
 
     public function edit_myprofile_pass(Request $request)
     {

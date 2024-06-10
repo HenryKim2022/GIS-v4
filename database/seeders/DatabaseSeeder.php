@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(Setup_Default_Developers_Seeder::class);
         $this->call(Setup_Default_Users_Seeder::class);
+        $this->call(Setup_Default_Developers_Seeder::class);
         $this->call(Setup_Default_WFK::class);
     }
 }
