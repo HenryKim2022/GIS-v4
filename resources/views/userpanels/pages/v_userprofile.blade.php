@@ -48,8 +48,8 @@
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                             {{-- <img src="{{ asset('public/materialize/assets/img/avatars/1.png') }}" alt="user image"
                                 class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" /> --}}
-                            <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}"
-                                alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                            <img src="{{ $authenticated_user_data->user_image ?: env('APP_NOIMAGE') }}" alt="user image"
+                                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
                             <div
@@ -85,41 +85,31 @@
         <!-- Navbar pills -->
         <div class="row">
             <div class="col-md-12 overflow-hidden">
-                {{-- <ul class="nav nav-pills flex-column flex-sm-row mb-4">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="javascript:void(0);"><i
-                                class="mdi mdi-account-outline me-1 mdi-20px"></i>Profile</a>
-                    </li>
-                    <li class="nav-item" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                    <a class="nav-link" href="javascript:void(0);"><i
-                            class="mdi mdi-account-edit-outline me-1 mdi-20px"></i>Edit Profile</a>
-                    </li>
-                </ul> --}}
-
-                <ul class="nav nav-pills mb-3 nav-align-left overflow-x-scroll" role="tablist">
-                    <li class="nav-item">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
-                            aria-selected="true">
-                            <i class="tf-icons mdi mdi-account-outline me-1 mdi-20px"></i> Profile
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-justified-editprofile"
-                            aria-controls="navs-pills-justified-editprofile" aria-selected="false">
-                            <i class="tf-icons mdi mdi-account-edit-outline me-1 mdi-20px"></i> Edit Profile
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-justified-security" aria-controls="navs-pills-justified-security"
-                            aria-selected="false">
-                            <i class="tf-icons mdi mdi-shield-account-outline me-1 mdi-20px"></i> Security
-                        </button>
-                    </li>
-                </ul>
-
+                <div class="nav-scroll-container">
+                    <ul class="nav nav-pills mb-3 nav-align-left overflow-x-scroll" role="tablist">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile"
+                                aria-selected="true">
+                                <i class="tf-icons mdi mdi-account-outline me-1 mdi-20px"></i> Profile
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-justified-editprofile"
+                                aria-controls="navs-pills-justified-editprofile" aria-selected="false">
+                                <i class="tf-icons mdi mdi-account-edit-outline me-1 mdi-20px"></i> Edit Profile
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-justified-security"
+                                aria-controls="navs-pills-justified-security" aria-selected="false">
+                                <i class="tf-icons mdi mdi-shield-account-outline me-1 mdi-20px"></i> Security
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <!--/ Navbar pills -->
@@ -265,7 +255,8 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-floating form-floating-outline">
                                                     <input class="form-control" type="text" id="userEmail"
-                                                        name="userEmail" value="{{ $authenticated_user_data->user_email }}"
+                                                        name="userEmail"
+                                                        value="{{ $authenticated_user_data->user_email }}"
                                                         placeholder="{{ $authenticated_user_data->user_email }}" />
                                                     <label for="userEmail">Email</label>
                                                 </div>
@@ -317,7 +308,8 @@
                                                 <div class="input-group input-group-merge">
                                                     <div class="form-floating form-floating-outline">
                                                         <input class="form-control" type="hidden" id="user_id"
-                                                        name="user_id" value="{{ $authenticated_user_data->user_id }}" />
+                                                            name="user_id"
+                                                            value="{{ $authenticated_user_data->user_id }}" />
                                                         <input class="form-control" type="password" id="newPassword"
                                                             name="newPassword"
                                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
