@@ -84,7 +84,7 @@
 
         <!-- Navbar pills -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 overflow-hidden">
                 {{-- <ul class="nav nav-pills flex-column flex-sm-row mb-4">
                     <li class="nav-item">
                         <a class="nav-link active" href="javascript:void(0);"><i
