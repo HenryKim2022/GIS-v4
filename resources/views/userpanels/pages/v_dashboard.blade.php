@@ -100,13 +100,12 @@
                                     @auth
                                         @if (auth()->user()->type == 'admin')
                                             Have a nice day managing this website ദ്ദി(｡•̀ ,<)~✩‧₊
-                                        @elseif(auth()->user()->type == 'institution')
-                                            Have a nice day managing this website, admin watching you ദ്ദി(｡•̀ ,<)~✩‧₊
-                                        @endif
-                                    @endauth
-                                    @guest
-                                        Hey, u aren't authorized to access this page （ꐦ𝅒_𝅒）
-                                    @endguest
+                                            @elseif(auth()->user()->type == 'institution') Have a nice day managing this website,
+                                                admin watching you ദ്ദി(｡•̀ ,<)~✩‧₊ @endif
+                                            @endauth
+                                            @guest
+                                                Hey, u aren't authorized to access this page （ꐦ𝅒_𝅒）
+                                            @endguest
                                 </p>
                                 {{-- <a href="{{ route('myprofile.page') }}" class="btn btn-primary">View Profile</a> --}}
                             </div>
@@ -233,16 +232,14 @@
                                 <h5 class="mb-0">Institution Categories</h5>
                             </div>
                             <div class="card-body">
-                                {{-- <div class="col-sm-6 col-md-8 col-xl-8"> --}}
-                                <div class="row g-4 justify-content-around d-flex">
+                                <div class="row justify-content-center">
                                     @php
                                         $categoryCount = count($categories);
                                     @endphp
 
                                     @foreach ($categories as $category)
                                         <!-- Category -->
-                                        <div
-                                            class="{{ $categoryCount == 1 ? 'col-md-12 col-sm-6' : 'col-md-6 col-sm-6' }} mt-0">
+                                        <div class="col-md-6 col-sm-6 mt-4">
                                             <div class="card">
                                                 <div class="card-header pb-0">
                                                     <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
@@ -258,15 +255,12 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                {{-- </div> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!--/ Total Transactions & Report Chart -->
-
-
 
 
 
