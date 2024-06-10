@@ -30,9 +30,18 @@ class Setup_Default_WFK extends Seeder
         // ]);
 
         Category_Model::create([
-            'cat_name' => 'SMA',
-            'cat_name' => 'SMK'
+            'cat_name' => 'SMA NEGERI'
         ]);
+        Category_Model::create([
+            'cat_name' => 'SMA SWASTA'
+        ]);
+        Category_Model::create([
+            'cat_name' => 'SMK NEGERI'
+        ]);
+        Category_Model::create([
+            'cat_name' => 'SMK SWASTA'
+        ]);
+
 
         // Institution_Model::create([
         //     'institu_name' => 'SMA N 1 JAYAPURA',

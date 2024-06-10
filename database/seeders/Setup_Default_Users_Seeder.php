@@ -23,7 +23,7 @@ class Setup_Default_Users_Seeder extends Seeder
             'user_email' => 'admin1@mail.com',
             'user_pwd' => Hash::make('1234567'),
             'type' => 1,
-            'user_image' => '/public/storage/66668854e1397.jpg',
+            'user_image' => '',
         ]);
 
         Setup_Default_Users::create([

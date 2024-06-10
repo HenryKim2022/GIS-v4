@@ -29,23 +29,24 @@ class Developer_Model extends Model
     public function getDevImage()
     {
         $imagePath = $this->dev_image ?: $this->getUserImage();
-        if ($imagePath && file_exists($imagePath)) {
-            $image = imagecreatefromstring(file_get_contents($imagePath));
-            imagesavealpha($image, true);
-            // Set the background color to transparent
-            $transparentColor = imagecolorallocatealpha($image, 0, 0, 0, 127);
-            imagefill($image, 0, 0, $transparentColor);
-            // Output the image
-            ob_start();
-            imagepng($image);
-            $imageData = ob_get_clean();
-            // Clean up
-            imagedestroy($image);
-            // Return the image data
-            return 'data:image/png;base64,' . base64_encode($imageData);
-        }
+        // Create a new image with transparency support
+        $image = imagecreatefromstring(file_get_contents($imagePath)) ?: imagecreatefromstring(file_get_contents(env('APP_URL'). "/" .$imagePath));
+        imagesavealpha($image, true);
 
-        return null;
+        // Set the background color to transparent
+        $transparentColor = imagecolorallocatealpha($image, 0, 0, 0, 127);
+        imagefill($image, 0, 0, $transparentColor);
+
+        // Output the image
+        ob_start();
+        imagepng($image);
+        $imageData = ob_get_clean();
+
+        // Clean up
+        imagedestroy($image);
+
+        // Return the image data
+        return 'data:image/png;base64,' . base64_encode($imageData);
     }
 
 
@@ -67,21 +68,22 @@ class Developer_Model extends Model
     {
         if ($this->tb_users) {
             $imagePath = $this->tb_users->user_image ?: env('APP_NOIMAGE');
-            if (file_exists($imagePath)) {
-                $image = imagecreatefromstring(file_get_contents($imagePath));
-                imagesavealpha($image, true);
-                // Set the background color to transparent
-                $transparentColor = imagecolorallocatealpha($image, 0, 0, 0, 127);
-                imagefill($image, 0, 0, $transparentColor);
-                // Output the image
-                ob_start();
-                imagepng($image);
-                $imageData = ob_get_clean();
-                // Clean up
-                imagedestroy($image);
-                // Return the image data
-                return 'data:image/png;base64,' . base64_encode($imageData);
-            }
+            // Create a new image with transparency support
+            $image = imagecreatefromstring(file_get_contents($imagePath)) ?: imagecreatefromstring(file_get_contents(env('APP_URL'). "/" .$imagePath));
+            imagesavealpha($image, true);
+            // Set the background color to transparent
+            $transparentColor = imagecolorallocatealpha($image, 0, 0, 0, 127);
+            imagefill($image, 0, 0, $transparentColor);
+
+            // Output the image
+            ob_start();
+            imagepng($image);
+            $imageData = ob_get_clean();
+            // Clean up
+            imagedestroy($image);
+
+            // Return the image data
+            return 'data:image/png;base64,' . base64_encode($imageData);
         }
 
         return null;
