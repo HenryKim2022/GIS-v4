@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-use Illuminate\Support\Facades\Storage;
+
 use Intervention\Image\Facades\Image as InterventionImage;
-
-
+use Phpml\Clustering\KMeans;
 
 
 class Developer_Model extends Model
@@ -35,29 +34,21 @@ class Developer_Model extends Model
     public function getDevImage()
     {
         $imagePath = $this->dev_image ?: $this->getUserImage();
-        return $this->removeBackgroundUsingPHP_GD($imagePath);
-
-        // $bgcolor = array("red" => "255", "green" => "255", "blue" => "255", "alpha" => 0);
-        // $fuzz = 9;
-        // return $this->removeBackgroundUsingPHP_IMAGICK($imagePath, $bgcolor, $fuzz);
+        return $this->removeBackground($imagePath);
     }
 
     public function getUserImage()
     {
         if ($this->tb_users) {
             $imagePath = $this->tb_users->user_image ?: env('APP_NOIMAGE');
-            return $this->removeBackgroundUsingPHP_GD($imagePath);
 
-            // $bgcolor = array("red" => "255", "green" => "255", "blue" => "255", "alpha" => 0);
-            // $fuzz = 9;
-            // return $this->removeBackgroundUsingPHP_IMAGICK($imagePath, $bgcolor, $fuzz);
+            return $this->removeBackground($imagePath);
+        } else {
+            return null;
         }
-        // else {
-        return null;
-        // }
     }
 
-    public function removeBackgroundUsingPHP_GD($imagePath)                             //// USING PHP GD METHOD
+    public function removeBackground($imagePath)                             //// USING PHP GD METHOD
     {
         $image = imagecreatefromstring(file_get_contents($imagePath)) ?: imagecreatefromstring(file_get_contents(env('APP_URL') . '/' . $imagePath));
         imagesavealpha($image, true);
@@ -69,14 +60,6 @@ class Developer_Model extends Model
         imagedestroy($image);
         return 'data:image/png;base64,' . base64_encode($imageData);
     }
-
-
-
-    // public function removeBackgroundUsingPHP_IMAGICK($image, $bgcolor, $fuzz)        //// USING PHP IMAGICK METHOD
-    // {
-    //     $imageData = shell_exec('convert '.$image.' -fuzz '.$fuzz.'% -transparent "rgb('.$bgcolor['red'].','.$bgcolor['green'].','.$bgcolor['blue'].')" '.$image.'');
-    //     return $imageData;
-    // }
 
 
 
