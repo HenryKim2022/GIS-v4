@@ -38,10 +38,9 @@ class InstutionController extends Controller
     //
     public function index()
     {
-        $loadInstitutionsFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category')->get();
         $process = $this->setPageSession("Manage Institutions", "m-inst");
-
         if ($process) {
+            $loadInstitutionsFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category')->get();
             return $this->setReturnView('userpanels/pages/v_m_institutions', ['loadInstitutionsFromDB' => $loadInstitutionsFromDB]);
         }
     }

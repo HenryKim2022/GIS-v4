@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Marks;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mark_Model;
+use App\Models\Category_Model;
 use App\Models\Institution_Model;
 use Illuminate\Http\Request;
 
@@ -251,7 +252,6 @@ class MarkController extends Controller
         // Redirect back to the previous page
         return redirect()->back();
     }
-
 
 
 

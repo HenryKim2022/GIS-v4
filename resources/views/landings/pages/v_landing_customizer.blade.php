@@ -146,7 +146,7 @@
                 </div>
 
 
-                <!-- Draggable Marker With Popup -->
+                <!-- LEAFLET MAPS -->
                 <div id="leaflet_card">
                     <div class="col-12">
                         <div class="card mb-4">
@@ -166,7 +166,7 @@
 
                             <style>
                                 span.clearInput {
-                                    top: 4.64rem;
+                                    top: 4.36rem;
                                     right: -0.28rem;
                                     transform: translate(-50%, -50%);
                                     border-top-left-radius: 0%;
@@ -182,7 +182,7 @@
                                 }
                             </style>
                             <div class="card-body pb-0" style="">
-                                <div class="col-12 mt-1">
+                                <div class="col-12">
                                     <label for="searchLeafletField" class="form-label">Search</label>
                                     <div class="w-100">
                                         <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
@@ -232,9 +232,9 @@
 
                     </div>
                 </div>
+                <!-- /LEAFLET MAPS -->
 
             </div>
-            <!-- /Draggable Marker With Popup -->
         </div>
 
 

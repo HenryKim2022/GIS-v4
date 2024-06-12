@@ -29,14 +29,30 @@ class CategoryController extends Controller
 
 
     //
+    // public function index()
+    // {
+    //     $loadCategoriesFromDB = Category_Model::withoutTrashed()->get(); // Retrieve the marks from the database (exclude: softDeleted's).
+    //     $process = $this->setPageSession("Manage Categories", "m-categories");
+    //     if ($process) {
+    //         return $this->setReturnView('userpanels/pages/v_m_categories', ['loadCategoriesFromDB' => $loadCategoriesFromDB]);
+    //     }
+    // }
+
+
+    //
     public function index()
     {
-        $loadCategoriesFromDB = Category_Model::withoutTrashed()->get(); // Retrieve the marks from the database (exclude: softDeleted's).
         $process = $this->setPageSession("Manage Categories", "m-categories");
         if ($process) {
-            return $this->setReturnView('userpanels/pages/v_m_categories', ['loadCategoriesFromDB' => $loadCategoriesFromDB]);
+            $loadCategoriesFromDB = Category_Model::withoutTrashed()->get(); // Retrieve the marks from the database (exclude: softDeleted's).
+            $data = [
+                'loadCategoriesFromDB' => $loadCategoriesFromDB,
+            ];
+            return $this->setReturnView('userpanels/pages/v_m_categories', $data);
         }
     }
+
+
 
     public function add_categories(Request $request)
     {

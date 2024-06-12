@@ -16,6 +16,8 @@ use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Institutions\InstutionController;
 use App\Http\Controllers\Images\ImageController;
+use App\Http\Controllers\MarksAndInstitutions\MarksAndInstitutionController;
+
 
 
 
@@ -140,6 +142,12 @@ if (env('APP_INSTALL', false)) {    // Not False
     //     Route::post('/myprofile/edit-pass', [PanelController::class, 'edit_myprofile_pass'])->name('myprofile.pass.edit');
     // });
 
+
+
+
+
+    Route::get('/one-time', [MarksAndInstitutionController::class, 'index'])->name('m-one-time-markings.index');
+    Route::get('/one-time/loadone', [MarksAndInstitutionController::class, 'load_one_into_map'])->name('l-one.m-one.page');
 
 
 

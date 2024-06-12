@@ -88,6 +88,11 @@
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
+                        <a href="{{ route('m-one-time-markings.index') }}" class="menu-link">
+                            <div data-i18n="One Time List">One Time List</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
                         <a href="{{ route('m-markings.index') }}" class="menu-link">
                             <div data-i18n="Marking List">Marking List</div>
                         </a>
