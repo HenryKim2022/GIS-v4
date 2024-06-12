@@ -243,7 +243,7 @@
                                                 <div class="card">
                                                     <div class="card-header pb-0">
                                                         <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
-                                                            <h6 class="mb-0 me-2 mdi mdi-school-outline mdi-48px">
+                                                            <h6 class="mb-0 me-2 mdi mdi-school-outline mdi-24px">
                                                                 {{ $category->name }}</h6>
                                                         </div>
                                                         <span
@@ -260,7 +260,7 @@
                                             <div class="card">
                                                 <div class="card-header pb-0">
                                                     <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
-                                                        <h6 class="mb-0 me-2 mdi mdi-school-outline mdi-48px">
+                                                        <h6 class="mb-0 me-2 mdi mdi-school-outline mdi-24px">
                                                             No Categories Available</h6>
                                                     </div>
                                                     <span
