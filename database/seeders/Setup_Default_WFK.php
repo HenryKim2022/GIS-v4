@@ -18,16 +18,6 @@ class Setup_Default_WFK extends Seeder
      */
     public function run(): void
     {
-        // Mark_Model::create([
-        //     'mark_lat' => '-7.5854804',
-        //     'mark_lon' => '111.7089844',
-        //     'mark_address' => 'Jl. Sample 1',
-        // ]);
-        // Mark_Model::create([
-        //     'mark_lat' => '-6.6996277',
-        //     'mark_lon' => '107.5534058',
-        //     'mark_address' => 'Jl. Sample 2',
-        // ]);
 
         Category_Model::create([
             'cat_name' => 'SMA NEGERI'

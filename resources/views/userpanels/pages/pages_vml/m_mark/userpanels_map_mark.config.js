@@ -17,8 +17,8 @@ function setStartingValue() {
             startingZoom = 6.5;
         } else {
             // console.log('PC viewport detected');
-            startingCoordinates = [-4.4408012,137.985168];
-            startingZoom = 6.5;
+            startingCoordinates = [-2.6140108, 140.8221155];
+            startingZoom = 10.7;
         }
     }
 
@@ -212,12 +212,13 @@ function initLeafletMap() {
 
 
     var appName = "GIS";
+    var currentDomain = window.location.origin;
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">${appName}</a>`
+        attribution: `Map data &copy; <a href="${currentDomain}">${appName}</a>`
     }).addTo(map);
 
     L.control.mousePosition({
-        position: 'bottomright',
+        position: 'bottomleft',
         formatter: function (lat, lng) {
             var latDirection = lat >= 0 ? '' : '-';
             var lngDirection = lng >= 0 ? '' : '-';
@@ -245,8 +246,8 @@ function initLeafletMap() {
             map.setView(startingCoordinates, startingZoom);
         } else {
             console.log('PC viewport detected');
-            startingCoordinates = [-4.4408012,137.985168];
-            startingZoom = 6.5;
+            startingCoordinates = [-2.6140108, 140.8221155];
+            startingZoom = 10.7;
             map.setView(startingCoordinates, startingZoom);
         }
     }
@@ -423,9 +424,11 @@ function populateMarks4romDB(map, markersLayer) {
                 // Clear previously selected marker and circle
                 if (selectedMarker) {
                     markersLayer.removeLayer(selectedMarker);
+                    selectedMarker = null;
                 }
                 if (selectedCircle) {
                     markersLayer.removeLayer(selectedCircle);
+                    selectedMarker = null;
                     // map.setView(startingCoordinates, startingZoom);
                     map.flyTo(startingCoordinates, startingZoom);
                 }
@@ -468,26 +471,11 @@ function populateMarks4romDB(map, markersLayer) {
                     // map.setZoom(15); // Adjust the zoom level as needed
 
                     // Log the coordinates
-                    selectedMarker.on('click', function () {
-                        // Show the modal when the marker is clicked
-                        console.log('institu_id:', selectedMarkerData.mark_id);
-                        console.log('Selected coordinates:', lat, lon);
-                        setDataModalAfterSearch(selectedMarkerData)
-                        // modalToShow.show();
-                    });
-
-
-
-                    const clearInputButton = document.querySelector('.clearInput');
-                    const searchField = document.getElementById('searchLeafletField');
-                    clearInputButton.addEventListener('click', () => {
-                        searchField.value = '';
-                        markersLayer.removeLayer(selectedCircle);
-                        map.flyTo(startingCoordinates, startingZoom);
-                    });
-
+                    setLogCoordinates(selectedMarker, selectedMarkerData);
+                    setClearInputBtn(selectedMarker, selectedCircle);
                 }
             });
+
 
 
 
@@ -524,6 +512,7 @@ function populateMarks4romDB(map, markersLayer) {
                         // Clear previously selected marker
                         if (selectedMarker) {
                             markersLayer.removeLayer(selectedMarker);
+                            selectedMarker = null;
                         }
 
                         // Get the coordinates of the selected marker
@@ -561,24 +550,38 @@ function populateMarks4romDB(map, markersLayer) {
 
 
                         // Log the coordinates
-                        selectedMarker.on('click', function () {
-                            // Show the modal when the marker is clicked
-                            console.log('institu_id:', selectedMarkerData.mark_id);
-                            console.log('Selected coordinates:', lat, lon);
-                            setDataModalAfterSearch(selectedMarkerData)
-                        });
-
-                        const clearInputButton = document.querySelector('.clearInput');
-                        const searchField = document.getElementById('searchLeafletField');
-                        clearInputButton.addEventListener('click', () => {
-                            searchField.value = '';
-                            markersLayer.removeLayer(selectedCircle);
-                            map.flyTo(startingCoordinates, startingZoom);
-                        });
-
+                        setLogCoordinates(selectedMarker, selectedMarkerData);
+                        setClearInputBtn(selectedMarker, selectedCircle);
                     }
                 }
             });
+
+
+
+            function setLogCoordinates(selectedMarker, selectedMarkerData){
+                selectedMarker.on('click', function () {
+                    console.log('Selected mark id:', selectedMarkerData.mark_id);
+                    console.log('Selected mark address:', selectedMarkerData.mark_address);
+                    setDataModalAfterSearch(selectedMarkerData)     // Show the modal when the marker is clicked
+                });
+            }
+
+
+            function setClearInputBtn(selectedMarker = null, selectedCircle = null){
+                const clearInputButton = document.querySelector('.clearInput');
+                const searchField = document.getElementById('searchLeafletField');
+                clearInputButton.addEventListener('click', () => {
+                    searchField.value = '';
+                    selectedMarker = null;
+                    if (selectedCircle != null){
+                        markersLayer.removeLayer(selectedCircle);
+                    }
+                    map.flyTo(startingCoordinates, startingZoom);
+                });
+            }
+
+
+
 
         })
         .catch(error => {
@@ -686,6 +689,9 @@ function addRightClick(map, markersLayer, LAT = '', LNG = '') {
             lat: LAT,
             lng: LNG
         };
+
+        console.log("Coordinates:", `[${LAT}, ${LNG}]`);
+        console.log("Zoom level:", map.getZoom());
 
         getNominatingAddr(coordinates);
         function getNominatingAddr(coordinates) {
@@ -903,14 +909,28 @@ function getAddressFromCoordinates(coordinates) {
 }
 
 
+// function addResetViewControl(map) {
+//     L.control.resetView({
+//         position: "topright",
+//         title: "Reset view",
+//         latlng: L.latLng(startingCoordinates),
+//         zoom: startingZoom,
+//     }).addTo(map);
+
+//     const resetViewControl = document.querySelector('.leaflet-control-resetview');
+//     resetViewControl.addEventListener('click', (event) => {
+//         event.preventDefault();
+//         map.flyTo(startingCoordinates, startingZoom);
+//     });
+// }
 
 
 function addResetViewControl(map) {
-    L.control.resetView({
+    var resetControl = L.control.resetView({
         position: "topright",
         title: "Reset view",
-        latlng: L.latLng(startingCoordinates),
-        zoom: startingZoom,
+        latlng: L.latLng(map.getCenter()), // Set latlng dynamically using map's current center
+        zoom: map.getZoom(), // Set zoom dynamically using map's current zoom level
     }).addTo(map);
 
     const resetViewControl = document.querySelector('.leaflet-control-resetview');
