@@ -18,7 +18,7 @@ function setStartingValue() {
         } else {
             // console.log('PC viewport detected');
             startingCoordinates = [-2.6140108, 140.8221155];
-            startingZoom = 10.7;
+            startingZoom = 9.7;
         }
     }
 
@@ -247,7 +247,7 @@ function initLeafletMap() {
         } else {
             console.log('PC viewport detected');
             startingCoordinates = [-2.6140108, 140.8221155];
-            startingZoom = 10.7;
+            startingZoom = 9.7;
             map.setView(startingCoordinates, startingZoom);
         }
     }
