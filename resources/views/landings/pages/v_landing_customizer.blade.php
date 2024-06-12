@@ -71,6 +71,8 @@
         <img src="" alt="Large Image" />
     </div>
 
+
+
     <!-- Hero: Start -->
     <section id="hero" class="section-py pt-5 landing-hero position-relative">
         <img src="{{ asset('public/materialize/assets/img/front-pages/backgrounds/hero-bg-light.png') }}"
@@ -97,6 +99,64 @@
                 {{-- Not just a set of tools, the package includes ready-to-deploy conceptual application. --}}
             </p>
             <div class="position-relative hero-animation-img">
+
+
+
+
+                <div class="col-12">
+                    <div class="card mb-4 bg-transparent">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+
+                                @php
+                                    $categories = [];
+                                    $categoryCount = $categories ? count($categories) : 0;
+                                @endphp
+                                @if ($categoryCount > 0)
+                                    @foreach ($categories as $category)
+                                        <!-- Category -->
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
+                                                        <h6 class="mb-0 me-2 mdi mdi-school-outline mdi-24px">
+                                                            {{ $category->name }}</h6>
+                                                    </div>
+                                                    <span
+                                                        class="d-block mb-2 text-body fs-tiny">{{ count($category->tb_institution) }}
+                                                        Institution(s) in this category</span>
+                                                    <p class="mb-0 text-danger"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <!-- Category -->
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="card bg-danger">
+                                            <div class="card-header">
+                                                <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
+                                                    <h6 class="mb-0 me-2 mdi mdi-school-outline mdi-24px">
+                                                        No Categories Available</h6>
+                                                </div>
+                                                <span class="d-block mb-2 text-body">
+                                                    Please add categories at least 1 category from user
+                                                    panels.</span>
+                                                <p class="mb-0 text-danger"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <!-- Draggable Marker With Popup -->
                 <div id="leaflet_card">
                     <div class="col-12">
@@ -114,15 +174,6 @@
                                     </div>
                                 </h5>
                             </div>
-                            {{-- <div class="card-body pb-0" style="z-index: 9999;">
-                                <div class="col-12 mt-1">
-                                    <label for="searchLeafletField" class="form-label">Search</label>
-                                    <input id="searchLeafletField" class="form-control typeahead-multi-datasets"
-                                        type="text" autocomplete="off" placeholder="e.g sma/ jl/ -" />
-                                </div>
-                            </div>
-                            --}}
-
 
                             <style>
                                 span.clearInput {

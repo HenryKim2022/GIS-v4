@@ -236,24 +236,42 @@
                                     @php
                                         $categoryCount = count($categories);
                                     @endphp
-
-                                    @foreach ($categories as $category)
+                                    @if ($categoryCount > 0)
+                                        @foreach ($categories as $category)
+                                            <!-- Category -->
+                                            <div class="col-md-6 col-sm-6 mt-4">
+                                                <div class="card">
+                                                    <div class="card-header pb-0">
+                                                        <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
+                                                            <h4 class="mb-0 me-2 mdi mdi-school-outline mdi-48px">
+                                                                {{ $category->name }}</h4>
+                                                        </div>
+                                                        <span
+                                                            class="d-block mb-2 text-body">{{ count($category->tb_institution) }}
+                                                            Institution(s) in this category</span>
+                                                        <p class="mb-0 text-danger"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
                                         <!-- Category -->
                                         <div class="col-md-6 col-sm-6 mt-4">
                                             <div class="card">
                                                 <div class="card-header pb-0">
                                                     <div class="d-flex align-items-end mb-1 flex-wrap gap-2">
                                                         <h4 class="mb-0 me-2 mdi mdi-school-outline mdi-48px">
-                                                            {{ $category->name }}</h4>
+                                                            No Categories Available</h4>
                                                     </div>
                                                     <span
-                                                        class="d-block mb-2 text-body">{{ count($category->tb_institution) }}
-                                                        Institution(s) in this category</span>
+                                                        class="d-block mb-2 text-body">
+                                                        Please add categories at least 1 categories from user panels.</span>
                                                     <p class="mb-0 text-danger"></p>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @endif
+
                                 </div>
                             </div>
                         </div>

@@ -28,6 +28,7 @@ class LandingPageController extends Controller
     protected $pageData;
     public function __construct()
     {
+
         $this->pageData = [
             'page_title' => 'What Public See',
             'page_url' => base_url('public-url'),
@@ -41,10 +42,11 @@ class LandingPageController extends Controller
     {
         $process = $this->setPageSession("Landing Page", "landing-page");
         if ($process) {
+            $categories = Institution_Model::with('tb_category')->withoutTrashed()->get();
             $loadInstReviewFromDB = Institution_Model::all();
-
             $developers = Developer_Model::withoutTrashed()->with('tb_users')->get();
             $data = [
+                'categories' => $categories,
                 'loadInstReviewFromDB' => $loadInstReviewFromDB,
                 'developers' => $developers,
             ];
