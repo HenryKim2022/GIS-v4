@@ -163,7 +163,7 @@
                                                 <div class="w-100">
                                                     <input id="searchLeafletField"
                                                         class="form-control typeahead-multi-datasets" type="text"
-                                                        autocomplete="off" placeholder="e.g jl/ jalan/ 1/ -" />
+                                                        autocomplete="off" placeholder="e.g jl/ jalan/ sma/ 1/ -" />
                                                     <span class="input-group-text clearInput position-absolute"
                                                         type="button" data-bs-dismiss="input" aria-label="Clear input">
                                                         <i class="mdi mdi-close"></i>

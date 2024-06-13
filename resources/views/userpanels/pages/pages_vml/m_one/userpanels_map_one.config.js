@@ -76,8 +76,8 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
             const mark_lat = layer.options.mark_lat;
             const mark_lon = layer.options.mark_lon;
             const mark_address = layer.options.mark_address;
-            // const created_at = layer.options.mark_created;
-            const updated_at = layer.options.mark_updated;
+            // const created_at = layer.options.created_at;
+            const updated_at = layer.options.updated_at;
 
 
             // Retrieve tooltipData object from marker options
@@ -273,23 +273,26 @@ function populateMarks4romDB(map, markersLayer) {
                 .map(f => {
                     const coordinates = f.geometry.coordinates.map(parseFloat).reverse();
                     const markColor = f.properties.mark.mark_color;
-                    const createdTimestamp = new Date(f.properties.created_at);
-                    const updatedTimestamp = new Date(f.properties.updated_at);
+                    const createdTimestamp = new Date(f.properties.mark.created_at);
+                    const updatedTimestamp = new Date(f.properties.mark.updated_at);
                     tooltipData = {
-                        full_coordinates: coordinates || "none",
+                        full_coordinates: coordinates || "untitled",
                         mark_id: f.properties.mark.mark_id || "none",
                         mark_lat: coordinates[0] || "none",
                         mark_lon: coordinates[1] || "none",
                         mark_color: markColor || "none",
                         mark_address: f.properties.mark.mark_address || "none",
-                        mark_created: createdTimestamp.toLocaleString('id-ID', {
+                        created_at: createdTimestamp.toLocaleString('id-ID', {
                             timeZone: 'Asia/Jakarta',
                             hour12: true
                         }) || "none",
-                        mark_updated: updatedTimestamp.toLocaleString('id-ID', {
+                        updated_at: updatedTimestamp.toLocaleString('id-ID', {
                             timeZone: 'Asia/Jakarta',
                             hour12: true
-                        }) || "none"
+                        }) || "none",
+                        inst_name: f.properties.institution ? f.properties.institution.name : "none",
+                        inst_cat: f.properties.institution ? f.properties.institution.category : "none",
+                        inst_images: f.properties.institution ? f.properties.institution.images : []
                     };
 
                     // console.log(tooltipData);    //// SHOW ALL LOADED DATA FROM JSON
@@ -313,7 +316,8 @@ function populateMarks4romDB(map, markersLayer) {
 
                     applyMarksToolTips();
                     function applyMarksToolTips() {
-                        marker.bindTooltip(tooltipData.full_coordinates + "  ➟  " + tooltipData.mark_address, {
+                        var tooltipText = tooltipData.inst_name != "none" ? tooltipData.inst_name : tooltipData.full_coordinates;
+                        marker.bindTooltip(tooltipText + "  ➟  " + tooltipData.mark_address, {
                             offset: [16, -4],
                             direction: 'right' // Set the direction of the tooltip (top, bottom, left, right)
                         });
@@ -330,6 +334,7 @@ function populateMarks4romDB(map, markersLayer) {
             // Populate the typeahead search field
             const markIDs = markers.map(marker => ({ search_item: marker.mark_id }));
             const marksAddress = markers.map(marker => ({ search_item: marker.mark_address }));
+            const instNames = markers.map(marker => ({ search_item: marker.inst_name }));
             const fullCoordinates = markers.map(marker => ({ search_item: marker.full_coordinates }));
 
             const listOfMarkIDs = new Bloodhound({
@@ -342,10 +347,34 @@ function populateMarks4romDB(map, markersLayer) {
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 local: marksAddress
             });
+            const listOfInstNames = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('search_item'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: instNames
+            });
             const listOfFullCoords = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('search_item'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 local: fullCoordinates
+            });
+
+            const listOfNominatimAddresses = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('search_item'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: 'https://nominatim.openstreetmap.org/search?format=json&q=%QUERY',
+                    wildcard: '%QUERY',
+                    rateLimitBy: 'debounce',
+                    rateLimitWait: 0, // Adjust this value as needed (in milliseconds)
+                    transform: function (response) {
+                        // console.log(response); // Check the structure of the response
+                        return response.map(result => ({
+                            search_item: result.display_name,
+                            lat: result.lat,
+                            lon: result.lon
+                        }));
+                    }
+                }
             });
 
             var isRtl = true;
@@ -372,11 +401,29 @@ function populateMarks4romDB(map, markersLayer) {
                     }
                 },
                 {
+                    name: 'inst-name',
+                    source: listOfInstNames,
+                    display: 'search_item',
+                    templates: {
+                        header: '<h6 class="league-name border-bottom mb-0 mx-3 mt-3 pb-2">Institutions</h6>'
+                    }
+                },
+                {
                     name: 'full-coordinates',
                     source: listOfFullCoords,
                     display: 'search_item',
                     templates: {
                         header: '<h6 class="league-name border-bottom mb-0 mx-3 mt-3 pb-2">Coordinates</h6>'
+                    }
+                },
+                {
+                    name: 'nominatim-addresses',
+                    source: listOfNominatimAddresses,
+                    display: 'search_item',
+                    limit: 10,
+                    minLength: 0,
+                    templates: {
+                        header: '<h6 class="league-name border-bottom mb-0 mx-3 mt-3 pb-2">Un-managed Address</h6>'
                     }
                 }
             );
@@ -384,7 +431,6 @@ function populateMarks4romDB(map, markersLayer) {
 
             let selectedMarker;
             let selectedCircle;
-            // let selectedMarkerData; // Declare the variable outside the event handler
             $('.typeahead-multi-datasets').on('typeahead:selected', function (event, result) {
                 // Clear previously selected marker and circle
                 if (selectedMarker) {
@@ -393,33 +439,64 @@ function populateMarks4romDB(map, markersLayer) {
                 }
                 if (selectedCircle) {
                     markersLayer.removeLayer(selectedCircle);
-                    selectedMarker = null;
-                    // map.setView(startingCoordinates, startingZoom);
-                    map.flyTo(startingCoordinates, startingZoom);
+                    selectedCircle = null;
                 }
 
                 // Find the corresponding marker based on the selected result (matching name or address)
-                const selectedMarkerData = markers.find(marker => marker.mark_id === result.search_item || marker.mark_address === result.search_item || marker.full_coordinates === result.search_item);
+                let selectedMarkerData = markers.find(
+                    marker =>
+                        marker.mark_id === result.search_item ||
+                        marker.mark_address === result.search_item ||
+                        marker.inst_name === result.search_item ||
+                        marker.full_coordinates === result.search_item
+                );
+
+                if (!selectedMarkerData) {
+                    // If no marker is found, assume it's from the 'listOfNominatimAddresses' dataset
+                    selectedMarkerData = {
+                        mark_lat: result.lat,
+                        mark_lon: result.lon,
+                        mark_address: result.search_item
+                    };
+                }
+
                 if (selectedMarkerData) {
                     // Get the coordinates of the selected marker
                     const selectedCoordinates = [selectedMarkerData.mark_lat, selectedMarkerData.mark_lon];
-                    const [lat, lon] = selectedCoordinates;
 
                     let customIconMarker2;
                     if (selectedMarkerData.mark_color === 'success') {
                         customIconMarker2 = L.icon({
                             iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                            iconSize: [21, 38], iconAnchor: [10, 38]
+                            iconSize: [21, 38],
+                            iconAnchor: [10, 38],
+                            popupAnchor: [0, -30]
                         });
                     } else if (selectedMarkerData.mark_color === 'warning') {
                         customIconMarker2 = L.icon({
                             iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                            iconSize: [21, 38], iconAnchor: [10, 38]
+                            iconSize: [21, 38],
+                            iconAnchor: [10, 38],
+                            popupAnchor: [0, -30]
+                        });
+                    } else {
+                        // Use a default icon if no specific icon is defined
+                        customIconMarker2 = L.icon({
+                            iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-shadow.png',
+                            shadowSize: [41, 41],
+                            shadowAnchor: [12, 41]
                         });
                     }
+
+
                     // Create a new marker and circle for the selected result
                     selectedMarker = L.marker(selectedCoordinates, { icon: customIconMarker2 }).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
-                        offset: [16, -4], direction: 'right',
+                        offset: [16, -4],
+                        direction: 'right',
                         permanent: false
                     }).openTooltip();
                     selectedCircle = L.circle(selectedCoordinates, { radius: 0, color: 'red', fillColor: '#f03', fillOpacity: 0.5 });
@@ -428,24 +505,18 @@ function populateMarks4romDB(map, markersLayer) {
                     markersLayer.addLayer(selectedMarker);
                     markersLayer.addLayer(selectedCircle);
 
-                    // Pan the map to the selected marker
-                    // map.panTo(selectedCoordinates);
-                    map.flyTo(selectedCoordinates, Math.min(18, 18.5));
-
-                    // Zoom the map to the selected marker
-                    // map.setZoom(15); // Adjust the zoom level as needed
-
                     // Log the coordinates
                     setLogCoordinates(selectedMarker, selectedMarkerData);
                     setClearInputBtn(selectedMarker, selectedCircle);
+
+                    // Pan the map to the selected marker
+                    map.flyTo(selectedCoordinates, Math.min(18, 18.5));
                 }
             });
 
 
 
-
-
-            $('#searchLeafletField').on('input', function () {
+            $('#searchLeafletField').on('input', function (event) {
                 const inputValue = $(this).val();
 
                 if (inputValue === '') {
@@ -463,9 +534,7 @@ function populateMarks4romDB(map, markersLayer) {
                     map.flyTo(startingCoordinates, startingZoom);
                 } else {
                     // Find the corresponding marker based on the input value
-                    const selectedMarkerData = markers.find(marker =>
-                        marker.mark_id === inputValue || marker.mark_address === inputValue
-                    );
+                    let selectedMarkerData = markers.find(marker => marker.mark_id === inputValue || marker.mark_address === inputValue || marker.full_coordinates === inputValue);
 
                     // Clear the previously selected circle
                     if (selectedCircle) {
@@ -488,17 +557,20 @@ function populateMarks4romDB(map, markersLayer) {
                         if (selectedMarkerData.mark_color === 'success') {
                             customIconMarker2 = L.icon({
                                 iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-success.png',
-                                iconSize: [21, 38], iconAnchor: [10, 38]
+                                iconSize: [21, 38],
+                                iconAnchor: [10, 38]
                             });
                         } else if (selectedMarkerData.mark_color === 'warning') {
                             customIconMarker2 = L.icon({
                                 iconUrl: 'public/plugins/leaflet-official/leaflet.base.vlastest/dist/images/marker-icon-warning.png',
-                                iconSize: [21, 38], iconAnchor: [10, 38]
+                                iconSize: [21, 38],
+                                iconAnchor: [10, 38]
                             });
                         }
                         // Create a new marker and circle for the selected result
                         selectedMarker = L.marker(selectedCoordinates, { icon: customIconMarker2 }).bindTooltip(selectedCoordinates + " ➟ " + selectedMarkerData.mark_address, {
-                            offset: [16, -4], direction: 'right',
+                            offset: [16, -4],
+                            direction: 'right',
                             permanent: false
                         }).openTooltip();
                         selectedCircle = L.circle(selectedCoordinates, { radius: 0, color: 'red', fillColor: '#f03', fillOpacity: 0.5 });
@@ -512,8 +584,6 @@ function populateMarks4romDB(map, markersLayer) {
                         // map.panTo(selectedCoordinates);
                         map.flyTo(selectedCoordinates, Math.min(18, 18.5));
 
-
-
                         // Log the coordinates
                         setLogCoordinates(selectedMarker, selectedMarkerData);
                         setClearInputBtn(selectedMarker, selectedCircle);
@@ -522,8 +592,7 @@ function populateMarks4romDB(map, markersLayer) {
             });
 
 
-
-            function setLogCoordinates(selectedMarker, selectedMarkerData){
+            function setLogCoordinates(selectedMarker, selectedMarkerData) {
                 selectedMarker.on('click', function () {
                     console.log('Selected mark id:', selectedMarkerData.mark_id);
                     console.log('Selected mark address:', selectedMarkerData.mark_address);
@@ -532,13 +601,13 @@ function populateMarks4romDB(map, markersLayer) {
             }
 
 
-            function setClearInputBtn(selectedMarker = null, selectedCircle = null){
+            function setClearInputBtn(selectedMarker = null, selectedCircle = null) {
                 const clearInputButton = document.querySelector('.clearInput');
                 const searchField = document.getElementById('searchLeafletField');
                 clearInputButton.addEventListener('click', () => {
                     searchField.value = '';
                     selectedMarker = null;
-                    if (selectedCircle != null){
+                    if (selectedCircle != null) {
                         markersLayer.removeLayer(selectedCircle);
                     }
                     map.flyTo(startingCoordinates, startingZoom);
@@ -568,8 +637,8 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
     const mark_lat = selectedMarkerData.mark_lat;
     const mark_lon = selectedMarkerData.mark_lon;
     const mark_address = selectedMarkerData.mark_address;
-    // const created_at = selectedMarkerData.mark_created;
-    const updated_at = selectedMarkerData.mark_updated;
+    // const created_at = selectedMarkerData.created_at;
+    const updated_at = selectedMarkerData.updated_at;
 
 
     // Retrieve tooltipData object from marker options
@@ -645,10 +714,10 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
 
 
 // ############################################################# START ADD ############################################################# //
-function addRightClick(map, markersLayer, LAT = '', LNG = '') {
+function addRightClick(map, markersLayer) {
     map.on('contextmenu taphold', function (e) {
-        LAT = LAT == '' ? e.latlng.lat.toFixed(7) : LAT;
-        LNG = LNG == '' ? e.latlng.lng.toFixed(7) : LNG;
+        LAT = e.latlng.lat.toFixed(7);
+        LNG = e.latlng.lng.toFixed(7);
 
         var coordinates = {
             lat: LAT,
@@ -784,12 +853,13 @@ function addRightClick(map, markersLayer, LAT = '', LNG = '') {
 
 
                     var fulladdr = addressComponents.join(', ');
-                    processIt(fulladdr);
+                    // processIt(fulladdr);
+                    processIt(fulladdr, LAT, LNG)
                     console.log(fulladdr);
                 })
                 .catch(error => {
                     console.error('Error (outter):', error.message);
-                    processIt("We're using OSRM's demo server, sometimes wont get address automatically :)");
+                    processIt("We're using OSRM's demo server, sometimes wont get address automatically :)", LAT, LNG);
                 });
 
         }
@@ -797,7 +867,7 @@ function addRightClick(map, markersLayer, LAT = '', LNG = '') {
 
 
         // NOW
-        function processIt(institu_addr) {
+        function processIt(institu_addr, LAT, LNG) {
             const institu_name = "Unsaved Marker";
             // const tooltipData = {
             //     tobesearch: institu_name + "  ➟  " + institu_addr

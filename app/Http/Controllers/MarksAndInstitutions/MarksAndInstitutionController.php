@@ -76,7 +76,7 @@ class MarksAndInstitutionController extends Controller
                         "mark_address" => $mark->mark_address,
                         "created_at" => $mark->created_at,
                         "updated_at" => $mark->updated_at
-                    ],
+                    ]
                 ],
                 "geometry" => [
                     "type" => "Point",
@@ -109,8 +109,8 @@ class MarksAndInstitutionController extends Controller
                     "category" => $institution->tb_category->name,
                     "images" => $institution->tb_image->pluck('img_src')->toArray()
                 ];
-                $feature['properties']['created_at'] = $maxCreatedAt;
-                $feature['properties']['updated_at'] = $maxUpdatedAt;
+                $feature['properties']['mark']['created_at'] = $maxCreatedAt;
+                $feature['properties']['mark']['updated_at'] = $maxUpdatedAt;
             }
 
             $featureCollection["features"][] = $feature;

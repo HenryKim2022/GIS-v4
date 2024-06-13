@@ -682,8 +682,8 @@ function setDataModalAfterSearch(selectedMarkerData = [], whichModal = "viewMark
 // ############################################################# START ADD ############################################################# //
 function addRightClick(map, markersLayer, LAT = '', LNG = '') {
     map.on('contextmenu taphold', function (e) {
-        LAT = LAT == '' ? e.latlng.lat.toFixed(7) : LAT;
-        LNG = LNG == '' ? e.latlng.lng.toFixed(7) : LNG;
+        LAT = e.latlng.lat.toFixed(7);
+        LNG = e.latlng.lng.toFixed(7);
 
         var coordinates = {
             lat: LAT,
