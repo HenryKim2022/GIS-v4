@@ -626,7 +626,7 @@ function setDataModalAfterSearch(selectedMarkerData = []) {
             genSliderItem();
             function genSliderItem() {
                 // Generate the slider items
-                if (selectedMarkerData.institution_images === null) {
+                if (!institution_images || institution_images.length === 0) {
                     const slide = document.createElement('div');
                     slide.classList.add('swiper-slide');
                     slide.classList.add('d-flex');

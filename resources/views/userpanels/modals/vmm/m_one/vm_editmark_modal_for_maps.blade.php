@@ -1,6 +1,6 @@
 <!-- Modal: EditProfile / edit profile modal -->
 <div class="modal fade" id="editMarkModalMAPS" data-bs-backdrop="false" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-simple modal-edit-mark modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-mark modal-dialog-scrollable modal-fullscreen modal-dialog-centered">
         {{-- <div class="modal-content p-3 p-md-5"> --}}
         <div class="modal-content p-3 p-md-1 pt-md-5">
             <div class="modal-body py-3 py-md-0">
@@ -34,13 +34,118 @@
                             <label for="modalEditLongitudeMAPS">Logitude</label>
                         </div>
                     </div>
-                    <div class="col-12">
+
+                    <div class="col-12 col-md-6">
                         <div class="form-floating form-floating-outline">
-                            <input type="text" id="modalEditMarkAddressMAPS" name="modalEditMarkAddressMAPS"
-                                class="form-control" placeholder="address" value="" required />
-                            <label for="modalEditMarkAddressMAPS">Mark Address</label>
+                            <input type="text" id="modalEditInstitutionNameMAPS" name="modalEditInstitutionNameMAPS"
+                                class="form-control" placeholder="e.g SMA N 1 JAKARTA" required />
+                            <label for="modalEditInstitutionNameMAPS">INSTITUTION-NAME</label>
+                            {{-- <div class="invalid-feedback">Please enter the institution name.</div> --}}
                         </div>
                     </div>
+                    <div class="col-12 col-md-2">
+                        <div class="form-floating form-floating-outline">
+                            <input type="text" id="modalEditInstitutionNPSNMAPS" name="modalEditInstitutionNPSNMAPS"
+                                class="form-control" placeholder="e.g 000001" required />
+                            <label for="modalEditInstitutionNPSNMAPS">NPSN</label>
+                            {{-- <div class="invalid-feedback">Please enter the NPSN.</div> --}}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="input-group input-group-merge">
+                            <div class="form-floating form-floating-outline">
+                                <select class="select2 form-select form-select-lg dt-add-lat" data-allow-clear="true"
+                                    id="modalEditInstitutionCATIDMAPS" name="modalEditInstitutionCATIDMAPS"
+                                    aria-describedby="modalEditInstitutionCATIDMAPS" required>
+                                    <option value="">Select Category</option>
+                                </select>
+                                <label for="modalEditInstitutionCATIDMAPS">CATEGORY</label>
+                                {{-- <div class="invalid-feedback">Please select a category.</div> --}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-floating form-floating-outline">
+                            <input type="text" id="modalEditAddressMAPS" name="modalEditAddressMAPS"
+                                class="form-control modal-edit-tax-id" placeholder="mark address" required />
+                            <label for="modalEditAddressMAPS">Address</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-12 col-md-12">
+                        <div class="input-group input-group-merge">
+                            <span id="modalEditInstitutionLOGOMAPSSPAN" class="input-group-text"><i
+                                    class="mdi mdi-briefcase-outline"></i></span>
+                            <div class="form-floating form-floating-outline">
+                                <input type="file" id="modalEditInstitutionLOGOMAPS" name="modalEditInstitutionLOGOMAPS"
+                                    class="form-control dt-add-logo" placeholder="e.g LOGO.png" aria-label="LOGO"
+                                    aria-describedby="modalEditInstitutionLOGOMAPS" />
+                                <label for="modalEditInstitutionLOGOMAPS">LOGO</label>
+                            </div>
+                        </div>
+                        <div class="logo-preview-container mt-2 mb-2 d-flex justify-content-center"
+                            id="addLogoPreview" style="width: 100%">
+                            <img src="public/img/noimage.png" alt="" class="logo-preview hover-image"
+                                style="height: 96px; width: 96px;">
+                        </div>
+                        <script>
+                            var addLogoPreview = document.getElementsByClassName('logo-preview-container');
+                            var addLogoInput = document.getElementById('modalEditInstitutionLOGOMAPS');
+                            addLogoInput.addEventListener('change', function() {
+                                const file = this.files[0];
+                                if (file && file.type.startsWith('image/')) {
+                                    const img = document.createElement('img');
+                                    img.src = URL.createObjectURL(file);
+                                    img.classList.add('hover-image');
+
+                                    img.onload = function() {
+                                        for (var i = 0; i < addLogoPreview.length; i++) {
+                                            addLogoPreview[i].querySelector('.logo-preview').src = img.src;
+                                        }
+                                    };
+                                } else {
+                                    for (var i = 0; i < addLogoPreview.length; i++) {
+                                        addLogoPreview[i].querySelector('.logo-preview').src = 'public/img/noimage.png';
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="col-12 col-lg-12 col-md-12">
+                        <div class="input-group input-group-merge">
+                            <div class="form-floating form-control form-floating-outline mb-2">
+                                <div for="modalViewImages" class="mb-2" id="modalViewImages" name="modalViewImages"
+                                    disabled>Images</div>
+                                <div class="form-floating form-floating-outline mb-2">
+                                    <div class="swiper-container overflow-hidden">
+                                        <div class="swiper-wrapper" id="swiperImagesContainerView">
+                                            <!-- Slides will be dynamically generated here -->
+                                        </div>
+
+                                        <!-- Navigation buttons -->
+                                        <div class="swiper-nav swiper-button-next swiper-images-btn-next">
+                                            <i class="mdi mdi-chevron-right"></i>
+                                        </div>
+                                        <div class="swiper-nav swiper-button-prev swiper-images-btn-prev">
+                                            <i class="mdi mdi-chevron-left"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            // Get the swiperNavs
+                            var swiperNavs = document.getElementById('swiperImagesContainerView');
+                            swiperNavs.addEventListener('change', function(event) {
+                                event.stopPropagation(); // Stop the event from bubbling up
+                            });
+                        </script>
+                    </div>
+
+
+
+
                     <div class="col-12 mb-3" id="cs_cb_maps">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="bsvalidationcheckboxMAPS"

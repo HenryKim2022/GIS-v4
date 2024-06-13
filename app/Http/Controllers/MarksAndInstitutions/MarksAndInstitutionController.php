@@ -36,22 +36,20 @@ class MarksAndInstitutionController extends Controller
     //
     public function index()
     {
-        $loadMarksFromDB = Mark_Model::withoutTrashed()->get(); // Retrieve the marks from the database (exclude: softDeleted's).
+        $loadMarksFromDB = Mark_Model::withoutTrashed()->get();
         $process = $this->setPageSession("Manage Mark & Institutions", "one-time");
         if ($process) {
-            $categories = Category_Model::with('tb_institution')->withoutTrashed()->get();
+            $loadCategoriesFromDB = Category_Model::withoutTrashed()->get();
             $loadInstitutionsFromDB = Institution_Model::withoutTrashed()->with('tb_mark', 'tb_category')->get();
-            $loadMarksFromDB = Mark_Model::withoutTrashed()->get();
+
             $data = [
-                'categories' => $categories,
+                'loadCategoriesFromDB' => $loadCategoriesFromDB,
                 'loadInstitutionsFromDB' => $loadInstitutionsFromDB,
                 'loadMarksFromDB' => $loadMarksFromDB,
             ];
             return $this->setReturnView('userpanels/pages/v_m_onetimemarks', $data);
         }
     }
-
-
 
 
     public function load_one_into_map()
@@ -106,8 +104,17 @@ class MarksAndInstitutionController extends Controller
                 );
                 $feature['properties']['institution'] = [
                     "name" => $institution->institu_name,
+                    "npsn" => $institution->institu_npsn,
+                    "logo" => $institution->institu_logo,
                     "category" => $institution->tb_category->name,
-                    "images" => $institution->tb_image->pluck('img_src')->toArray()
+                    "images" => $institution->tb_image->map(function ($image) {
+                        return [
+                            "title" => $image->img_title,
+                            "src" => $image->img_src,
+                            "alt" => $image->img_alt,
+                            "description" => $image->img_descb
+                        ];
+                    })->all(),
                 ];
                 $feature['properties']['mark']['created_at'] = $maxCreatedAt;
                 $feature['properties']['mark']['updated_at'] = $maxUpdatedAt;

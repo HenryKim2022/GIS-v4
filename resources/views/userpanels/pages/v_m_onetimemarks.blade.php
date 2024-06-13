@@ -199,9 +199,9 @@
                                     </div>
 
                                     <!-- Tab1 -->
-                                    @include('userpanels.modals.vmm.m_one.vm_viewmark_modal_for_maps')
+                                    {{-- @include('userpanels.modals.vmm.m_one.vm_viewmark_modal_for_maps') --}}
                                     @include('userpanels.modals.vmm.m_one.vm_addmark_modal_for_maps')
-                                    @include('userpanels.modals.vmm.m_one.vm_editmark_modal_for_maps')
+                                    {{-- @include('userpanels.modals.vmm.m_one.vm_editmark_modal_for_maps') --}}
                                     @include('userpanels.modals.vmm.m_one.vm_deletemark_modal_for_maps')
                                     <script src="{{ asset('resources/views/userpanels/pages/pages_vml/m_one/userpanels_map_one.config.js') }}"></script>
 
@@ -313,7 +313,8 @@
 
 
 
-
+                    @include('userpanels.modals.vmm.m_one.vm_viewmark_modal_for_maps')
+                    @include('userpanels.modals.vmm.m_one.vm_editmark_modal_for_maps')
 
 
                 </div>
@@ -330,6 +331,7 @@
 
 @section('footer_page_js')
     {{-- <script src="{{ asset('public/materialize/assets/js/tables-datatables-extensions.js') }}"></script> --}}
+    <script src="{{ asset('public/materialize/assets/js/forms-selects.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -350,6 +352,25 @@
             closeBtn.addEventListener('click', function() {
                 imagePopup.style.display = 'none';
             });
+
+            var modalViewImagesPreview = document.getElementById('swiperImagesContainerView');
+            if (modalViewImagesPreview) {
+                document.getElementById('swiperImagesContainerView').addEventListener('click', function(event) {
+                    // var modalImagesPreview = document.getElementById('swiperImagesContainerView');
+                    // var modalViewImage = new bootstrap.Modal(document.getElementById('modalViewLogoPopUp'));
+                    var modalViewZoomImageContent = document.getElementById('modalViewZoomImageContent');
+
+                    var clickedImage = event.target.closest('img');
+                    if (clickedImage) {
+                        const largeImageSrc = clickedImage.getAttribute('src');
+                        // var clickedImageUrl = clickedImage.src;
+                        popupImage.src = largeImageSrc;
+                        imagePopup.style.display = 'block';
+                        centerPopup();
+                    }
+                });
+            }
+
 
             // Center the popup when the window is resized
             window.addEventListener('resize', function() {
@@ -377,11 +398,9 @@
                 hover_images.forEach(function(hover_img) {
                     hover_img.setAttribute('data-bs-toggle', 'tooltip');
                     hover_img.setAttribute('data-bs-placement', 'top');
-                    hover_img.setAttribute('data-bs-custom-class', 'tooltip-primary');
                     hover_img.setAttribute('title', 'Click to Enlarge!');
                 });
             }
-
         });
     </script>
 
@@ -534,6 +553,14 @@
 
     {{-- ////////////////////////////////////////////////////////////////////// ./TOAST //////////////////////////////////////////////////////////////////////  --}}
 
+
+
+
+    {{-- <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_one/tbinit_mark.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_one/add_mark_for_maps.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_one/edit_mark_for_maps.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_one/edit_mark_for_tb.js') }}"></script>
+    <script src="{{ asset('resources/views/userpanels/pages/pages_vmj/m_one/delete_mark_for_tb.js') }}"></script> --}}
 
 
 

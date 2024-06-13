@@ -75,14 +75,8 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
             const mark_id = layer.options.mark_id;
             const mark_lat = layer.options.mark_lat;
             const mark_lon = layer.options.mark_lon;
-
-            const institution_name = layer.options.inst_name;
-            const institution_npsn = layer.options.inst_npsn;
-            const institution_logo = layer.options.inst_logo;
-            const institution_cat = layer.options.inst_cat;
-            const institution_images = layer.options.inst_images;
-
             const mark_address = layer.options.mark_address;
+            // const created_at = layer.options.created_at;
             const updated_at = layer.options.updated_at;
 
 
@@ -90,115 +84,8 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
             $('#modalViewMarkID').val(mark_id);
             $('#modalViewLatitude').val(mark_lat);
             $('#modalViewLongitude').val(mark_lon);
-            $('#modalViewInstitutionName').val(institution_name);
-            $('#modalViewInstitutionNPSN').val(institution_npsn);
-            $('#modalViewInstitutionCATID').val(institution_cat);
             $('#modalViewAddress').val(mark_address);
             $('#modalViewLastUpdate').val(updated_at);
-
-            // $('#modalViewInstitutionLOGO').val(institution_logo);
-            // Custom for logo
-            var addLogoPreview = $(modalSelector).find('.logo-preview-container');
-            var logoPreview = addLogoPreview.find('.logo-preview');
-            if (institution_logo != "none") {
-                var img = new Image();
-                img.classList.add('hover-image');
-                img.onload = function () {
-                    logoPreview.attr('src', img.src);
-                };
-                img.src = institution_logo;
-            } else {
-                logoPreview.attr('src', 'public/img/noimage.png');
-            }
-
-            // $('#modalViewInstitutionIMG').val(institution_images);
-            // Custom for images
-            /// Program images carousal here !!!
-            setImages();
-            function setImages() {
-                setSwiperSlider();
-                function setSwiperSlider() {
-                    // Initialize Swiper
-                    const swiperInstance = new Swiper('.swiper-container', {
-                        // Configuration options
-                        slidesPerView: 1,
-                        spaceBetween: 1,
-                        loop: false,
-                        navigation: {
-                            nextEl: '.swiper-images-btn-next',
-                            prevEl: '.swiper-images-btn-prev',
-                        },
-                        breakpoints: {
-                            // When the viewport width is less than or equal to 640px
-                            640: {
-                                slidesPerView: 1,
-                                spaceBetween: 3,
-                            },
-                            // When the viewport width is greater than 640px and less than or equal to 1024px
-                            1024: {
-                                slidesPerView: 1,
-                                spaceBetween: 3,
-                            },
-                            // When the viewport width is greater than 1024px
-                            1024: {
-                                slidesPerView: 1,
-                                spaceBetween: 3,
-                            },
-                        },
-                        observer: true,
-                        observeParents: true,
-                        observeSlideChildren: true,
-                    });
-
-                    // Clear existing slider items
-                    const swiperWrapper = document.querySelector('.swiper-wrapper');
-                    swiperWrapper.innerHTML = '';
-                    genSliderItem();
-                    function genSliderItem() {
-                        // Generate the slider items
-                        if (!institution_images || institution_images.length === 0) {
-                            const slide = document.createElement('div');
-                            slide.classList.add('swiper-slide');
-                            slide.classList.add('d-flex');
-                            slide.classList.add('justify-content-center');
-                            slide.classList.add('align-items-center');
-
-                            const imgElement = document.createElement('img');
-                            imgElement.src = 'public/img/noimage.png'; // Use the default image URL
-                            imgElement.alt = 'No Image';
-                            imgElement.style.height = '40px'; // Set the height directly
-                            imgElement.id = 'image1'; // Assign an ID to the image element
-
-                            slide.appendChild(imgElement);
-                            swiperWrapper.appendChild(slide);
-                        } else {
-                            institution_images.forEach((image, imageIndex) => {
-                                const slide = document.createElement('div');
-                                slide.classList.add('swiper-slide');
-                                slide.classList.add('d-flex');
-                                slide.classList.add('justify-content-center');
-                                slide.classList.add('align-items-center');
-
-                                const imgElement = document.createElement('img');
-                                imgElement.alt = image.alt;
-                                imgElement.style.height = '40px'; // Set the height directly
-                                imgElement.id = `image${imageIndex + 1}`; // Assign an ID to the image element
-                                if (image.src) {
-                                    imgElement.src = image.src; // Use the provided image URL
-                                } else {
-                                    imgElement.src = 'public/img/noimage.png'; // Use the default image URL
-                                }
-
-                                slide.appendChild(imgElement);
-                                swiperWrapper.appendChild(slide);
-                            });
-                        }
-                    }
-                }
-            }
-
-
-
             openModal(modalToShow, modalSelector);
 
             $('#delete_modalviewMarkUserModal').on('click', function () {
@@ -277,33 +164,20 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
                 closeModal(modalToShow);
             });
 
-
-
-
             const editModalBtn = $(modalSelector).find('#edit_modalviewMarkUserModal')[0];
             editModalBtn.addEventListener('click', function () {
                 closeModal(modalToShow);
                 $('#modalEditMarkID2MAPS').val(mark_id);
                 $('#modalEditLatitudeMAPS').val(mark_lat);
                 $('#modalEditLongitudeMAPS').val(mark_lon);
-                $('#modalEditInstitutionNameMAPS').val(institution_name);
-                $('#modalEditInstitutionNPSNMAPS').val(institution_npsn);
-                $('#modalEditAddressMAPS').val(mark_address);
-
-
+                $('#modalEditMarkAddressMAPS').val(mark_address);
                 openModal(new bootstrap.Modal(document.querySelector('#editMarkModalMAPS')), document.querySelector('#editMarkModalMAPS'));
                 const modalviewMarkUserModalMAPCancelModalBtn = $(document.querySelector('#editMarkModalMAPS')).find('#cancel_modalviewMarkUserModalMAPS')[0];
                 modalviewMarkUserModalMAPCancelModalBtn.addEventListener('click', function () {
                     closeModal(modalToShow);
                 });
 
-
-
-
-
-
             });
-
 
 
         });
@@ -417,8 +291,6 @@ function populateMarks4romDB(map, markersLayer) {
                             hour12: true
                         }) || "none",
                         inst_name: f.properties.institution ? f.properties.institution.name : "none",
-                        inst_npsn: f.properties.institution ? f.properties.institution.npsn : "none",
-                        inst_logo: f.properties.institution ? f.properties.institution.logo : "none",
                         inst_cat: f.properties.institution ? f.properties.institution.category : "none",
                         inst_images: f.properties.institution ? f.properties.institution.images : []
                     };
@@ -734,9 +606,6 @@ function populateMarks4romDB(map, markersLayer) {
                 const searchField = document.getElementById('searchLeafletField');
                 clearInputButton.addEventListener('click', () => {
                     searchField.value = '';
-                    if (selectedMarker != null) {
-                        markersLayer.removeLayer(selectedMarker);
-                    }
                     selectedMarker = null;
                     if (selectedCircle != null) {
                         markersLayer.removeLayer(selectedCircle);
