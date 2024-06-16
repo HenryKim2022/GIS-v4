@@ -148,7 +148,7 @@ if (env('APP_INSTALL', false)) {    // Not False
 
     Route::get('/one-time', [MarksAndInstitutionController::class, 'index'])->name('m-one-time-markings.index');
     Route::get('/one-time/loadone', [MarksAndInstitutionController::class, 'load_one_into_map'])->name('l-one.m-one.page');
-
+    Route::post('/one-time/get-cat', [MarksAndInstitutionController::class, 'get_cats'])->name('m-one-data.cat.get');
 
 
 

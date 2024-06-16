@@ -115,11 +115,11 @@
                     <div class="col-12 col-lg-12 col-md-12">
                         <div class="input-group input-group-merge">
                             <div class="form-floating form-control form-floating-outline mb-2">
-                                <div for="modalViewImages" class="mb-2" id="modalViewImages" name="modalViewImages"
+                                <div for="modalViewImagesEditMAPS" class="mb-2" id="modalViewImagesEditMAPS" name="modalViewImagesEditMAPS"
                                     disabled>Images</div>
                                 <div class="form-floating form-floating-outline mb-2">
                                     <div class="swiper-container overflow-hidden">
-                                        <div class="swiper-wrapper" id="swiperImagesContainerView">
+                                        <div class="swiper-wrapper" id="swiperImagesContainerViewEditMAPS">
                                             <!-- Slides will be dynamically generated here -->
                                         </div>
 
@@ -136,7 +136,7 @@
                         </div>
                         <script>
                             // Get the swiperNavs
-                            var swiperNavs = document.getElementById('swiperImagesContainerView');
+                            var swiperNavs = document.getElementById('swiperImagesContainerViewEditMAPS');
                             swiperNavs.addEventListener('change', function(event) {
                                 event.stopPropagation(); // Stop the event from bubbling up
                             });

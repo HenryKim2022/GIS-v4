@@ -7,6 +7,7 @@ use App\Models\Category_Model;
 use App\Models\Mark_Model;
 use App\Models\Institution_Model;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -103,6 +104,7 @@ class MarksAndInstitutionController extends Controller
                     $institution->tb_image->max('created_at')
                 );
                 $feature['properties']['institution'] = [
+                    "id" => $institution->institu_id,
                     "name" => $institution->institu_name,
                     "npsn" => $institution->institu_npsn,
                     "logo" => $institution->institu_logo,
@@ -159,6 +161,143 @@ class MarksAndInstitutionController extends Controller
         }
         return $data;
     }
+
+
+
+    public function get_cats(Request $request)
+    {
+        $instituID = $request->input('instituID');
+        if ($instituID != 'none' || $instituID != null) {
+            $inst = Institution_Model::find($instituID);
+            if ($inst) {
+                // Load the select input for Category
+                $catList = Category_Model::all()->map(function ($category) use ($inst) {
+                    $selected = ($category->cat_id == $inst->cat_id);
+                    return [
+                        'value' => $category->cat_id,
+                        'text' => $category->cat_name,
+                        'selected' => $selected,
+                    ];
+                });
+
+                // Return queried data as a JSON response
+                return response()->json([
+                    'inst_logo' => $inst->institu_logo,
+                    'catList' => $catList,
+                    'inst_images' => $inst->tb_image
+                ]);
+            } else {
+                // Load the select input for Category
+                $catList = Category_Model::withoutTrashed()->get()->map(function ($category) {
+                    return [
+                        'value' => $category->cat_id,
+                        'text' => $category->cat_name
+                    ];
+                }); // Convert the collection to an array
+
+                // Handle the case when the institution is not found
+                return response()->json([
+                    'error' => 'Institution not found',
+                    'inst_logo' => env('APP_NOIMAGE'),
+                    'catList' => $catList,
+                    'inst_images' => [
+                        [
+                            'img_src' => env('APP_NOIMAGE'),
+                            'img_alt' => 'No Image'
+                        ]
+                    ]
+                ], 404);
+            }
+
+        }else{
+            $catList = Category_Model::withoutTrashed()->get()->toArray(); // Convert the collection to an array
+
+            // Return queried data as a JSON response
+            return response()->json([
+                'inst_logo' => env('APP_NOIMAGE'),
+                'catList' => $catList,
+                'inst_images' => [
+                    [
+                        'img_src' => env('APP_NOIMAGE'),
+                        'img_alt' => 'No Image'
+                    ]
+                ]
+            ]);
+        }
+    }
+
+
+
+    // public function get_cats(Request $request)
+    // {
+    //     $instituID = $request->input('instituID');
+    //     $inst = Institution_Model::find($instituID);
+    //     if ($inst) {
+    //         // Load the select input for Category (this loading is diff with load_select_list_for_addmodal())
+    //         $catList = Category_Model::all()->map(function ($category) use ($inst) {
+    //             $selected = ($category->cat_id == $inst->cat_id);
+    //             return [
+    //                 'value' => $category->cat_id,
+    //                 'text' => $category->cat_name,
+    //                 'selected' => $selected,
+    //             ];
+    //         });
+
+
+    //         // Return queried data as a JSON response
+    //         return response()->json([
+    //             // 'inst_id' => $instituID,
+    //             // 'inst_name' => $inst->institu_name,
+    //             // 'inst_npsn' => $inst->institu_npsn,
+    //             // 'inst_cat_id' => $inst->cat_id,
+    //             'inst_logo' => $inst->institu_logo,
+    //             // 'inst_mark_id' => $inst->mark_id,
+    //             'catList' => $catList
+    //         ]);
+    //     } else {
+    //         // Handle the case when the mark is not found
+    //         return response()->json(['error' => 'Institution not found'], 404);
+    //     }
+    // }
+
+
+
+
+    // public function get_cats(Request $request)
+    // {
+    //     $instituID = $request->input('instituID');
+    //     $inst = Institution_Model::find($instituID);
+    //     if ($inst) {
+    //         // Load the select input for Category (this loading is diff with load_select_list_for_addmodal())
+    //         $catList = Category_Model::all()->map(function ($category) use ($inst) {
+    //             $selected = ($category->cat_id == $inst->cat_id);
+    //             return [
+    //                 'value' => $category->cat_id,
+    //                 'text' => $category->cat_name,
+    //                 'selected' => $selected,
+    //             ];
+    //         });
+
+    //         $queryParam = 'v=' . time(); // Unique value, such as a timestamp
+
+    //         // Modify the institution logo URL
+    //         $inst->institu_logo = $this->modifyAssetUrls($inst->institu_logo, $queryParam);
+
+    //         // Modify the asset URLs in the features
+    //         $inst = $this->modifyAssetUrls($inst, $queryParam);
+
+    //         // Return queried data as a JSON response
+    //         return response()->json([
+    //             'inst_logo' => $inst->institu_logo,
+    //             'catList' => $catList,
+    //         ]);
+    //     } else {
+    //         // Handle the case when the mark is not found
+    //         return response()->json(['error' => 'Institution not found'], 404);
+    //     }
+    // }
+
+
 
 
 

@@ -76,6 +76,7 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
             const mark_lat = layer.options.mark_lat;
             const mark_lon = layer.options.mark_lon;
 
+            const institution_id = layer.options.inst_id;
             const institution_name = layer.options.inst_name;
             const institution_npsn = layer.options.inst_npsn;
             const institution_logo = layer.options.inst_logo;
@@ -281,7 +282,8 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
 
 
             const editModalBtn = $(modalSelector).find('#edit_modalviewMarkUserModal')[0];
-            editModalBtn.addEventListener('click', function () {
+            editModalBtn.setAttribute('inst_id_value', institution_id);
+            editModalBtn.addEventListener('click', function (event) {
                 closeModal(modalToShow);
                 $('#modalEditMarkID2MAPS').val(mark_id);
                 $('#modalEditLatitudeMAPS').val(mark_lat);
@@ -289,6 +291,182 @@ function setDataModal(map, markersLayer, whichModal = 'viewMarkUserModal') {
                 $('#modalEditInstitutionNameMAPS').val(institution_name);
                 $('#modalEditInstitutionNPSNMAPS').val(institution_npsn);
                 $('#modalEditAddressMAPS').val(mark_address);
+
+                var instituID = $(this).attr('inst_id_value');
+                getSelectCategory(instituID);
+                function getSelectCategory(instituID) {
+                    setTimeout(() => {
+                        $.ajax({
+                            url: '/one-time/get-cat',
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: { instituID: instituID },
+                            success: function (response) {
+                                // console.log(response);
+                                // Set the input file, the returned response.inst_logo, and the logo-preview src was returned response.inst_logo too
+                                var addLogoPreview = $('#editMarkModalMAPS').find('.logo-preview-container');
+                                var logoPreview = addLogoPreview.find('.logo-preview');
+                                if (response.inst_logo) {
+                                    logoPreview.attr('src', response.inst_logo);
+                                } else {
+                                    logoPreview.attr('src', 'public/img/noimage.png');
+                                }
+                                setCategoryList();
+                                function setCategoryList() {
+                                    // Populate the select options for modalEditInstitutionCATID1
+                                    var catSelect = $('#editMarkModalMAPS' + ' #modalEditInstitutionCATIDMAPS');
+                                    catSelect.empty(); // Clear existing options
+                                    catSelect.prepend($('<option>', { text: 'Select Category' }));
+                                    // catSelect.append($('<option>', { value: "", text: "Select Category" }));
+                                    $.each(response.catList, function (index, catOption) {
+                                        option = $('<option>', { value: catOption.value, text: `[${catOption.value}] ${catOption.text}` });
+                                        if (catOption.selected) {
+                                            option.attr('selected', 'selected'); // Select the option
+                                        }
+                                        catSelect.append(option);
+                                    });
+
+                                }
+
+
+                                console.log(response.inst_images);
+                                setImagesEditMAPS(response.inst_images);
+
+
+                                // Show the modal
+                                // console.log('SHOWING MODAL');
+                            }
+                            ,
+                            error: function (xhr) {
+                                console.log("Error:\n");
+                                console.log(xhr);
+
+                                var addLogoPreview = $('#editMarkModalMAPS').find('.logo-preview-container');
+                                var logoPreview = addLogoPreview.find('.logo-preview');
+                                logoPreview.attr('src', 'public/img/noimage.png');
+
+                                setCategoryList();
+
+                                function setCategoryList() {
+                                    var catSelect = $('#editMarkModalMAPS' + ' #modalEditInstitutionCATIDMAPS');
+                                    catSelect.empty();
+                                    catSelect.prepend($('<option>', { text: 'Select Category' }));
+                                    // Re-populate the select options from the existing DOM
+                                    catSelect.html(catSelect.html());
+
+                                    // Optionally, you can add a default option
+                                    var defaultOption = $('<option>', { text: 'Select Category' });
+                                    catSelect.prepend(defaultOption);
+                                }
+
+                                var inst_images = [
+                                    {
+                                        img_src: 'public/img/noimage.png',
+                                        img_alt: 'No Image'
+                                    }
+                                ];
+                                setImagesEditMAPS(inst_images);
+                            }
+                        });
+
+
+
+                    }, 200);
+                }
+
+
+
+                // Custom for images
+                /// Program images carousal here !!!
+                function setImagesEditMAPS(inst_imagesData) {
+                    setSwiperSliderEditMAPS();
+                    function setSwiperSliderEditMAPS() {
+                        // Initialize Swiper
+                        const swiperInstance2 = new Swiper('.swiper-container-2', {
+                            // Configuration options
+                            slidesPerView: 1,
+                            spaceBetween: 1,
+                            loop: false,
+                            navigation: {
+                                nextEl: '.swiper-images-btn-next',
+                                prevEl: '.swiper-images-btn-prev',
+                            },
+                            breakpoints: {
+                                // When the viewport width is less than or equal to 640px
+                                640: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 3,
+                                },
+                                // When the viewport width is greater than 640px and less than or equal to 1024px
+                                1024: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 3,
+                                },
+                                // When the viewport width is greater than 1024px
+                                1024: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 3,
+                                },
+                            },
+                            observer: true,
+                            observeParents: true,
+                            observeSlideChildren: true,
+                        });
+
+                        // Clear existing slider items
+                        const swiperWrapper2 = document.querySelector('#editMarkModalMAPS' + ' #swiperImagesContainerViewEditMAPS');
+                        swiperWrapper2.innerHTML = '';
+                        genSliderItem();
+                        function genSliderItem() {
+                            // Generate the slider items
+                            // if (inst_imagesData === null) {
+                            if (!inst_imagesData || inst_imagesData.length === 0) {
+                                const slide2 = document.createElement('div');
+                                slide2.classList.add('swiper-slide');
+                                slide2.classList.add('d-flex');
+                                slide2.classList.add('justify-content-center');
+                                slide2.classList.add('align-items-center');
+
+                                const imgElement2 = document.createElement('img');
+                                imgElement2.src = 'public/img/noimage.png'; // Use the default image URL
+                                imgElement2.alt = 'No Image';
+                                imgElement2.style.height = '40px'; // Set the height directly
+                                imgElement2.id = 'image2'; // Assign an ID to the image element
+
+                                slide2.appendChild(imgElement2);
+                                swiperWrapper2.appendChild(slide2);
+                            } else {
+                                inst_imagesData.forEach((image, imageIndex) => {
+                                    const slide2 = document.createElement('div');
+                                    slide2.classList.add('swiper-slide');
+                                    slide2.classList.add('d-flex');
+                                    slide2.classList.add('justify-content-center');
+                                    slide2.classList.add('align-items-center');
+
+                                    const imgElement2 = document.createElement('img');
+                                    imgElement2.alt = image.alt;
+                                    imgElement2.style.height = '40px'; // Set the height directly
+                                    imgElement2.id = `image${imageIndex + 1}`; // Assign an ID to the image element
+                                    if (image.img_src) {
+                                        imgElement2.src = image.img_src; // Use the provided image URL
+                                    } else {
+                                        imgElement2.src = 'public/img/noimage.png'; // Use the default image URL
+                                    }
+
+                                    slide2.appendChild(imgElement2);
+                                    swiperWrapper2.appendChild(slide2);
+                                });
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
 
 
                 openModal(new bootstrap.Modal(document.querySelector('#editMarkModalMAPS')), document.querySelector('#editMarkModalMAPS'));
@@ -416,6 +594,7 @@ function populateMarks4romDB(map, markersLayer) {
                             timeZone: 'Asia/Jakarta',
                             hour12: true
                         }) || "none",
+                        inst_id: f.properties.institution ? f.properties.institution.id : "none",
                         inst_name: f.properties.institution ? f.properties.institution.name : "none",
                         inst_npsn: f.properties.institution ? f.properties.institution.npsn : "none",
                         inst_logo: f.properties.institution ? f.properties.institution.logo : "none",

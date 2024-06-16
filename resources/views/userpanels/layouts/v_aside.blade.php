@@ -87,7 +87,7 @@
                     <div data-i18n="Manage Maps">Manage Maps</div>
                 </a>
                 <ul class="menu-sub">
-                    <li class="menu-item d-none">
+                    <li class="menu-item">
                         <a href="{{ route('m-one-time-markings.index') }}" class="menu-link">
                             <div data-i18n="One Time List">One Time List</div>
                         </a>

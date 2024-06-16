@@ -36,10 +36,6 @@ class Developer_Model extends Model
     {
         $imagePath = $this->dev_image ?: $this->getUserImage();
         return $this->removeBackgroundUsingPHP_GD($imagePath);
-
-        // $bgcolor = array("red" => "255", "green" => "255", "blue" => "255", "alpha" => 0);
-        // $fuzz = 9;
-        // return $this->removeBackgroundUsingPHP_IMAGICK($imagePath, $bgcolor, $fuzz);
     }
 
     public function getUserImage()
@@ -47,10 +43,6 @@ class Developer_Model extends Model
         if ($this->tb_users) {
             $imagePath = $this->tb_users->user_image ?: env('APP_NOIMAGE');
             return $this->removeBackgroundUsingPHP_GD($imagePath);
-
-            // $bgcolor = array("red" => "255", "green" => "255", "blue" => "255", "alpha" => 0);
-            // $fuzz = 9;
-            // return $this->removeBackgroundUsingPHP_IMAGICK($imagePath, $bgcolor, $fuzz);
         }
         // else {
         return null;
@@ -69,15 +61,6 @@ class Developer_Model extends Model
         imagedestroy($image);
         return 'data:image/png;base64,' . base64_encode($imageData);
     }
-
-
-
-    // public function removeBackgroundUsingPHP_IMAGICK($image, $bgcolor, $fuzz)        //// USING PHP IMAGICK METHOD
-    // {
-    //     $imageData = shell_exec('convert '.$image.' -fuzz '.$fuzz.'% -transparent "rgb('.$bgcolor['red'].','.$bgcolor['green'].','.$bgcolor['blue'].')" '.$image.'');
-    //     return $imageData;
-    // }
-
 
 
     public $timestamps = true;
