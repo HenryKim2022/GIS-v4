@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+error_reporting(E_ERROR | E_PARSE);
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
